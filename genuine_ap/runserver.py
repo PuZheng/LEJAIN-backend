@@ -28,6 +28,7 @@ for o, v in opts:
         print "unkown option: " + o
         print __doc__
 
-from genuine_ap.basemain import app
+from genuine_ap.basemain import app, register_views
+register_views()
 
 app.run(host=host, port=port)
