@@ -14,3 +14,5 @@ def register_views():
     # register web services
     from genuine_ap.tag import tag_page
     app.register_blueprint(tag_page, url_prefix='/tag')
+    from genuine_ap.user import user_page
+    app.register_blueprint(user_page, url_prefix='/user')
