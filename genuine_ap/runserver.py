@@ -34,4 +34,4 @@ utils.assert_dir('static/spu_pics')
 from basemain import app, register_views
 register_views()
 
-app.run(host=host, port=port)
+app.run(host=host, port=port, debug=True)

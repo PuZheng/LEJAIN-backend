@@ -13,3 +13,5 @@ def register_views():
     app.register_blueprint(tag_page, url_prefix='/tag')
     from genuine_ap.user import user_page
     app.register_blueprint(user_page, url_prefix='/user')
+    from genuine_ap.rcmd import rcmd_ws_page
+    app.register_blueprint(rcmd_ws_page, url_prefix='/rcmd_ws')

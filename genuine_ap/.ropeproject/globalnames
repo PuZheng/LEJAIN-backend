@@ -1,7 +1,8 @@
-€}q(Ubasemain]q(UappqUregister_viewsqeUapis.model_wrapper]q(UModelWrapperqUwrapsqeUtag.apis]Umodel_wrapper]qUModelWrapperq	aUapis]q
-(UwrappersqUpackageqUkUfnameqUveUmodels]q(USKUqUCommentqUVendorqUFavorqURetailerqUSPUqUretailer_and_spuqUTagqUUserqUGroupqeU	tag.views]qUtagqaUutils]q(Uas_dictqU
-assert_dirqU	do_commitqU
-get_or_404qeUtools.make_test_data]q UInitializeTestDBq!aU	runserver]q"(UoUhostq#Uoptsq$UvUportq%eUmanager]q&(U
-TagHelplerq'U
-SPUHelplerq(eUapis.tag]q)U
-TagWrapperq*aUapis.retailer]q+Ufind_nearby_retailersq,aUapis.spu]q-USPUModelWrapperq.au.
+€}q(Ubasemain]q(UappqUregister_viewsqeUapis.model_wrapper]q(UwrapsqUModelWrapperqUconvert_attribute_errorqeUtag.apis]Umodel_wrapper]q	UModelWrapperq
+aUapis]Umodels]q(USKUqUCommentqUVendorqUFavorqURetailerqUSPUqUretailer_and_spuqUTagqUUserqUGroupqeU	tag.views]qUtagqaUutils]q(Uas_dictqU
+assert_dirqU	do_commitqU
+get_or_404qeUtools.make_test_data]qUInitializeTestDBqaU	runserver]q(UoUhostq Uoptsq!UvUportq"eUmanager]q#(U
+TagHelplerq$U
+SPUHelplerq%eUapis.tag]q&U
+TagWrapperq'aUapis.retailer]q(Ufind_nearby_retailersq)aUapis.spu]q*U
+SPUWrapperq+au.

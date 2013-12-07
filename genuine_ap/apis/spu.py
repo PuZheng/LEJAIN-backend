@@ -44,10 +44,23 @@ class SPUWrapper(ModelWrapper):
     def get_same_vendor_recommendations(self, longitude, lattitude):
         cond = and_(SPU.vendor_id == self.vendor_id,
                     SPU.id != self.id)
-        return SPU.query.filter(cond).all()
+        #TODO related kind should be prioritized
+        #TODO should be sort by distance
+        ret = []
+        for spu in SPU.query.filter(cond).all():
+            spu = wraps(spu)
+            ret.append({
+                'spu': spu.as_dict(),
+                'distance': None,
+                'rating': spu.rating,
+                'favor_cnt': len(spu.favors),
+            })
+        return ret
 
     @property
     def rating(self):
+        if not self.comments:
+            return None
         return sum(c.rating for c in self.comments) / len(self.comments)
 
     @property

@@ -87,7 +87,7 @@ class ModelWrapper(object):
             self.__dict__[key] = value
 
     def __unicode__(self):
-        return unicode(self.model)
+        return unicode(self.__obj)
 
     def __dir__(self):
-        return self.model.__dict__.keys()
+        return self.__obj.__dict__.keys()
