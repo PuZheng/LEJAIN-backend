@@ -57,10 +57,10 @@ class InitializeTestDB(Command):
                              expire_time=datetime.strptime('2012-12-12',
                                                            '%Y-%m-%d')))
         # tags
-        do_commit(Tag(token="1", sku=sku1))
-        do_commit(Tag(token="2", sku=sku2))
-        do_commit(Tag(token="3", sku=sku3))
-        do_commit(Tag(token="4", sku=sku4))
+        do_commit(Tag(token="000001", sku=sku1))
+        do_commit(Tag(token="000002", sku=sku2))
+        do_commit(Tag(token="000003", sku=sku3))
+        do_commit(Tag(token="000004", sku=sku4))
         # groups
         group1 = do_commit(Group(id=const.CUSTOMER_GROUP, name=u'普通客户'))
         do_commit(Group(id=const.VENDOR_GROUP, name=u'生产厂家'))

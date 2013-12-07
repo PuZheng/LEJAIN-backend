@@ -84,6 +84,7 @@ class SPUWrapper(ModelWrapper):
                 'name': self.vendor.name,
             },
             'pic_url_list': self.pic_url_list,
+            'rating': self.rating,
         }
 
     @property
