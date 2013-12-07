@@ -1,8 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 from datetime import datetime
-from genuine_ap.database import db
-from genuine_ap import apis
+from .database import db
 
 retailer_and_spu = db.Table('TB_RETAILER_AND_SPU',
                             db.Column('retailer_id', db.Integer,
@@ -12,7 +11,7 @@ retailer_and_spu = db.Table('TB_RETAILER_AND_SPU',
                                       db.ForeignKey('TB_SPU.id')))
 
 
-class Tag(db.Model, apis.TagMixin):
+class Tag(db.Model):
 
     __tablename__ = 'TB_TAG'
 
@@ -35,7 +34,7 @@ class SKU(db.Model):
     expire_time = db.Column(db.DateTime)
 
 
-class SPU(db.Model, apis.SPUMixin):
+class SPU(db.Model):
 
     __tablename__ = 'TB_SPU'
 

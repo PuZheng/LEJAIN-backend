@@ -1,7 +1,9 @@
 # -*- coding: UTF-8 -*-
 
+from .model_wrapper import ModelWrapper
 
-class TagMixin(object):
+
+class TagWrapper(ModelWrapper):
 
     @property
     def spu(self):

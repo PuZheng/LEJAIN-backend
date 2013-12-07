@@ -4,23 +4,24 @@ import os
 from flask import url_for
 from path import path
 from sqlalchemy import and_
-from genuine_ap.utils import find_model
+from .model_wrapper import ModelWrapper
+from genuine_ap.models import Comment, SPU, Favor
+from .model_wrapper import wraps
+from . import retailer
 
 
-class SPUMixin(object):
+class SPUWrapper(ModelWrapper):
 
     @property
     def comments(self):
-        model = find_model('TB_COMMENT')
-        return model.query.filter(model.spu_id == self.id).all()
+        return Comment.query.filter(Comment.spu_id == self.id).all()
 
     def get_nearby_recommendations(self, longitude, lattitude):
-        from genuine_ap import apis
         nearby_retailers, distance_list = \
-            apis.retailer.find_nearby_retailers(longitude, lattitude)
+            retailer.find_nearby_retailers(longitude, lattitude)
         spu_id_to_min_distance = {}
-        for retailer, distance in zip(nearby_retailers, distance_list):
-            for spu in retailer.spu_list:
+        for retailer_, distance in zip(nearby_retailers, distance_list):
+            for spu in retailer_.spu_list:
                 if spu.id not in spu_id_to_min_distance or \
                    spu_id_to_min_distance[spu.id] > distance:
                     spu_id_to_min_distance[spu.id] = distance
@@ -31,7 +32,7 @@ class SPUMixin(object):
         #TODO related kind should be prioritized
         ret = []
         for spu_id, distance in spu_id_to_min_distance.items():
-            spu = find_model('TB_SPU').query.get(spu_id)
+            spu = wraps(SPU.query.get(spu_id))
             ret.append({
                 'spu': spu.as_dict(),
                 'distance': distance,
@@ -41,10 +42,9 @@ class SPUMixin(object):
         return ret
 
     def get_same_vendor_recommendations(self, longitude, lattitude):
-        model = find_model('TB_SPU')
-        cond = and_(model.vendor_id == self.vendor_id,
-                    model.id != self.id)
-        return model.query.filter(cond).all()
+        cond = and_(SPU.vendor_id == self.vendor_id,
+                    SPU.id != self.id)
+        return SPU.query.filter(cond).all()
 
     @property
     def rating(self):
@@ -75,5 +75,4 @@ class SPUMixin(object):
 
     @property
     def favors(self):
-        model = find_model('TB_FAVOR')
-        return model.query.filter(model.spu_id == self.id).all()
+        return Favor.query.filter(Favor.spu_id == self.id).all()

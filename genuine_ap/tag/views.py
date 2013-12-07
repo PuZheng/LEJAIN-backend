@@ -1,13 +1,14 @@
 # -*- coding: UTF-8 -*-
 from flask import jsonify, request
 
-from genuine_ap.tag import tag_page
-from genuine_ap.models import Tag
+from . import tag_page
+from ..models import Tag
+from .. import utils
 
 
 @tag_page.route('/tag/<id>')
 def tag(id):
-    tag = Tag.query.get_or_404(id)
+    tag = utils.get_or_404(Tag, id)
     time_format = '%Y-%m-%d'
     longitude = request.args.get('longitude', 0.0)
     latitude = request.args.get('latitude', 0.0)

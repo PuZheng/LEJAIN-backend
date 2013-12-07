@@ -1,11 +1,11 @@
 # -*- coding: UTF-8 -*-
 import os
 import types
+from .database import db
+from .apis import ModelWrapper, wraps
 
 
 def do_commit(obj, action="add"):
-    from genuine_ap.database import db
-
     if action == "add":
         if isinstance(obj, types.ListType) or \
            isinstance(obj, types.TupleType):
@@ -27,20 +27,12 @@ def as_dict(fields, d):
             items.append((field[0], d.get(field[1])))
     return dict(items)
 
-_d = None
-
-
-def find_model(table_name):
-    global _d
-    if _d is None:
-        _d = {}
-        from genuine_ap import models
-        for model in models.__dict__.values():
-            if hasattr(model, '_sa_class_manager'):
-                _d[model.__tablename__] = model
-    return _d[table_name]
-
 
 def assert_dir(dir_path):
     if not os.path.exists(dir_path):
         os.mkdirs(dir_path)
+
+
+def get_or_404(cls, id_):
+    assert issubclass(cls, db.Model) or issubclass(cls, ModelWrapper)
+    return wraps(cls.query.get_or_404(id_))
