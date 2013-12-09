@@ -90,3 +90,18 @@ class SPUWrapper(ModelWrapper):
     @property
     def favors(self):
         return Favor.query.filter(Favor.spu_id == self.id).all()
+
+
+class CommentWrapper(ModelWrapper):
+
+    def as_dict(self):
+        return {
+            'id': self.id,
+            'content': self.content,
+            'create_time': self.create_time.strftime('%Y-%m-%d'),
+            'spu_id': self.spu_id,
+            'spu_name': self.spu.name,
+            'user_id': self.user_id,
+            'user_name': self.user.name,
+            'rating': self.rating
+        }

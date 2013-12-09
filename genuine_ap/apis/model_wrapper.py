@@ -32,6 +32,8 @@ class _FGet(object):
 
 
 def wraps(obj):
+    if isinstance(obj, types.ListType) or isinstance(obj, types.TupleType):
+        return obj.__class__(wraps(obj_) for obj_ in obj)
     if hasattr(obj.__class__, '_sa_class_manager'):
         try:
             return _wrappers[obj.__class__.__name__ + "Wrapper"](obj)
