@@ -18,5 +18,12 @@ def rcmd_list():
         rlist = spu.get_nearby_recommendations(longitue, latitude)
     elif kind == 'same_vendor':
         rlist = spu.get_same_vendor_recommendations(longitue, latitude)
-    return jsonify({'data': [r for r in rlist]})
+    return jsonify({'data': [{
+        'spu_id': r['spu']['id'],
+        'spu_name': r['spu']['name'],
+        'msrp': r['spu']['msrp'],
+        'distance': r['distance'],
+        'rating': r['rating'],
+        'favor_cnt': r['favor_cnt']
+    } for r in rlist]})
 
