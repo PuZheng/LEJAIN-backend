@@ -29,6 +29,5 @@ def tag(id):
         'nearby_recommendations_cnt': nearby_recommendations_cnt,
         'same_vendor_recommendations_cnt': same_vendor_recommendations_cnt,
         'comments_cnt': len(tag.spu.comments),
-        'rating': tag.spu.rating,
         'favor_cnt': len(tag.spu.favors),
     })

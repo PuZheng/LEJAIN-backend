@@ -4,13 +4,13 @@ from flask import request, jsonify
 from flask.ext.login import login_required, current_user
 
 from genuine_ap.models import SPU, Favor
-from genuine_ap.utils import do_commit
+from genuine_ap.utils import do_commit, get_or_404
 from . import spu_ws
 
 
-@spu_ws.route('/favor/<spu_id>', methods=['GET', 'POST'])
+@spu_ws.route('/favor/<int:spu_id>', methods=['GET', 'POST'])
 @login_required
-def favor(spu_id):
+def favor_view(spu_id):
     spu = SPU.query.get_or_404(spu_id)
     favor = Favor.query.filter(and_(Favor.spu_id == spu_id,
                                     Favor.user == current_user)).first()
@@ -29,3 +29,20 @@ def favor(spu_id):
             'id': favor.id,
             'create_time': favor.create_time.strftime('%Y-%m-%d')
         })
+
+
+@spu_ws.route('/spu/<int:spu_id>', methods=['GET'])
+def spu_view(spu_id):
+    longitude = request.args.get('longitude', 0.0)
+    latitude = request.args.get('latitude', 0.0)
+    spu = get_or_404(SPU, spu_id)
+    nearby_recommendations_cnt = \
+        len(spu.get_nearby_recommendations(longitude, latitude))
+    same_vendor_recommendations_cnt = \
+        len(spu.get_same_vendor_recommendations(longitude, latitude))
+    return jsonify({
+        'spu': spu.as_dict(),
+        'nearby_recommendations_cnt': nearby_recommendations_cnt,
+        'same_vendor_recommendations_cnt': same_vendor_recommendations_cnt,
+        'comments_cnt': len(spu.comments),
+    })
