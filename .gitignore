@@ -35,3 +35,5 @@ nosetests.xml
 tags
 config.py
 *.log
+/genuine_ap/.ropeproject/*
+/genuine_ap/*.db
