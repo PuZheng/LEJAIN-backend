@@ -7,7 +7,7 @@ from . import rcmd_ws_page
 @rcmd_ws_page.route('/rcmd-list')
 def rcmd_list():
     spu_id = request.args['spu_id']
-    longitue = request.args.get('longitue', None)
+    longitue = request.args.get('longitude', None)
     latitude = request.args.get('latitude', None)
     kind = request.args['kind']
     if kind not in {'same_vendor', 'nearby'}:
@@ -21,9 +21,9 @@ def rcmd_list():
     return jsonify({'data': [{
         'spu_id': r['spu']['id'],
         'spu_name': r['spu']['name'],
+        'pic_url': r['spu']['pic_url_list'][0],
         'msrp': r['spu']['msrp'],
         'distance': r['distance'],
         'rating': r['rating'],
         'favor_cnt': r['favor_cnt']
     } for r in rlist]})
-

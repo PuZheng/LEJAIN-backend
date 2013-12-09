@@ -66,11 +66,11 @@ class InitializeTestDB(Command):
         do_commit(Group(id=const.VENDOR_GROUP, name=u'生产厂家'))
         do_commit(Group(id=const.RETAILER_GROUP, name=u'零售商'))
         # users
-        user1 = do_commit(User(group=group1, name=u'刘备',
+        user1 = do_commit(User(group=group1, name=u'liubei',
                                password=md5('liubei').hexdigest()))
-        user2 = do_commit(User(group=group1, name=u'关羽',
+        user2 = do_commit(User(group=group1, name=u'guanyu',
                                password=md5('guanyu').hexdigest()))
-        user3 = do_commit(User(group=group1, name=u'张飞',
+        user3 = do_commit(User(group=group1, name=u'zhangfei',
                                password=md5('zhangfei').hexdigest()))
         # comments
         do_commit(Comment(content=u'好酒!', spu=spu1, user=user1, rating=4.0))

@@ -1,31 +1,47 @@
 # -*- coding: UTF-8 -*-
+from md5 import md5
+
 from flask import jsonify, request
-from sqlalchemy import and_
 
-from genuine_ap.user import user_page
-from genuine_ap.models import User, SPU, Favor
-from genuine_ap import utils
+from genuine_ap.user import user_ws
+from genuine_ap.models import User, Group
+from genuine_ap import utils, apis, const
+from genuine_ap.exceptions import AuthenticateFailure
 
 
-@user_page.route('/favor/<spu_id>', methods=['GET', 'POST'])
-def favor(spu_id):
-    user_id = request.args['user_id']
-    user = User.query.filter(User.id == user_id).one()
-    spu = SPU.query.get_or_404(spu_id)
-    favor = Favor.query.filter(and_(Favor.spu_id == spu_id,
-                                    Favor.user_id == user_id)).first()
-    if request.method == 'POST':
-        if favor:
-            return '您已经收藏了该产品!', 403
-        favor = utils.do_commit(Favor(spu=spu, user=user))
+@user_ws.route('/register', methods=['POST'])
+def register():
+    name = request.args.get("name", type=str)
+    password = request.args.get("password", type=str)
+    if not name or not password:
+        return u"需要name或者password字段", 403
+
+    user = User.query.filter(User.name == name).first()
+    if user:
         return jsonify({
-            'id': favor.id,
-            'create_time': favor.create_time.strftime('%Y-%m-%d')
-        })
-    else:
-        if favor is None:
-            return "", 404
+            'reason': u'用户名已存在, 请更换注册名。'
+        }), 403
+    user = utils.do_commit(User(name=name,
+                                password=md5(password).hexdigest(),
+                                group=Group.query.get(const.CUSTOMER_GROUP)))
+    user = apis.wraps(user)
+    return jsonify(dict(name=user.name,
+                        user_id=user.id,
+                        token=user.get_auth_token())), 201
+
+
+@user_ws.route("/login", methods=["POST"])
+def login():
+    name = request.args.get("name", type=str)
+    password = request.args.get("password", type=str)
+    if not name or not password:
+        return u"需要name或者password字段", 403
+    try:
+        user = apis.user.authenticate(name, password)
+    except AuthenticateFailure:
         return jsonify({
-            'id': favor.id,
-            'create_time': favor.create_time.strftime('%Y-%m-%d')
-        })
+            'reason': u'密码错误'
+        }), 403
+    return jsonify(dict(name=user.name,
+                        user_id=user.id,
+                        token=user.get_auth_token()))
