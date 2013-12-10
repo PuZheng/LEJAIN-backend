@@ -1,12 +1,12 @@
 # -*- coding: UTF-8 -*-
 from flask import jsonify, request
 
-from . import tag_page
+from . import tag_ws
 from ..models import Tag
 from .. import utils
 
 
-@tag_page.route('/tag/<id>')
+@tag_ws.route('/tag/<id>')
 def tag(id):
     tag = utils.get_or_404(Tag, id)
     time_format = '%Y-%m-%d'

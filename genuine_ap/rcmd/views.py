@@ -1,10 +1,10 @@
 # -*- coding: UTF-8 -*-
 from flask import jsonify, request
 from genuine_ap import utils, models
-from . import rcmd_ws_page
+from . import rcmd_ws
 
 
-@rcmd_ws_page.route('/rcmd-list')
+@rcmd_ws.route('/rcmd-list')
 def rcmd_list():
     spu_id = request.args['spu_id']
     longitue = request.args.get('longitude', None)

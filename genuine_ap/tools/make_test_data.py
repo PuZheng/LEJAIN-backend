@@ -7,6 +7,8 @@ from hashlib import md5
 
 from datetime import datetime
 from setuptools import Command
+
+from genuine_ap import basemain
 from genuine_ap.models import (Tag, SPU, SKU, Vendor, Group, User, Comment,
                                Favor, Retailer)
 from genuine_ap.utils import do_commit
@@ -85,8 +87,8 @@ class InitializeTestDB(Command):
         do_commit(Favor(spu=spu1, user=user3))
         do_commit(Favor(spu=spu2, user=user1))
         # retailers
-        do_commit(Retailer(name=u'A烟酒专卖', spu_list=[spu1, spu2]))
-        do_commit(Retailer(name=u'B烟酒专卖', spu_list=[spu2]))
+        do_commit(Retailer(name=u'A烟酒专卖', rating=4.0, longitude=1.0, latitude=1.0, spu_list=[spu1, spu2]))
+        do_commit(Retailer(name=u'B烟酒专卖', rating=4.5, longitude=1.0, latitude=1.0, spu_list=[spu2]))
 
 
 if __name__ == "__main__":

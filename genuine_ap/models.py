@@ -99,6 +99,9 @@ class Retailer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(32), unique=True)
     desc = db.Column(db.String(256))
+    rating = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
     spu_list = db.relationship('SPU', secondary=retailer_and_spu,
                                backref='retailer_list')
 

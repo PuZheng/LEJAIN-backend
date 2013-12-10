@@ -1,11 +1,11 @@
 # -*- coding: UTF-8 -*-
 import os
 import types
-from .database import db
 from .apis import ModelWrapper, wraps
 
 
 def do_commit(obj, action="add"):
+    from .database import db
     if action == "add":
         if isinstance(obj, types.ListType) or \
            isinstance(obj, types.TupleType):
@@ -30,9 +30,10 @@ def as_dict(fields, d):
 
 def assert_dir(dir_path):
     if not os.path.exists(dir_path):
-        os.mkdirs(dir_path)
+        os.makedirs(dir_path)
 
 
 def get_or_404(cls, id_):
+    from .database import db
     assert issubclass(cls, db.Model) or issubclass(cls, ModelWrapper)
     return wraps(cls.query.get_or_404(id_))
