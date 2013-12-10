@@ -5,7 +5,7 @@ from genuine_ap import models
 from genuine_ap.apis import wraps, ModelWrapper
 
 
-def find_retailers(longitude, lattitude, spu_id=None):
+def find_retailers(longitude, lattitude, spu_id=None, max_distance=1500):
     #TODO a dumb implementation
     cnt = models.Retailer.query.count()
     retailers = models.Retailer.query.all()

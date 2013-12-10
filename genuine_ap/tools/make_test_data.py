@@ -8,9 +8,9 @@ from hashlib import md5
 from datetime import datetime
 from setuptools import Command
 
-from genuine_ap import basemain
+__import__('genuine_ap.basemain')
 from genuine_ap.models import (Tag, SPU, SKU, Vendor, Group, User, Comment,
-                               Favor, Retailer)
+                               Favor, Retailer, SPUType)
 from genuine_ap.utils import do_commit
 from genuine_ap import const
 
@@ -30,13 +30,19 @@ class InitializeTestDB(Command):
         # vendors
         vendor1 = do_commit(Vendor(name=u'贵州茅台酒厂有限公司'))
         vendor2 = do_commit(Vendor(name=u'红塔山集团'))
+        # spu types
+        spu_type1 = do_commit(SPUType(name=u'香烟'))
+        spu_type2 = do_commit(SPUType(name=u'国产白酒', weight=1))
         # spus
         spu1 = do_commit(SPU(name=u'飞天茅台53度', code='854013',
-                             vendor=vendor1, msrp=1300))
+                             vendor=vendor1, msrp=1300, spu_type=spu_type2,
+                             rating=4.0))
         spu2 = do_commit(SPU(name=u'红塔山(大经典)', code='987360',
-                             vendor=vendor2, msrp=50))
-        spu3 = do_commit(SPU(name=u'茅台迎宾酒', code='582677',
-                             vendor=vendor1, msrp=100))
+                             vendor=vendor2, msrp=50, spu_type=spu_type1,
+                             rating=4.0))
+        do_commit(SPU(name=u'茅台迎宾酒', code='582677',
+                      vendor=vendor1, msrp=100, spu_type=spu_type2,
+                      rating=3.0))
         # skus
         sku1 = do_commit(SKU(spu=spu1,
                              manufacture_time=datetime.strptime('2010-11-11',
@@ -87,8 +93,10 @@ class InitializeTestDB(Command):
         do_commit(Favor(spu=spu1, user=user3))
         do_commit(Favor(spu=spu2, user=user1))
         # retailers
-        do_commit(Retailer(name=u'A烟酒专卖', rating=4.0, longitude=1.0, latitude=1.0, spu_list=[spu1, spu2]))
-        do_commit(Retailer(name=u'B烟酒专卖', rating=4.5, longitude=1.0, latitude=1.0, spu_list=[spu2]))
+        do_commit(Retailer(name=u'A烟酒专卖', rating=4.0, longitude=1.0,
+                           latitude=1.0, spu_list=[spu1, spu2]))
+        do_commit(Retailer(name=u'B烟酒专卖', rating=4.5, longitude=1.0,
+                           latitude=1.0, spu_list=[spu2]))
 
 
 if __name__ == "__main__":

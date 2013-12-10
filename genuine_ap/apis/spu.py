@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 import os
+import posixpath
 
 from flask import url_for
 from path import path
@@ -22,8 +23,7 @@ class SPUWrapper(ModelWrapper):
         spu_id_to_min_distance = {}
         for retailer_, distance in zip(nearby_retailers, distance_list):
             for spu in retailer_.spu_list:
-                if spu.id not in spu_id_to_min_distance or \
-                   spu_id_to_min_distance[spu.id] > distance:
+                if spu.id not in spu_id_to_min_distance:
                     spu_id_to_min_distance[spu.id] = distance
         try:
             spu_id_to_min_distance.pop(self.id)
@@ -56,12 +56,6 @@ class SPUWrapper(ModelWrapper):
                 'favor_cnt': len(spu.favors),
             })
         return ret
-
-    @property
-    def rating(self):
-        if not self.comments:
-            return None
-        return sum(c.rating for c in self.comments) / len(self.comments)
 
     @property
     def pic_url_list(self):
@@ -105,3 +99,22 @@ class CommentWrapper(ModelWrapper):
             'user_name': self.user.name,
             'rating': self.rating
         }
+
+
+class SPUTypeWrapper(ModelWrapper):
+
+    def as_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'create_time': self.create_time.strftime('%Y-%m-%d'),
+            'weight': self.weight,
+            'pic_url': self.pic_url
+        }
+
+    @property
+    def pic_url(self):
+        spu_type_logo = posixpath.join('spu_type_pics', str(self.id) + '.jpg')
+        if os.path.exists(posixpath.join('static', spu_type_logo)):
+            return url_for('static', filename=spu_type_logo)
+        return ""

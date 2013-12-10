@@ -45,6 +45,10 @@ class SPU(db.Model):
     vendor_id = db.Column(db.Integer, db.ForeignKey('TB_VENDOR.id'),
                           nullable=False)
     vendor = db.relationship('Vendor', backref="spu_list")
+    spu_type_id = db.Column(db.Integer, db.ForeignKey('TB_SPU_TYPE.id'),
+                            nullable=False)
+    spu_type = db.relationship('SPUType', backref="spu_list")
+    rating = db.Column(db.Float, nullable=False)
 
 
 class Vendor(db.Model):
@@ -118,3 +122,14 @@ class Favor(db.Model):
                         nullable=False)
     user = db.relationship('User')
     create_time = db.Column(db.DateTime, default=datetime.now)
+
+
+class SPUType(db.Model):
+
+    __tablename__ = 'TB_SPU_TYPE'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(32), unique=True)
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    weight = db.Column(db.Integer, doc=u'SPU分类的权重，越高代表越优先显示',
+                       default=0)

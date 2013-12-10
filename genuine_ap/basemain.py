@@ -24,3 +24,4 @@ register_views()
 from genuine_ap import utils
 utils.assert_dir('static/spu_pics')
 utils.assert_dir('static/retailer_pics')
+utils.assert_dir('static/spu_type_pics')
