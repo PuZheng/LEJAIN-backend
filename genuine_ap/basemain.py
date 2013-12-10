@@ -14,13 +14,13 @@ login_manager.init_app(app)
 
 def register_views():
     # register web services
-    from genuine_ap.tag import tag_page
-    app.register_blueprint(tag_page, url_prefix='/tag')
-    from genuine_ap.user import user_ws
-    app.register_blueprint(user_ws, url_prefix='/user-ws')
-    from genuine_ap.rcmd import rcmd_ws_page
-    app.register_blueprint(rcmd_ws_page, url_prefix='/rcmd-ws')
-    from genuine_ap.spu import spu_ws
-    app.register_blueprint(spu_ws, url_prefix='/spu-ws')
-    from genuine_ap.comment import comment_ws
-    app.register_blueprint(comment_ws, url_prefix='/comment-ws')
+    for mod in ['tag', 'user', 'rcmd', 'spu', 'comment', 'retailer']:
+        pkg = __import__('genuine_ap.' + mod, fromlist=[mod])
+        app.register_blueprint(getattr(pkg, mod + '_ws'),
+                               url_prefix='/' + mod + '-ws')
+
+register_views()
+
+from genuine_ap import utils
+utils.assert_dir('static/spu_pics')
+utils.assert_dir('static/retailer_pics')

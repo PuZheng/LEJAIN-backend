@@ -18,7 +18,7 @@ class SPUWrapper(ModelWrapper):
 
     def get_nearby_recommendations(self, longitude, lattitude):
         nearby_retailers, distance_list = \
-            retailer.find_nearby_retailers(longitude, lattitude)
+            retailer.find_retailers(longitude, lattitude)
         spu_id_to_min_distance = {}
         for retailer_, distance in zip(nearby_retailers, distance_list):
             for spu in retailer_.spu_list:
