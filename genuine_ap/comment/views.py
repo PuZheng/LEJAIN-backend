@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from flask import request, jsonify, abort
+from flask import request, jsonify
 from wtforms import (TextField, Form, IntegerField, FloatField, validators,
                      ValidationError)
 from flask.ext.login import current_user
@@ -39,12 +39,10 @@ def comment_view(comment_id=None):
                     raise ValidationError(u"没有该产品id: " + str(field.data))
 
         if not current_user.is_authenticated():
-            abort(401)
+            return "当前用户没有权限发表评论", 401
         form = _Form(request.args)
         if not form.validate():
-            return jsonify({
-                'reason': str(form.errors)
-            }), 403
+            return unicode(form.errors), 403
         comment = wraps(do_commit(Comment(spu=form.spu, user=current_user,
                                           rating=form.rating.data,
                                           content=form.content.data)))
