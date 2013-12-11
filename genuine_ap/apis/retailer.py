@@ -1,14 +1,18 @@
 # -*- coding: UTF-8 -*-
+import random
 from flask import url_for
 
 from genuine_ap import models
 from genuine_ap.apis import wraps, ModelWrapper
 
 
-def find_retailers(longitude, lattitude, spu_id=None, max_distance=1500):
+def find_retailers(longitude, latitude, spu_id=None, max_distance=1500):
     #TODO a dumb implementation
     cnt = models.Retailer.query.count()
     retailers = models.Retailer.query.all()
+    offset = random.randrange(-10, stop=10) * 0.0001
+    retailers.longitude = longitude + offset
+    retailers.latitude = latitude + offset
     if spu_id:
         retailers = [retailer for retailer in retailers if
                      spu_id in [spu.id for spu in retailers.spu_list]]

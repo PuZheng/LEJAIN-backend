@@ -17,9 +17,9 @@ class SPUWrapper(ModelWrapper):
     def comments(self):
         return Comment.query.filter(Comment.spu_id == self.id).all()
 
-    def get_nearby_recommendations(self, longitude, lattitude):
+    def get_nearby_recommendations(self, longitude, latitude):
         nearby_retailers, distance_list = \
-            retailer.find_retailers(longitude, lattitude)
+            retailer.find_retailers(longitude, latitude)
         spu_id_to_min_distance = {}
         for retailer_, distance in zip(nearby_retailers, distance_list):
             for spu in retailer_.spu_list:
@@ -41,7 +41,7 @@ class SPUWrapper(ModelWrapper):
             })
         return ret
 
-    def get_same_vendor_recommendations(self, longitude, lattitude):
+    def get_same_vendor_recommendations(self, longitude, latitude):
         cond = and_(SPU.vendor_id == self.vendor_id,
                     SPU.id != self.id)
         #TODO related kind should be prioritized
