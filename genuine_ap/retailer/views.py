@@ -7,9 +7,9 @@ from genuine_ap import apis
 @retailer_ws.route('/retailer-list')
 def retailer_list():
 
-    longitude = request.args.get('longitude')
-    latitude = request.args.get('latitude')
-    spu_id = request.args.get('spu_id')
+    longitude = request.args.get('longitude', type=float)
+    latitude = request.args.get('latitude', type=float)
+    spu_id = request.args.get('spu_id', type=int)
 
     retailers, distance_list = apis.retailer.find_retailers(longitude,
                                                             latitude, spu_id)

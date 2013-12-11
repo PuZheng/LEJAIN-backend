@@ -10,13 +10,16 @@ def find_retailers(longitude, latitude, spu_id=None, max_distance=1500):
     #TODO a dumb implementation
     cnt = models.Retailer.query.count()
     retailers = models.Retailer.query.all()
-    offset = random.randrange(-10, stop=10) * 0.0001
-    retailers.longitude = longitude + offset
-    retailers.latitude = latitude + offset
+    distance_list = []
+    for retailer in retailers:
+        offset = random.randrange(-10, stop=10) * 0.0001
+        retailer.longitude = longitude + offset
+        retailer.latitude = latitude + offset
+        distance_list.append(abs(offset * 110000))
     if spu_id:
         retailers = [retailer for retailer in retailers if
-                     spu_id in [spu.id for spu in retailers.spu_list]]
-    return wraps(retailers), (100, ) * cnt
+                     spu_id in [spu.id for spu in retailer.spu_list]]
+    return wraps(retailers), distance_list
 
 
 class RetailerWrapper(ModelWrapper):

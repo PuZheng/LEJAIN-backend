@@ -41,10 +41,10 @@ def spu_type_list():
 def spu_list_view():
     # TODO should be paged
     kw = request.args.get('kw')
-    spu_type_id = request.args.get('spu_type_id')
+    spu_type_id = request.args.get('spu_type_id', type=int)
     order_by = request.args.get('order_by', 'distance')
-    longitude = request.args.get('longitude')
-    latitude = request.args.get('latitude')
+    longitude = request.args.get('longitude', type=float)
+    latitude = request.args.get('latitude', type=float)
 
     if not (kw or spu_type_id):
         abort(403)

@@ -7,8 +7,8 @@ from . import rcmd_ws
 @rcmd_ws.route('/rcmd-list')
 def rcmd_list():
     spu_id = request.args['spu_id']
-    longitue = request.args.get('longitude', None)
-    latitude = request.args.get('latitude', None)
+    longitue = request.args.get('longitude', type=float)
+    latitude = request.args.get('latitude', type=float)
     kind = request.args['kind']
     if kind not in {'same_vendor', 'nearby'}:
         return '', 404
