@@ -12,9 +12,13 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+installed_apps = ['tag', 'user', 'rcmd', 'spu', 'comment', 'retailer',
+                  'favor']
+
+
 def register_views():
     # register web services
-    for mod in ['tag', 'user', 'rcmd', 'spu', 'comment', 'retailer']:
+    for mod in installed_apps:
         pkg = __import__('genuine_ap.' + mod, fromlist=[mod])
         app.register_blueprint(getattr(pkg, mod + '_ws'),
                                url_prefix='/' + mod + '-ws')

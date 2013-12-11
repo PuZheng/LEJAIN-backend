@@ -41,6 +41,25 @@ class UserWrapper(login.UserMixin, ModelWrapper):
         return self.__serializer__.dumps([self.id, self.name,
                                           self.password])
 
+    def as_dict(self):
+
+        return {
+            'id': self.id,
+            'name': self.name,
+            'group': self.group.as_dict(),
+            'create_time': self.create_time.strftime('%Y-%m-%d')
+        }
+
+
+class GroupWrapper(ModelWrapper):
+
+    def as_dict(self):
+
+        return {
+            'id': self.id,
+            'name': self.name,
+        }
+
 
 def get_user(id_):
     if not id_:
