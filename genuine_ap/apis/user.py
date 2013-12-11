@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from md5 import md5
-from flask import _request_ctx_stack, current_app, request
+import posixpath
+from flask import _request_ctx_stack, current_app, request, url_for
 from flask.ext import login
 from flask.ext.principal import identity_changed, Identity, AnonymousIdentity
 from itsdangerous import URLSafeTimedSerializer, BadTimeSignature
@@ -33,7 +34,8 @@ class UserWrapper(login.UserMixin, ModelWrapper):
                 ret.add(perm)
         return ret
 
-    def get_auth_token(self):
+    @property
+    def auth_token(self):
         '''
         get the authentiaction token, see
         `https://flask-login.readthedocs.org/en/latest/#flask.ext.login.LoginManager.token_loader`_
@@ -41,13 +43,30 @@ class UserWrapper(login.UserMixin, ModelWrapper):
         return self.__serializer__.dumps([self.id, self.name,
                                           self.password])
 
+    @property
+    def pic_url(self):
+        user_pic = posixpath.join('user_pics', str(self.id) + '.jpg')
+        if posixpath.exists(posixpath.join('static', user_pic)):
+            return url_for('static', filename=user_pic)
+        return ''
+
+    @property
+    def small_pic_url(self):
+        user_pic = posixpath.join('user_pics', str(self.id) + '_small.jpg')
+        if posixpath.exists(posixpath.join('static', user_pic)):
+            return url_for('static', filename=user_pic)
+        return ''
+
     def as_dict(self):
 
         return {
             'id': self.id,
             'name': self.name,
             'group': self.group.as_dict(),
-            'create_time': self.create_time.strftime('%Y-%m-%d')
+            'create_time': self.create_time.strftime('%Y-%m-%d'),
+            'pic_url': self.pic_url,
+            'small_pic_url': self.small_pic_url,
+            'auth_token': self.auth_token,
         }
 
 
