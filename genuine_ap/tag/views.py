@@ -10,8 +10,8 @@ from .. import utils
 def tag(id):
     tag = utils.get_or_404(Tag, id)
     time_format = '%Y-%m-%d'
-    longitude = request.args.get('longitude', 0.0)
-    latitude = request.args.get('latitude', 0.0)
+    longitude = request.args.get('longitude', type=float)
+    latitude = request.args.get('latitude', type=float)
 
     nearby_recommendations_cnt = \
         len(tag.spu.get_nearby_recommendations(longitude, latitude))
