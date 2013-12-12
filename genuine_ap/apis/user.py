@@ -57,17 +57,20 @@ class UserWrapper(login.UserMixin, ModelWrapper):
             return url_for('static', filename=user_pic)
         return ''
 
-    def as_dict(self):
+    def as_dict(self, include_auth_token=False):
 
-        return {
+        ret = {
             'id': self.id,
             'name': self.name,
             'group': self.group.as_dict(),
             'create_time': self.create_time.strftime('%Y-%m-%d'),
             'pic_url': self.pic_url,
             'small_pic_url': self.small_pic_url,
-            'auth_token': self.auth_token,
         }
+        if include_auth_token:
+            ret['auth_token'] = self.auth_token
+
+        return ret
 
 
 class GroupWrapper(ModelWrapper):

@@ -25,7 +25,7 @@ def register():
                                 password=md5(password).hexdigest(),
                                 group=Group.query.get(const.CUSTOMER_GROUP)))
     user = apis.wraps(user)
-    return jsonify(user.as_dict()), 201
+    return jsonify(user.as_dict(include_auth_token=True)), 201
 
 
 @user_ws.route("/login", methods=["POST"])
@@ -40,4 +40,4 @@ def login():
         return jsonify({
             'reason': u'用户名或者密码错误'
         }), 403
-    return jsonify(user.as_dict())
+    return jsonify(user.as_dict(include_auth_token=True))
