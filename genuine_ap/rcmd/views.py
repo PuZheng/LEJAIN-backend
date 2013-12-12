@@ -23,7 +23,7 @@ def rcmd_list():
         'spu_name': r['spu']['name'],
         'pic_url': r['spu']['pic_url_list'][0],
         'msrp': r['spu']['msrp'],
-        'distance': r['distance'],
+        'distance': r['distance'] or -1,
         'rating': r['rating'],
         'favor_cnt': r['favor_cnt']
     } for r in rlist]})

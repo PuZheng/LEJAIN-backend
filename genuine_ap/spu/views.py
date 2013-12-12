@@ -12,8 +12,8 @@ from genuine_ap.apis.retailer import find_retailers
 
 @spu_ws.route('/spu/<int:spu_id>', methods=['GET'])
 def spu_view(spu_id):
-    longitude = request.args.get('longitude', 0.0)
-    latitude = request.args.get('latitude', 0.0)
+    longitude = request.args.get('longitude', type=float)
+    latitude = request.args.get('latitude', type=float)
     spu = get_or_404(SPU, spu_id)
     nearby_recommendations_cnt = \
         len(spu.get_nearby_recommendations(longitude, latitude))
