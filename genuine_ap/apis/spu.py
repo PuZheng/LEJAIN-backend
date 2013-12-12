@@ -57,7 +57,9 @@ class SPUWrapper(ModelWrapper):
                 'rating': spu.rating,
                 'favor_cnt': len(spu.favors),
             })
-            return sorted(ret, key=lambda obj: obj['distance'])
+
+        return sorted(ret, key=lambda obj: obj['distance'])
+
 
     @property
     def pic_url_list(self):
