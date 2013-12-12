@@ -108,6 +108,7 @@ class Retailer(db.Model):
     latitude = db.Column(db.Float, nullable=False)
     spu_list = db.relationship('SPU', secondary=retailer_and_spu,
                                backref='retailer_list')
+    address = db.Column(db.String(64), nullable=False)
 
 
 class Favor(db.Model):

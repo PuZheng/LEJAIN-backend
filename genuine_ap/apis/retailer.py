@@ -19,16 +19,6 @@ def find_retailers(longitude, latitude, max_distance=1500):
         retailer.latitude = latitude + offset
         distance_list.append(abs(offset * 110000))
 
-    #if spu_id:
-        #tmp_retailers = []
-        #tmp_distance_list = []
-        #for retailer, distance in zip(retailers, distance_list):
-            #if spu_id in {spu.id for spu in retailer.spu_list}:
-                #tmp_retailers.append(retailer)
-                #tmp_distance_list.append(distance)
-        #retailers = tmp_retailers
-        #distance_list = tmp_distance_list
-
     return wraps(retailers), distance_list
 
 
@@ -52,10 +42,11 @@ class RetailerWrapper(ModelWrapper):
             'id': self.id,
             'name': self.name,
             'desc': self.desc,
-            'rating': self.desc,
+            'rating': self.rating,
             'longitude': self.longitude,
             'latitude': self.latitude,
             'logo': self.logo,
+            'address': self.address,
         }
 
     @property

@@ -94,9 +94,11 @@ class InitializeTestDB(Command):
         do_commit(Favor(spu=spu2, user=user1))
         # retailers
         do_commit(Retailer(name=u'A烟酒专卖', rating=4.0, longitude=1.0,
-                           latitude=1.0, spu_list=[spu1, spu2]))
+                           latitude=1.0, address=u'杭州市西湖区申花路789号',
+                           spu_list=[spu1, spu2]))
         do_commit(Retailer(name=u'B烟酒专卖', rating=4.5, longitude=1.0,
-                           latitude=1.0, spu_list=[spu2]))
+                           latitude=1.0, address=u'杭州市西湖区古墩路83号',
+                           spu_list=[spu2]))
 
 
 if __name__ == "__main__":
