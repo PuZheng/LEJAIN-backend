@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+import posixpath
 import random
 from flask import url_for
 
@@ -51,5 +52,8 @@ class RetailerWrapper(ModelWrapper):
 
     @property
     def logo(self):
-        retailer_dir = 'retailer_pics/%s/' % self.id
-        return url_for('static', filename=retailer_dir + 'logo.jgp')
+        if posixpath.exists(posixpath.join('static', 'retailer_pics',
+                                           str(self.id) + '.jpg')):
+            return url_for('static',
+                           filename='retailer_pics/' + str(self.id) + '.jpg')
+        return ''
