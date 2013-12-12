@@ -5,7 +5,7 @@ from flask.ext.login import login_required, current_user
 from . import favor_ws
 from genuine_ap.models import Favor, SPU
 from genuine_ap.utils import do_commit
-from genuine_ap.apis import wraps
+from genuine_ap.apis import wraps, retailer
 
 
 @favor_ws.route('/favor/<int:spu_id>', methods=['GET', 'POST'])
@@ -28,9 +28,18 @@ def favor_view(spu_id):
 @favor_ws.route('/favors', methods=['GET', 'POST'])
 @login_required
 def favars_view():
+    longitude = request.args.get('longitude', type=float)
+    latitude = request.args.get('latitude', type=float)
+
     favors = wraps(Favor.query.filter(Favor.user == current_user).all())
 
     ret = {}
-    for favor in favors:
-        ret.setdefault(favor.spu.spu_type.name, []).append(favor.as_dict())
+    if favors:
+        spu_id_2_distance = retailer.compose_spu_id_2_distance(longitude,
+                                                               latitude)
+        for favor in favors:
+            d = favor.as_dict()
+            d['distance'] = spu_id_2_distance.get(favor.spu.id)
+            ret.setdefault(favor.spu.spu_type.name, []).append(d)
+
     return jsonify(ret)

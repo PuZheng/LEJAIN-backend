@@ -47,15 +47,17 @@ class SPUWrapper(ModelWrapper):
         #TODO related kind should be prioritized
         #TODO should be sort by distance
         ret = []
+        spu_id_2_distance = retailer.compose_spu_id_2_distance(longitude,
+                                                               latitude)
         for spu in SPU.query.filter(cond).all():
             spu = wraps(spu)
             ret.append({
                 'spu': spu.as_dict(),
-                'distance': None,
+                'distance': spu_id_2_distance.get(spu.id),
                 'rating': spu.rating,
                 'favor_cnt': len(spu.favors),
             })
-        return ret
+            return sorted(ret, key=lambda obj: obj['distance'])
 
     @property
     def pic_url_list(self):
