@@ -12,13 +12,18 @@ def retailer_list():
     spu_id = request.args.get('spu_id', type=int)
 
     retailers, distance_list = apis.retailer.find_retailers(longitude,
-                                                            latitude, spu_id)
+                                                            latitude)
+
+    def _filter_with_spu_id(retailer):
+        return not spu_id or (spu_id in {spu.id for spu in retailer.spu_list})
+
     data = []
     for retailer, distance in zip(retailers, distance_list):
-        data.append({
-            'retailer': retailer.as_dict(),
-            'distance': distance,
-        })
+        if _filter_with_spu_id(retailer):
+            data.append({
+                'retailer': retailer.as_dict(),
+                'distance': distance,
+            })
     return jsonify({
         'data': data
     })
