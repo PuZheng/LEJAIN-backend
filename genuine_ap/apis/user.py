@@ -1,12 +1,11 @@
 # -*- coding: UTF-8 -*-
-from md5 import md5
 import posixpath
 from flask import _request_ctx_stack, current_app, request, url_for
 from flask.ext import login
 from flask.ext.principal import identity_changed, Identity, AnonymousIdentity
 from itsdangerous import URLSafeTimedSerializer, BadTimeSignature
 from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy import and_
+from werkzeug.security import check_password_hash
 
 from genuine_ap.basemain import app
 from genuine_ap.apis import ModelWrapper, wraps
@@ -117,8 +116,9 @@ def authenticate(name, password):
     :raise: exceptions.AuthenticateFailure
     """
     try:
-        filter_cond = and_(User.name == name,
-                           User.password == md5(password).hexdigest())
-        return UserWrapper(User.query.filter(filter_cond).one())
+        user = User.query.filter(User.name == name).one()
+        if check_password_hash(user.password, password):
+            return UserWrapper(user)
+        raise AuthenticateFailure("用户名或者密码错误")
     except NoResultFound:
         raise AuthenticateFailure("用户名或者密码错误")

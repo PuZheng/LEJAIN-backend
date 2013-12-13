@@ -3,10 +3,10 @@
 """
 本脚本用于创建测试数据，是为了帮助进行随意测试。本脚本基于数据库的初始化脚本
 """
-from hashlib import md5
-
 from datetime import datetime
 from setuptools import Command
+
+from werkzeug.security import generate_password_hash
 
 __import__('genuine_ap.basemain')
 from genuine_ap.models import (Tag, SPU, SKU, Vendor, Group, User, Comment,
@@ -75,11 +75,14 @@ class InitializeTestDB(Command):
         do_commit(Group(id=const.RETAILER_GROUP, name=u'零售商'))
         # users
         user1 = do_commit(User(group=group1, name=u'liubei',
-                               password=md5('liubei').hexdigest()))
+                               password=generate_password_hash(
+                                   'liubei', 'pbkdf2:sha256')))
         user2 = do_commit(User(group=group1, name=u'guanyu',
-                               password=md5('guanyu').hexdigest()))
+                               password=generate_password_hash(
+                                   'guanyu', 'pbkdf2:sha256')))
         user3 = do_commit(User(group=group1, name=u'zhangfei',
-                               password=md5('zhangfei').hexdigest()))
+                               password=generate_password_hash(
+                                   'guanyu', 'pbkdf2:sha256')))
         # comments
         do_commit(Comment(content=u'好酒!', spu=spu1, user=user1, rating=4.0))
         do_commit(Comment(content=u'好酒!!', spu=spu1, user=user2, rating=4.5))

@@ -1,7 +1,6 @@
 # -*- coding: UTF-8 -*-
-from md5 import md5
-
 from flask import jsonify, request
+from werkzeug.security import generate_password_hash
 
 from genuine_ap.user import user_ws
 from genuine_ap.models import User, Group
@@ -22,7 +21,8 @@ def register():
             'reason': u'用户名已存在, 请更换注册名。'
         }), 403
     user = utils.do_commit(User(name=name,
-                                password=md5(password).hexdigest(),
+                                password=generate_password_hash(
+                                    password, 'pbkdf2:sha256'),
                                 group=Group.query.get(const.CUSTOMER_GROUP)))
     user = apis.wraps(user)
     return jsonify(user.as_dict(include_auth_token=True)), 201
