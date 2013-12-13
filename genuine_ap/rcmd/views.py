@@ -21,7 +21,7 @@ def rcmd_list():
     return jsonify({'data': [{
         'spu_id': r['spu']['id'],
         'spu_name': r['spu']['name'],
-        'pic_url': r['spu']['pic_url_list'][0],
+        'pic_url': r['spu']['icon'],
         'msrp': r['spu']['msrp'],
         'distance': r['distance'] or -1,
         'rating': r['rating'],

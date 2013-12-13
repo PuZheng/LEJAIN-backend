@@ -60,16 +60,26 @@ class SPUWrapper(ModelWrapper):
 
         return sorted(ret, key=lambda obj: obj['distance'])
 
-
     @property
     def pic_url_list(self):
         ret = []
-        vendor_dir = 'spu_pics/%s/' % self.vendor_id
-        if os.path.exists('static/' + vendor_dir):
-            for fname in path('static/' + vendor_dir).files("*.jpg"):
-                ret.append(url_for('static',
-                                   filename=vendor_dir + path.basename(fname)))
+        vendor_dir = posixpath.join('spu_pics', str(self.vendor_id))
+        if posixpath.exists(posixpath.join('static', vendor_dir)):
+            for fname in path(posixpath.join('static',
+                                             vendor_dir)).files("*.jpg"):
+                if posixpath.basename(fname) != 'icon.jpg':
+                    filename = posixpath.join(vendor_dir, path.basename(fname))
+                    ret.append(url_for('static',
+                                       filename=filename))
         return ret
+
+    @property
+    def icon(self):
+        vendor_dir = posixpath.join('spu_pics', str(self.vendor_id))
+        if posixpath.exists(posixpath.join('static', vendor_dir)):
+            return url_for('static', filename=posixpath.join(vendor_dir,
+                                                             'icon.jpg'))
+        return ''
 
     def as_dict(self):
         return {
