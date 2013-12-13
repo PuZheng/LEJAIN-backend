@@ -18,7 +18,7 @@ def find_retailers(longitude, latitude, max_distance=1500):
         offset = random.randrange(-10, stop=10) * 0.0001
         retailer.longitude = longitude + offset
         retailer.latitude = latitude + offset
-        distance_list.append(abs(offset * 110000))
+        distance_list.append(int(abs(offset * 110000)))
 
     return wraps(retailers), distance_list
 
