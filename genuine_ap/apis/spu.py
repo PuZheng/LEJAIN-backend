@@ -93,6 +93,7 @@ class SPUWrapper(ModelWrapper):
             },
             'pic_url_list': self.pic_url_list,
             'rating': self.rating,
+            'icon': self.icon,
         }
 
     @property

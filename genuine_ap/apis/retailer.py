@@ -47,13 +47,24 @@ class RetailerWrapper(ModelWrapper):
             'longitude': self.longitude,
             'latitude': self.latitude,
             'logo': self.logo,
+            'icon': self.icon,
             'address': self.address,
         }
 
     @property
     def logo(self):
         if posixpath.exists(posixpath.join('static', 'retailer_pics',
-                                           str(self.id) + '.jpg')):
+                                           str(self.id) + '_logo.jpg')):
             return url_for('static',
-                           filename='retailer_pics/' + str(self.id) + '.jpg')
+                           filename='retailer_pics/' + str(self.id) +
+                           '_logo.jpg')
+        return ''
+
+    @property
+    def icon(self):
+        if posixpath.exists(posixpath.join('static', 'retailer_pics',
+                                           str(self.id) + '_icon.jpg')):
+            return url_for('static',
+                           filename='retailer_pics/' + str(self.id) +
+                           '_icon.jpg')
         return ''

@@ -88,7 +88,7 @@ def spu_list_view():
         data.append({
             'spu_id': spu.id,
             'spu_name': spu.name,
-            'pic_url': spu.pic_url_list[0],
+            'pic_url': spu.icon,
             'msrp': spu.msrp,
             'rating': spu.rating,
             'favor_cnt': len(spu.favors),
