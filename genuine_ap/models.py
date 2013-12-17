@@ -81,7 +81,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(16), unique=True)
-    password = db.Column(db.String(16), unique=True, doc=u'保存为明文密码的md5值')
+    password = db.Column(db.String(16), doc=u'保存为明文密码的md5值')
     group_id = db.Column(db.Integer, db.ForeignKey('TB_GROUP.id'),
                          nullable=False)
     group = db.relationship('Group')
