@@ -83,6 +83,7 @@ class ModelWrapper(object):
         return wraps(attr)
 
     def __setattr__(self, key, value):
+        # TODO when only key is defined in wrapped object
         if key != '_ModelWrapper__obj':
             self.__obj.__setattr__(key, value)
         else:
