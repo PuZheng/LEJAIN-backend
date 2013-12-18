@@ -22,10 +22,6 @@ class UserWrapper(login.UserMixin, ModelWrapper):
         salt=app.config.get('SECURITY_SALT'))
 
     @property
-    def default_url(self):
-        return self.group.default_url
-
-    @property
     def permissions(self):
         ret = set()
         for group in self.groups:
@@ -37,7 +33,8 @@ class UserWrapper(login.UserMixin, ModelWrapper):
     def auth_token(self):
         '''
         get the authentiaction token, see
-        `https://flask-login.readthedocs.org/en/latest/#flask.ext.login.LoginManager.token_loader`_
+        `https://flask-login.readthedocs.org/en/latest/#flask.ext.login.
+LoginManager.token_loader`_
         '''
         return self.__serializer__.dumps([self.id, self.name,
                                           self.password])
@@ -55,6 +52,10 @@ class UserWrapper(login.UserMixin, ModelWrapper):
         if posixpath.exists(posixpath.join('static', user_pic)):
             return url_for('static', filename=user_pic)
         return ''
+
+    @property
+    def default_url(self):
+        return self.group.default_url
 
     def as_dict(self, include_auth_token=False):
 

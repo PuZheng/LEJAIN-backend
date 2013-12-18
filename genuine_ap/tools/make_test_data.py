@@ -70,9 +70,15 @@ class InitializeTestDB(Command):
         do_commit(Tag(token="000003", sku=sku3))
         do_commit(Tag(token="000004", sku=sku4))
         # groups
-        group1 = do_commit(Group(id=const.CUSTOMER_GROUP, name=u'普通客户'))
-        do_commit(Group(id=const.VENDOR_GROUP, name=u'生产厂家'))
-        do_commit(Group(id=const.RETAILER_GROUP, name=u'零售商'))
+        group1 = do_commit(Group(id=const.CUSTOMER_GROUP, name=u'普通客户',
+                                 default_url='asdff'))
+        do_commit(Group(id=const.VENDOR_GROUP, name=u'生产厂家',
+                        default_url='asdf'))
+        do_commit(Group(id=const.RETAILER_GROUP, name=u'零售商',
+                        default_url='asee'))
+        group_super_admin = do_commit(Group(id=const.SUPER_ADMIN,
+                                            name=u'超级管理员',
+                                            default_url='/spu/sputype-list'))
         # users
         user1 = do_commit(User(group=group1, name=u'liubei',
                                password=generate_password_hash(
@@ -83,6 +89,9 @@ class InitializeTestDB(Command):
         user3 = do_commit(User(group=group1, name=u'zhangfei',
                                password=generate_password_hash(
                                    'guanyu', 'pbkdf2:sha256')))
+        do_commit(User(group=group_super_admin, name=u'admin',
+                       password=generate_password_hash(
+                           'admin', 'pbkdf2:sha256')))
         # comments
         do_commit(Comment(content=u'好酒!', spu=spu1, user=user1, rating=4.0))
         do_commit(Comment(content=u'好酒!!', spu=spu1, user=user2, rating=4.5))

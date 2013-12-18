@@ -2,12 +2,18 @@
 import sys
 from collections import OrderedDict
 from flask import request, jsonify, abort
+from flask.ext.databrowser import ModelView, sa, col_spec
+from flask.ext.databrowser.extra_widgets import Image
+from flask.ext.databrowser.action import DeleteAction
+from flask_wtf.file import FileAllowed, FileRequired
+import posixpath
 
 from genuine_ap.models import SPU, SPUType
 from genuine_ap.utils import get_or_404
 from . import spu_ws
 from genuine_ap.apis import wraps
 from genuine_ap.apis.retailer import find_retailers
+from genuine_ap.database import db
 
 
 @spu_ws.route('/spu/<int:spu_id>', methods=['GET'])
@@ -95,3 +101,44 @@ def spu_list_view():
             'distance': distance,
         })
     return jsonify({'data': data})
+
+
+class SPUTypeModelView(ModelView):
+
+    @property
+    def sortable_columns(self):
+        return ['id', 'weight']
+
+    @property
+    def list_columns(self):
+        return ['id', 'name', 'weight', 'create_time', 'spu_cnt',
+                col_spec.ColSpec('pic_url',
+                                 widget=Image(Image.SMALL))]
+
+    @property
+    def edit_columns(self):
+        save_path = lambda obj: posixpath.join('static/spu_type_pics',
+                                               str(obj.id) + '.jpg')
+        return ['name', 'weight',
+                col_spec.ColSpec('pic_url', label=u'图像预览',
+                                 widget=Image()),
+                col_spec.FileColSpec('pic_url',
+                                     validators=[FileAllowed(['jpg', 'jpeg'],
+                                                             u'只支持图片')],
+                                     save_path=save_path,
+                                     doc=u'图片大小要求为256x256, 必须是jpg格式')]
+
+    def expand_model(self, spu_type):
+        return wraps(spu_type)
+
+    def get_actions(self, processed_objs=None):
+        class _DeleteAction(DeleteAction):
+            def test_enabled(self, obj):
+                return -2 if obj.spu_cnt != 0 else 0
+
+            def get_forbidden_msg_formats(self):
+                return {-2: "该SPU分类下已经存在SPU，所以不能删除!"}
+
+        return [_DeleteAction(u"删除")]
+
+spu_type_model_view = SPUTypeModelView(sa.SAModell(SPUType, db, u"SPU分类"))

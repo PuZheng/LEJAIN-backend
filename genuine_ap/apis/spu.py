@@ -103,6 +103,10 @@ class SPUWrapper(ModelWrapper):
 
 class SPUTypeWrapper(ModelWrapper):
 
+    @property
+    def spu_cnt(self):
+        return len(self.spu_list)
+
     def as_dict(self):
         return {
             'id': self.id,

@@ -94,6 +94,7 @@ class Group(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(16), unique=True)
+    default_url = db.Column(db.String(256), nullable=False)
 
 
 class Retailer(db.Model):
@@ -134,3 +135,6 @@ class SPUType(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now)
     weight = db.Column(db.Integer, doc=u'SPU分类的权重，越高代表越优先显示',
                        default=0)
+
+    def __unicode__(self):
+        return self.name
