@@ -118,7 +118,4 @@ class SPUTypeWrapper(ModelWrapper):
 
     @property
     def pic_url(self):
-        spu_type_logo = posixpath.join('spu_type_pics', str(self.id) + '.jpg')
-        if os.path.exists(posixpath.join('static', spu_type_logo)):
-            return url_for('static', filename=spu_type_logo)
-        return ""
+        return '/' + self.pic_path

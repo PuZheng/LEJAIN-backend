@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+import shutil
 import sys
 from collections import OrderedDict
 from flask import request, jsonify, abort
@@ -116,17 +117,26 @@ class SPUTypeModelView(ModelView):
                                  widget=Image(Image.SMALL))]
 
     @property
+    def create_columns(self):
+        return ['name', 'weight',
+                col_spec.FileColSpec('pic_path',
+                                     validators=[FileAllowed(['jpg', 'jpeg'],
+                                                             u'只支持图片')],
+                                     doc=u'图片大小要求为256x256, 必须是jpg格式')]
+
+    @property
     def edit_columns(self):
         save_path = lambda obj: posixpath.join('static/spu_type_pics',
                                                str(obj.id) + '.jpg')
-        return ['name', 'weight',
+        return [col_spec.ColSpec('id'), 'name', 'weight',
                 col_spec.ColSpec('pic_url', label=u'图像预览',
                                  widget=Image()),
-                col_spec.FileColSpec('pic_url',
+                col_spec.FileColSpec('pic_path',
                                      validators=[FileAllowed(['jpg', 'jpeg'],
                                                              u'只支持图片')],
                                      save_path=save_path,
                                      doc=u'图片大小要求为256x256, 必须是jpg格式')]
+
 
     def expand_model(self, spu_type):
         return wraps(spu_type)

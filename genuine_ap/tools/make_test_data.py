@@ -31,8 +31,10 @@ class InitializeTestDB(Command):
         vendor1 = do_commit(Vendor(name=u'贵州茅台酒厂有限公司'))
         vendor2 = do_commit(Vendor(name=u'红塔山集团'))
         # spu types
-        spu_type1 = do_commit(SPUType(name=u'香烟'))
-        spu_type2 = do_commit(SPUType(name=u'国产白酒', weight=1))
+        spu_type1 = do_commit(SPUType(name=u'香烟',
+                                      pic_path='static/spu_type_pics/1.jpg'))
+        spu_type2 = do_commit(SPUType(name=u'国产白酒', weight=1,
+                                      pic_path='static/spu_type_pics/2.jpg'))
         # spus
         spu1 = do_commit(SPU(name=u'飞天茅台53度', code='854013',
                              vendor=vendor1, msrp=1300, spu_type=spu_type2,

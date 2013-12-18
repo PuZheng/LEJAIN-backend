@@ -135,6 +135,7 @@ class SPUType(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now)
     weight = db.Column(db.Integer, doc=u'SPU分类的权重，越高代表越优先显示',
                        default=0)
+    pic_path = db.Column(db.String(256), nullable=False)
 
     def __unicode__(self):
         return self.name

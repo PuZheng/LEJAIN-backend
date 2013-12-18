@@ -28,7 +28,8 @@ init_login()
 from flask.ext.databrowser import DataBrowser
 from .database import db
 # TODO logger need
-data_browser = DataBrowser(app, logger=logging.getLogger('timeline'))
+data_browser = DataBrowser(app, logger=logging.getLogger('timeline'),
+                           upload_folder='static/uploads')
 
 from flask.ext.nav_bar import FlaskNavBar
 nav_bar = FlaskNavBar(app)
