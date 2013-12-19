@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-import shutil
 import sys
 from collections import OrderedDict
 from flask import request, jsonify, abort
@@ -106,6 +105,9 @@ def spu_list_view():
 
 class SPUTypeModelView(ModelView):
 
+    can_batch_edit = False
+
+
     @property
     def sortable_columns(self):
         return ['id', 'weight']
@@ -137,7 +139,6 @@ class SPUTypeModelView(ModelView):
                                      save_path=save_path,
                                      doc=u'图片大小要求为256x256, 必须是jpg格式')]
 
-
     def expand_model(self, spu_type):
         return wraps(spu_type)
 
@@ -151,4 +152,20 @@ class SPUTypeModelView(ModelView):
 
         return [_DeleteAction(u"删除")]
 
+
+class SPUModelView(ModelView):
+
+    create_template = edit_template = 'spu/form.html'
+
+    @property
+    def sortable_columns(self):
+        return ['id', 'msrp', 'spu_type', 'rating']
+
+    @property
+    def create_columns(self):
+        return ['name', 'code', 'nullable', 'msrp', 'vendor', 'spu_type',
+                'rating', col_spec.FileColSpec('pic_url_list', max_num=3,
+                                               doc=u'图片大小要求为1280x720, 必须是jpg格式')]
+
 spu_type_model_view = SPUTypeModelView(sa.SAModell(SPUType, db, u"SPU分类"))
+spu_model_view = SPUModelView(sa.SAModell(SPU, db, u"SPU"))

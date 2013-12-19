@@ -69,7 +69,7 @@ def login():
                 user = apis.user.authenticate(username, password)
             except AuthenticateFailure:
                 return render_template("user/login.html",
-                                       error=u"用户名或者密码错误"), 403
+                                       error=u"用户名或者密码错误", form=form), 403
             if not login_user(user):
                 return render_template("user/login.html",
                                        error=u"登陆失败"), 403
@@ -78,7 +78,7 @@ def login():
                                   #identity=Identity(user.id))
             return redirect(request.args.get('next') or "/")
         return render_template("user/login.html",
-                               error=u"请输入用户名及密码"), 403
+                               error=u"请输入用户名及密码", form=form), 403
 
 
 @user.route("/logout")

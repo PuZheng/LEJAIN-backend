@@ -1,7 +1,11 @@
 # -*- coding: UTF-8 -*-
-
+from flask import url_for
+import shutil
 from datetime import datetime
+
 from .database import db
+import posixpath
+import path
 
 retailer_and_spu = db.Table('TB_RETAILER_AND_SPU',
                             db.Column('retailer_id', db.Integer,
@@ -49,6 +53,27 @@ class SPU(db.Model):
                             nullable=False)
     spu_type = db.relationship('SPUType', backref="spu_list")
     rating = db.Column(db.Float, nullable=False)
+
+    @property
+    def pic_url_list(self):
+        ret = []
+        vendor_dir = posixpath.join('spu_pics', str(self.vendor_id))
+        if posixpath.exists(posixpath.join('static', vendor_dir)):
+            for fname in path(posixpath.join('static',
+                                             vendor_dir)).files("*.jpg"):
+                if posixpath.basename(fname) != 'icon.jpg':
+                    filename = posixpath.join(vendor_dir, path.basename(fname))
+                    ret.append(url_for('static', filename=filename))
+        return ret
+
+    @pic_url_list.setter
+    def pic_url_list(self, value):
+        vendor_dir = posixpath.join('static', 'spu_pics', str(self.vendor_id))
+        from .utils import resize_and_crop
+        resize_and_crop(value[0], posixpath.join(vendor_dir, 'icon.jpg'),
+                        (96, 96), 'middle')
+        for fname in value:
+            shutil.move(fname, vendor_dir)
 
 
 class Vendor(db.Model):

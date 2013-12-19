@@ -61,19 +61,6 @@ class SPUWrapper(ModelWrapper):
         return sorted(ret, key=lambda obj: obj['distance'])
 
     @property
-    def pic_url_list(self):
-        ret = []
-        vendor_dir = posixpath.join('spu_pics', str(self.vendor_id))
-        if posixpath.exists(posixpath.join('static', vendor_dir)):
-            for fname in path(posixpath.join('static',
-                                             vendor_dir)).files("*.jpg"):
-                if posixpath.basename(fname) != 'icon.jpg':
-                    filename = posixpath.join(vendor_dir, path.basename(fname))
-                    ret.append(url_for('static',
-                                       filename=filename))
-        return ret
-
-    @property
     def icon(self):
         vendor_dir = posixpath.join('spu_pics', str(self.vendor_id))
         if posixpath.exists(posixpath.join('static', vendor_dir)):
@@ -99,7 +86,6 @@ class SPUWrapper(ModelWrapper):
     @property
     def favors(self):
         return Favor.query.filter(Favor.spu_id == self.id).all()
-
 
 class SPUTypeWrapper(ModelWrapper):
 

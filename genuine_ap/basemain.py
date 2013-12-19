@@ -1,7 +1,9 @@
 # -*- coding: UTF-8 -*-
+import re
 import logging
 import os
-from flask import Flask
+from flask import Flask, request
+from flask.ext.upload2 import FlaskUpload
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object("genuine_ap.default_settings")
@@ -9,6 +11,10 @@ app.config.from_pyfile(os.path.join(os.getcwd(), "config.py"), silent=True)
 
 from flask.ext.babel import Babel
 babel = Babel(app)
+
+FlaskUpload(app)
+
+
 from flask.ext.login import LoginManager
 
 
@@ -36,10 +42,15 @@ nav_bar = FlaskNavBar(app)
 
 
 def setup_nav_bar():
-    from genuine_ap.spu import spu, spu_type_model_view
+    from genuine_ap.spu import spu, spu_type_model_view, spu_model_view
     nav_bar.register(spu, name=u'SPU分类',
                      default_url='/spu' + spu_type_model_view.list_view_url,
-                     group=u'SPU管理')
+                     group=u'SPU管理',
+                     enabler=lambda nav: request.path.startswith('/spu/sputype'))
+    nav_bar.register(spu, name=u'SPU',
+                     default_url='/spu' + spu_model_view.list_view_url,
+                     group=u'SPU管理',
+                     enabler=lambda nav: re.match('/spu/spu[^t]', request.path))
 
 setup_nav_bar()
 
