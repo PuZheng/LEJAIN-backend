@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from flask import jsonify, request
+from flask import jsonify, request, abort
 
 from . import tag_ws
 from ..models import SKU
@@ -8,7 +8,9 @@ from genuine_ap.apis import wraps
 
 @tag_ws.route('/tag/<id>')
 def tag(id):
-    sku = SKU.query.filter(SKU.token == id).one()
+    sku = SKU.query.filter(SKU.token == id).first()
+    if not sku:
+        abort(404)
     time_format = '%Y-%m-%d'
     longitude = request.args.get('longitude', type=float)
     latitude = request.args.get('latitude', type=float)
