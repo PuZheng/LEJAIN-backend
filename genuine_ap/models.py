@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
-from flask import url_for
+import os
 import shutil
+from flask import url_for
 from datetime import datetime
 
 from .database import db
@@ -68,12 +69,17 @@ class SPU(db.Model):
 
     @pic_url_list.setter
     def pic_url_list(self, value):
-        vendor_dir = posixpath.join('static', 'spu_pics', str(self.vendor_id))
-        from .utils import resize_and_crop
-        resize_and_crop(value[0], posixpath.join(vendor_dir, 'icon.jpg'),
-                        (96, 96), 'middle')
-        for fname in value:
-            shutil.move(fname, vendor_dir)
+        if value:
+            vendor_dir = posixpath.join('static', 'spu_pics',
+                                        str(self.vendor.id))
+            from .utils import assert_dir
+            assert_dir(vendor_dir)
+            from .utils import resize_and_crop
+            resize_and_crop(value[0], posixpath.join(vendor_dir, 'icon.jpg'),
+                            (96, 96), 'middle')
+            for fname in value:
+                shutil.copy(fname, vendor_dir)
+                os.remove(fname)
 
 
 class Vendor(db.Model):
