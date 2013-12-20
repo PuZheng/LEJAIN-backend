@@ -42,7 +42,7 @@ class RetailerWrapper(ModelWrapper):
         return {
             'id': self.id,
             'name': self.name,
-            'desc': self.desc,
+            'desc': self.brief,
             'rating': self.rating,
             'longitude': self.longitude,
             'latitude': self.latitude,

@@ -62,9 +62,9 @@ class SPUWrapper(ModelWrapper):
 
     @property
     def icon(self):
-        vendor_dir = posixpath.join('spu_pics', str(self.vendor_id))
-        if posixpath.exists(posixpath.join('static', vendor_dir)):
-            return url_for('static', filename=posixpath.join(vendor_dir,
+        spu_dir = posixpath.join('spu_pics', str(self.vendor_id), str(self.id))
+        if posixpath.exists(posixpath.join('static', spu_dir)):
+            return url_for('static', filename=posixpath.join(spu_dir,
                                                              'icon.jpg'))
         return ''
 
