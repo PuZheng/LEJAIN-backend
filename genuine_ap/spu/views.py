@@ -2,7 +2,7 @@
 import sys
 from collections import OrderedDict
 from flask import request, jsonify, abort
-from flask.ext.databrowser import ModelView, sa, col_spec
+from flask.ext.databrowser import ModelView, sa, col_spec, filters
 from flask.ext.databrowser.extra_widgets import Image
 from flask.ext.databrowser.action import DeleteAction
 from flask_wtf.file import FileAllowed, FileRequired
@@ -154,13 +154,17 @@ class SPUModelView(ModelView):
 
     create_template = edit_template = 'spu/form.html'
 
+    def expand_model(self, spu):
+        return wraps(spu)
+
     @property
     def sortable_columns(self):
         return ['id', 'msrp', 'spu_type', 'rating']
 
     @property
     def list_columns(self):
-        return ['id', 'name', 'msrp', 'vendor', 'spu_type', 'rating']
+        return ['id', 'name', 'msrp', 'vendor', 'spu_type', 'rating',
+                'sku_cnt']
 
 
     @property
@@ -178,6 +182,25 @@ class SPUModelView(ModelView):
                 col_spec.FileColSpec('pic_url_list', max_num=3,
                                      doc=(u'图片大小要求为1280x720, '
                                           u'必须是jpg格式'))]
+
+    @property
+    def filters(self):
+        return [
+            filters.Contains("name", label=u'产品名称', name=u"包含"),
+            filters.EqualTo("vendor", label=u'商家', name=u"是"),
+            filters.EqualTo("spu_type", label=u'SPU分类', name=u"是"),
+            filters.Between('msrp', label=u'价格', name=u'区间')
+        ]
+
+    def get_actions(self, processed_objs=None):
+        class _DeleteAction(DeleteAction):
+            def test_enabled(self, obj):
+                return -2 if obj.sku_list else 0
+
+            def get_forbidden_msg_formats(self):
+                return {-2: "该SPU下已经存在SKU，所以不能删除!"}
+
+        return [_DeleteAction(u"删除")]
 
     def on_record_created(self, spu):
         spu.save_pic_url_list(spu.temp_pic_url_list)

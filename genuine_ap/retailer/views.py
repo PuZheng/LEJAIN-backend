@@ -6,6 +6,7 @@ from . import retailer_ws
 from genuine_ap import apis
 from genuine_ap.models import Retailer
 from genuine_ap.database import db
+from flask.ext.databrowser.action import DeleteAction
 
 
 @retailer_ws.route('/retailer-list')
@@ -58,5 +59,7 @@ class RetailerModelView(ModelView):
                                               widget=widgets.TextArea()),
                 'rating', 'longitude', 'latitude', 'address', 'spu_list']
 
+    def get_actions(self, processed_objs=None):
+        return [DeleteAction(u"删除")]
 
 retailer_model_view = RetailerModelView(sa.SAModell(Retailer, db, u"商家"))

@@ -41,6 +41,10 @@ class SPUWrapper(ModelWrapper):
             })
         return ret
 
+    @property
+    def sku_cnt(self):
+        return len(self.sku_list)
+
     def get_same_vendor_recommendations(self, longitude, latitude):
         cond = and_(SPU.vendor_id == self.vendor_id,
                     SPU.id != self.id)

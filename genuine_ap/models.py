@@ -35,14 +35,14 @@ class SKU(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     spu_id = db.Column(db.Integer, db.ForeignKey('TB_SPU.id'),
                        nullable=False)
-    spu = db.relationship('SPU')
+    spu = db.relationship('SPU', backref='sku_list')
     manufacture_date = db.Column(db.Date)
     expire_date = db.Column(db.Date)
     token = db.Column(db.String(32), unique=True, nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
 
     def __unicode__(self):
-        return self.spu.name + '(%s)' % self.token
+        return self.token
 
 
 class SPU(db.Model):
