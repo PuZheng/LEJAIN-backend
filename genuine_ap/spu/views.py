@@ -105,8 +105,9 @@ def spu_list_view():
 
 class SPUTypeModelView(ModelView):
 
-    can_batch_edit = False
+    can_batchly_edit = False
 
+    create_template = edit_template = 'spu/form.html'
 
     @property
     def sortable_columns(self):
@@ -122,8 +123,6 @@ class SPUTypeModelView(ModelView):
     def create_columns(self):
         return ['name', 'weight',
                 col_spec.FileColSpec('pic_path',
-                                     validators=[FileAllowed(['jpg', 'jpeg'],
-                                                             u'只支持图片')],
                                      doc=u'图片大小要求为256x256, 必须是jpg格式')]
 
     @property
@@ -134,8 +133,6 @@ class SPUTypeModelView(ModelView):
                 col_spec.ColSpec('pic_url', label=u'图像预览',
                                  widget=Image()),
                 col_spec.FileColSpec('pic_path',
-                                     validators=[FileAllowed(['jpg', 'jpeg'],
-                                                             u'只支持图片')],
                                      save_path=save_path,
                                      doc=u'图片大小要求为256x256, 必须是jpg格式')]
 
@@ -162,10 +159,29 @@ class SPUModelView(ModelView):
         return ['id', 'msrp', 'spu_type', 'rating']
 
     @property
+    def list_columns(self):
+        return ['id', 'name', 'msrp', 'vendor', 'spu_type', 'rating']
+
+
+    @property
     def create_columns(self):
-        return ['name', 'code', 'nullable', 'msrp', 'vendor', 'spu_type',
+        return ['name', 'code', 'msrp', 'vendor', 'spu_type',
                 'rating', col_spec.FileColSpec('pic_url_list', max_num=3,
-                                               doc=u'图片大小要求为1280x720, 必须是jpg格式')]
+                                               doc=(u'图片大小要求为1280x720, '
+                                                    u'必须是jpg格式'))]
+
+    @property
+    def edit_columns(self):
+        return ['name', 'code', 'msrp', 'vendor', 'spu_type',
+                'rating', col_spec.ColSpec('pic_url_list',
+                                           widget=Image(size_type=Image.SMALL)),
+                col_spec.FileColSpec('pic_url_list', max_num=3,
+                                     doc=(u'图片大小要求为1280x720, '
+                                          u'必须是jpg格式'))]
+
+    def on_record_created(self, spu):
+        spu.save_pic_url_list(spu.temp_pic_url_list)
+
 
 spu_type_model_view = SPUTypeModelView(sa.SAModell(SPUType, db, u"SPU分类"))
 spu_model_view = SPUModelView(sa.SAModell(SPU, db, u"SPU"))

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from genuine_ap.basemain import app
-app.config["SQLALCHEMY_DATABASE_URI"] = app.config["DBSTR"]
 from flask.ext.sqlalchemy import SQLAlchemy
 db = SQLAlchemy(app)
 

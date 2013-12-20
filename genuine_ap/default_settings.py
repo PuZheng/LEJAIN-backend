@@ -8,7 +8,7 @@ SECRET_KEY = "5L)0K%,i.;*i/s("
 SECURITY_SALT = "sleiuyyao"
 
 #DB config
-DBSTR = "sqlite:///genuine_ap.db"
+SQLALCHEMY_DATABASE_URI = "sqlite:///genuine_ap.db"
 SQLALCHEMY_ECHO = True
 
 LOCALE = "zh_CN"

@@ -5,6 +5,25 @@ import os
 from flask import Flask, request
 from flask.ext.upload2 import FlaskUpload
 
+def register_model_view(model_view, bp):
+    label = model_view.modell.label
+    extra_params = {
+        "list_view": {
+            "nav_bar": nav_bar,
+            'title': label + u'管理'
+        },
+        "create_view": {
+            "nav_bar": nav_bar,
+            'title': u'新建' + label
+        },
+        "form_view": {
+            "nav_bar": nav_bar,
+            'title': u'编辑' + label
+        }
+
+    }
+    data_browser.register_model_view(model_view, bp, extra_params)
+
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object("genuine_ap.default_settings")
 app.config.from_pyfile(os.path.join(os.getcwd(), "config.py"), silent=True)
@@ -43,14 +62,26 @@ nav_bar = FlaskNavBar(app)
 
 def setup_nav_bar():
     from genuine_ap.spu import spu, spu_type_model_view, spu_model_view
-    nav_bar.register(spu, name=u'SPU分类',
-                     default_url='/spu' + spu_type_model_view.list_view_url,
-                     group=u'SPU管理',
-                     enabler=lambda nav: request.path.startswith('/spu/sputype'))
+    from genuine_ap.sku import sku, sku_model_view
+    from genuine_ap.vendor import vendor, vendor_model_view
+    from genuine_ap.retailer import retailer, retailer_model_view
     nav_bar.register(spu, name=u'SPU',
                      default_url='/spu' + spu_model_view.list_view_url,
                      group=u'SPU管理',
-                     enabler=lambda nav: re.match('/spu/spu[^t]', request.path))
+                     enabler=lambda nav: re.match('/spu/spu[^t]',
+                                                  request.path))
+    nav_bar.register(spu, name=u'SPU分类',
+                     default_url='/spu' + spu_type_model_view.list_view_url,
+                     group=u'SPU管理',
+                     enabler=lambda nav:
+                     request.path.startswith('/spu/sputype'))
+    nav_bar.register(sku, name=u'SKU管理',
+                     default_url='/sku' + sku_model_view.list_view_url)
+    nav_bar.register(vendor, name=u'厂家管理',
+                     default_url='/vendor' + vendor_model_view.list_view_url)
+    nav_bar.register(retailer, name=u'商家管理',
+                     default_url='/retailer' +
+                     retailer_model_view.list_view_url)
 
 setup_nav_bar()
 
@@ -59,7 +90,7 @@ def register_views():
     from . import index
     installed_ws_apps = ['tag', 'user', 'rcmd', 'spu', 'comment', 'retailer',
                          'favor']
-    installed_apps = ['user', 'spu']
+    installed_apps = ['user', 'spu', 'sku', 'vendor', 'retailer']
     # register web services
     for mod in installed_ws_apps:
         pkg = __import__('genuine_ap.' + mod, fromlist=[mod])
