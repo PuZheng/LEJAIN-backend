@@ -1,0 +1,114 @@
+# Chinese (Simplified, China) translations for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-12-23 19:32+0800\n"
+"PO-Revision-Date: 2013-12-23 14:57+0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: zh_Hans_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#: spu/views.py:121 spu/views.py:145 spu/views.py:189
+msgid "id"
+msgstr "编号"
+
+#: spu/views.py:122 spu/views.py:136 spu/views.py:146 spu/views.py:169
+#: spu/views.py:190 spu/views.py:203 spu/views.py:216 spu/views.py:230
+msgid "name"
+msgstr "名称"
+
+#: spu/views.py:123 spu/views.py:137 spu/views.py:147
+msgid "weight"
+msgstr "权重"
+
+#: spu/views.py:127
+msgid "spu no."
+msgstr "spu数量"
+
+#: spu/views.py:130 spu/views.py:138 spu/views.py:148
+msgid "logo"
+msgstr "logo"
+
+#: spu/views.py:135 spu/views.py:144 spu/views.py:201 spu/views.py:214
+#, python-format
+msgid "size should be %(size)s, only jpeg allowable"
+msgstr "大小应当是%(size)s, 只接受jpeg格式"
+
+#: spu/views.py:150
+msgid "upload logo"
+msgstr "上传logo"
+
+#: spu/views.py:162
+msgid "alread contains SPU, so can't be removed!"
+msgstr "已经包含SPU, 所以不能删除!"
+
+#: spu/views.py:169 spu/views.py:230
+msgid "contains"
+msgstr "包含"
+
+#: spu/views.py:191 spu/views.py:205 spu/views.py:218 spu/views.py:233
+msgid "msrp"
+msgstr "建议零售价"
+
+#: spu/views.py:192 spu/views.py:206 spu/views.py:219 spu/views.py:231
+msgid "vendor"
+msgstr "生产厂家"
+
+#: spu/views.py:193 spu/views.py:207 spu/views.py:220 spu/views.py:232
+msgid "spu type"
+msgstr "spu分类"
+
+#: spu/views.py:194 spu/views.py:208 spu/views.py:221
+msgid "rating"
+msgstr "评分"
+
+#: spu/views.py:195
+msgid "sku no."
+msgstr "sku数量"
+
+#: spu/views.py:204 spu/views.py:217
+msgid "code"
+msgstr "编码"
+
+#: spu/views.py:209 spu/views.py:224
+msgid "upload logos"
+msgstr "上传logos"
+
+#: spu/views.py:222
+msgid "logos"
+msgstr "logos"
+
+#: spu/views.py:231 spu/views.py:232
+msgid "is"
+msgstr "是"
+
+#: spu/views.py:233
+msgid "between"
+msgstr "区间是"
+
+#: spu/views.py:251
+msgid "SPU Type"
+msgstr "SPU分类"
+
+#: spu/views.py:252
+msgid "SPU"
+msgstr "SPU"
+
+msgid "Select image"
+msgstr "选择图片"
+
+msgid "Change"
+msgstr "修改"
+
+msgid "Remove"
+msgstr "清除"
+
