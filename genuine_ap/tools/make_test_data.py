@@ -100,7 +100,7 @@ class InitializeTestDB(Command):
                         default_url='asee'))
         group_super_admin = do_commit(Group(id=const.SUPER_ADMIN,
                                             name=u'超级管理员',
-                                            default_url='/spu/sputype-list'))
+                                            default_url='/spu/spu-list'))
         # users
         user1 = do_commit(User(group=group1, name=u'liubei',
                                password=generate_password_hash(

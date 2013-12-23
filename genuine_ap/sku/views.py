@@ -33,6 +33,7 @@ class SKUModelView(ModelView):
         return [
             filters.Contains("spu.name", label=u'产品名称', name=u"包含"),
             filters.EqualTo("spu.vendor", label=u'厂家', name=u"是"),
+            filters.EqualTo("spu_id", hidden=True),
             filters.EqualTo("token", label=u'标签', name=u"是"),
         ]
 
