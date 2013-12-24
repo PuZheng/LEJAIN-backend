@@ -5,6 +5,7 @@ import shutil
 from flask import url_for
 from datetime import datetime
 
+from sqlalchemy_utils import types as sa_utils_types
 from .database import db
 import posixpath
 from path import path
@@ -109,6 +110,12 @@ class Vendor(db.Model):
     name = db.Column(db.String(32), nullable=False)
     brief = db.Column(db.String(256))
     create_time = db.Column(db.DateTime, default=datetime.now)
+    email = db.Column(sa_utils_types.EmailType, nullable=False,
+                      doc=u'客服邮箱')
+    website = db.Column(sa_utils_types.URLType, nullable=False)
+    weibo = db.Column(sa_utils_types.URLType, doc=u'微博主页')
+    weixin_follow_link = db.Column(sa_utils_types.URLType,
+                                   doc=u'微信加关注链接')
 
     def __unicode__(self):
         return self.name
@@ -167,9 +174,9 @@ class Retailer(db.Model):
     address = db.Column(db.String(64), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
 
-
     def __unicode__(self):
         return self.name
+
 
 class Favor(db.Model):
 

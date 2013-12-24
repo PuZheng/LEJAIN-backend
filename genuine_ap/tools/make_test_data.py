@@ -32,6 +32,8 @@ class InitializeTestDB(Command):
         贵州茅台酒股份有限公司是由中国贵州茅台酒厂有限责任公司、贵州茅台酒厂技术开发公司、贵州省轻纺集体工业联社、深圳清华大学研究院、中国食品发酵工业研究所、北京糖业烟酒公司、江苏省糖烟酒总公司、上海捷强烟草糖酒（集团）有限公司等八家公司共同发起，并经过贵州省人民政府黔府函字（1999）291号文件批准设立的股份有限公司，注册资本为一亿八千五百万元。
         '''
         vendor1 = do_commit(Vendor(name=u'贵州茅台酒厂有限公司',
+                                   email='support@motai.com',
+                                   website='http://www.motail.com',
                                    brief=brief))
         brief = u"""
 红塔烟草（集团）有限责任公司，创业于1956年，从一个小规模的烟叶复烤厂到名列中国第一，世界前列的现代化跨国烟草企业集团，红塔集团的发展史，就是一部中国民族工业不断求新图变追赶世界先进水平的演进史。
@@ -50,7 +52,10 @@ class InitializeTestDB(Command):
 千里之行始于足下
 科技创造价值，价值回报社会，这是红塔集团始终坚持的企业发展之路。今天，红塔集团面对着无数可能的竞争选择和瞬息万变的市场风云，我们坚信，唯有站得更高，才能看得更远，唯有时刻胸怀社会，积极进取，才能在全新的信息时代获得更大的发展。
         """
-        vendor2 = do_commit(Vendor(name=u'红塔山集团', brief=brief[:256]))
+        vendor2 = do_commit(Vendor(name=u'红塔山集团',
+                                   email='support@hongta.com',
+                                   website='http://hongta.com',
+                                   brief=brief[:256]))
         # spu types
         spu_type1 = do_commit(SPUType(name=u'香烟',
                                       pic_path='static/spu_type_pics/1.jpg'))

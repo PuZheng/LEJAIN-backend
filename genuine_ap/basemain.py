@@ -3,6 +3,7 @@ import re
 import logging
 import os
 from flask import Flask, request
+from flask.ext.babel import lazy_gettext as _
 from flask.ext.upload2 import FlaskUpload
 
 def register_model_view(model_view, bp):
@@ -10,15 +11,15 @@ def register_model_view(model_view, bp):
     extra_params = {
         "list_view": {
             "nav_bar": nav_bar,
-            'title': label + u'管理'
+            'title': _('%(label)s list', label=label),
         },
         "create_view": {
             "nav_bar": nav_bar,
-            'title': u'新建' + label
+            'title': _('create %(label)s', label=label),
         },
         "form_view": {
             "nav_bar": nav_bar,
-            'title': u'编辑' + label
+            'title': _('edit %(label)s', label=label),
         }
 
     }

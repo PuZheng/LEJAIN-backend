@@ -2,7 +2,7 @@
 import sys
 from collections import OrderedDict
 from flask import request, jsonify, abort
-from flask.ext.babel import _
+from flask.ext.babel import lazy_gettext, gettext as _
 from flask.ext.databrowser import ModelView, sa, col_spec, filters
 from flask.ext.databrowser.extra_widgets import Image, Link
 from flask.ext.databrowser.action import DeleteAction
@@ -159,7 +159,7 @@ class SPUTypeModelView(ModelView):
                 return -2 if obj.spu_cnt != 0 else 0
 
             def get_forbidden_msg_formats(self):
-                return {-2: _("alread contains SPU, so can't be removed!")}
+                return {-2: _("already contains SPU, so can't be removed!")}
 
         return [_DeleteAction(u"删除")]
 
@@ -239,14 +239,15 @@ class SPUModelView(ModelView):
                 return -2 if obj.sku_list else 0
 
             def get_forbidden_msg_formats(self):
-                return {-2: "该SPU下已经存在SKU，所以不能删除!"}
+                return {-2: _("already contains sku, can't be removed!")}
 
-        return [_DeleteAction(u"删除")]
+        return [_DeleteAction(_("remove"))]
 
     def on_record_created(self, spu):
         if hasattr(spu, 'temp_pic_url_list'):
             spu.save_pic_url_list(spu.temp_pic_url_list)
 
 
-spu_type_model_view = SPUTypeModelView(sa.SAModell(SPUType, db, _('SPU Type')))
-spu_model_view = SPUModelView(sa.SAModell(SPU, db, _("SPU")))
+spu_type_model_view = SPUTypeModelView(sa.SAModell(SPUType, db,
+                                                   lazy_gettext('SPU Type')))
+spu_model_view = SPUModelView(sa.SAModell(SPU, db, lazy_gettext("SPU")))
