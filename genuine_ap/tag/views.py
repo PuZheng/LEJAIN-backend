@@ -34,3 +34,12 @@ def tag(id):
         'comments_cnt': len(spu.comments),
         'favor_cnt': len(spu.favors),
     })
+
+
+@tag_ws.route("/tag-denounce/<id>")
+def denounce(id):
+    #TODO 这是个伪实现
+    longitude = request.args.get('longitude', type=float)
+    latitude = request.args.get('latitude', type=float)
+    reason = request.args.get("reason")
+    return ""
