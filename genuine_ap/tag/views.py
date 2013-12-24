@@ -36,7 +36,7 @@ def tag(id):
     })
 
 
-@tag_ws.route("/tag-denounce/<id>")
+@tag_ws.route("/tag-denounce/<id>", methods=["POST"])
 def denounce(id):
     #TODO 这是个伪实现
     longitude = request.args.get('longitude', type=float)
