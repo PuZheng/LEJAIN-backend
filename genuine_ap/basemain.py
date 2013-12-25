@@ -6,7 +6,9 @@ from flask import Flask, request
 from flask.ext.babel import lazy_gettext as _
 from flask.ext.upload2 import FlaskUpload
 import speaklater
+from flask.ext.principal import identity_loaded, Principal
 from genuine_ap import const
+from genuine_ap.permissions import view_vendor_list_need
 
 
 def register_model_view(model_view, bp, **kwargs):
@@ -39,7 +41,7 @@ babel = Babel(app)
 FlaskUpload(app)
 
 
-from flask.ext.login import LoginManager
+from flask.ext.login import LoginManager, current_user
 
 
 def init_login():
@@ -118,6 +120,16 @@ def register_views():
 
 register_views()
 
+principal = Principal(app)
+
+
+@identity_loaded.connect_via(app)
+def on_identity_loaded(sender, identity):
+    # Set the identity user object
+    identity.user = current_user
+    if hasattr(current_user, 'group_id') and \
+       current_user.group_id == const.SUPER_ADMIN:
+        identity.provides.add(view_vendor_list_need)
 
 from genuine_ap import utils
 utils.assert_dir('static/spu_pics')

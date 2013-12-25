@@ -15,7 +15,6 @@ ipython==1.1.0
 itsdangerous==0.23
 path.py==5.0
 wsgiref==0.1.2
--e git+https://github.com/xiechao06/Flask-NavBar.git#egg=Flask_NavBar-dev
 -e git+https://github.com/PuZheng/flask-upload2.git@f11e6c3a0d0195c3bb910c3a1b2487e14df09ab2#egg=flask_upload2-dev
 psycopg2==2.5.1
 furl==0.3.6

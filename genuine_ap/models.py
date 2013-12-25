@@ -18,6 +18,13 @@ retailer_and_spu = db.Table('TB_RETAILER_AND_SPU',
                             db.Column('spu_id', db.Integer,
                                       db.ForeignKey('TB_SPU.id')))
 
+permission_and_group_table = db.Table("TB_PERMISSION_AND_GROUP",
+                                      db.Column("permission_name",
+                                                db.String(64),
+                                                db.ForeignKey(
+                                                    'TB_PERMISSION.name')),
+                                      db.Column("group_id", db.Integer,
+                                                db.ForeignKey("TB_GROUP.id")))
 
 class Tag(db.Model):
 
@@ -235,3 +242,14 @@ class SPUType(db.Model):
 
     def __unicode__(self):
         return self.name
+
+
+class Permission(db.Model):
+    __tablename__ = "TB_PERMISSION"
+    name = db.Column(db.String(64), primary_key=True)
+
+    def __unicode__(self):
+        return self.name
+
+    def __repr__(self):
+        return "<Permission: %s>" % self.name.encode("utf-8")

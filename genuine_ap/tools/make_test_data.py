@@ -27,17 +27,9 @@ class InitializeTestDB(Command):
     def run(self):
         from genuine_ap.tools import build_db
         build_db.build_db()
-        # groups
-        customer_group = do_commit(Group(id=const.CUSTOMER_GROUP,
-                                         name=u'普通用户',
-                                         default_url='asdf'))
-        vendor_group = do_commit(Group(id=const.VENDOR_GROUP, name=u'生产厂家',
-                                       default_url='asdf'))
-        retailer_group = do_commit(Group(id=const.RETAILER_GROUP, name=u'零售商',
-                                         default_url='asee'))
-        group_super_admin = do_commit(Group(id=const.SUPER_ADMIN,
-                                            name=u'超级管理员',
-                                            default_url='/spu/spu-list'))
+        vendor_group = Group.query.get(const.VENDOR_GROUP)
+        retailer_group = Group.query.get(const.RETAILER_GROUP)
+        customer_group = Group.query.get(const.CUSTOMER_GROUP)
         # users
         customer1 = do_commit(User(name=u'liubei',
                                    password=generate_password_hash(
@@ -51,9 +43,6 @@ class InitializeTestDB(Command):
                                    password=generate_password_hash(
                                        'guanyu', 'pbkdf2:sha256'),
                                    group=customer_group))
-        do_commit(User(group=group_super_admin, name=u'admin',
-                       password=generate_password_hash(
-                           'admin', 'pbkdf2:sha256')))
         motai_admin = do_commit(User(group=vendor_group, name=u'maotai',
                                      password=generate_password_hash(
                                          'motai', 'pbkdf2:sha256')))

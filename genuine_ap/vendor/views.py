@@ -10,11 +10,17 @@ from genuine_ap import const
 from genuine_ap.spu import spu_model_view
 from wtforms import widgets
 from flask.ext.databrowser.action import DeleteAction
+from flask.ext.principal import Permission
+from genuine_ap.permissions import view_vendor_list_need
 
 
 class VendorModelView(ModelView):
 
     can_batchly_edit = False
+
+    def try_view(self, objs=None):
+        if objs is None:
+            Permission(view_vendor_list_need).test()
 
     @property
     def sortable_columns(self):

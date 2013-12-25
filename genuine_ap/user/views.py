@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
-from flask import jsonify, request, render_template, redirect
+from flask import (jsonify, request, render_template, redirect, session,
+                   current_app)
 from flask.ext.wtf import Form
 from flask.ext.babel import _, lazy_gettext
 from wtforms import TextField, PasswordField
@@ -7,6 +8,7 @@ from wtforms.validators import DataRequired
 from werkzeug.security import generate_password_hash
 from flask.ext.login import (current_user, login_user, login_required,
                              logout_user)
+from flask.ext.principal import Identity, AnonymousIdentity, identity_changed
 from flask.ext.databrowser import ModelView, filters, sa, extra_widgets
 from flask.ext.databrowser.col_spec import (InputColSpec, ColSpec,
                                             InputHtmlSnippetColSpec)
@@ -80,8 +82,8 @@ def login():
                 return render_template("user/login.html",
                                        error=u"登陆失败"), 403
 
-            #identity_changed.send(current_app._get_current_object(),
-                                  #identity=Identity(user.id))
+            identity_changed.send(current_app._get_current_object(),
+                                  identity=Identity(user.id))
             return redirect(request.args.get('next') or "/")
         return render_template("user/login.html",
                                error=u"请输入用户名及密码", form=form), 403
@@ -94,11 +96,11 @@ def logout():
         logout_user()
     except Exception:  # in case sesson expire
         pass
-    #for key in ('identity.name', 'identity.auth_type'):
-        #session.pop(key, None)
+    for key in ('identity.name', 'identity.auth_type'):
+        session.pop(key, None)
 
-    #identity_changed.send(current_app._get_current_object(),
-                          #identity=AnonymousIdentity())
+    identity_changed.send(current_app._get_current_object(),
+                          identity=AnonymousIdentity())
     next_url = request.args.get("next", "/")
     return redirect(next_url)
 
