@@ -6,6 +6,7 @@ from flask import url_for
 from datetime import datetime
 
 from sqlalchemy_utils import types as sa_utils_types
+from flask.ext.babel import _
 from .database import db
 import posixpath
 from path import path
@@ -116,6 +117,11 @@ class Vendor(db.Model):
     weibo = db.Column(sa_utils_types.URLType, doc=u'微博主页')
     weixin_follow_link = db.Column(sa_utils_types.URLType,
                                    doc=u'微信加关注链接')
+    administrator_id = db.Column(db.Integer, db.ForeignKey('TB_USER.id'),
+                                 nullable=False)
+    administrator = db.relationship('User',
+                                    backref=db.backref("vendor",
+                                                       uselist=False))
 
     def __unicode__(self):
         return self.name
@@ -142,12 +148,28 @@ class User(db.Model):
     __tablename__ = 'TB_USER'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(16), unique=True)
-    password = db.Column(db.String(128), doc=u'保存为明文密码的md5值')
+    name = db.Column(db.String(16), unique=True, nullable=False)
+    password = db.Column(db.String(128), doc=u'保存为明文密码的sha256值')
     group_id = db.Column(db.Integer, db.ForeignKey('TB_GROUP.id'),
                          nullable=False)
     group = db.relationship('Group')
     create_time = db.Column(db.DateTime, default=datetime.now)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Customer(db.Model):
+
+    __tablename__ = 'TB_CUSTOMER'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(16), unique=True, nullable=False)
+    password = db.Column(db.String(128), doc=u'保存为明文密码的sha256值')
+    create_time = db.Column(db.DateTime, default=datetime.now)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Group(db.Model):
@@ -157,6 +179,9 @@ class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(16), unique=True)
     default_url = db.Column(db.String(256), nullable=False)
+
+    def __unicode__(self):
+        return _(self.name)
 
 
 class Retailer(db.Model):
@@ -173,6 +198,11 @@ class Retailer(db.Model):
                                backref='retailer_list')
     address = db.Column(db.String(64), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
+    administrator_id = db.Column(db.Integer, db.ForeignKey('TB_USER.id'),
+                                 nullable=False)
+    administrator = db.relationship('User',
+                                    backref=db.backref("retailer",
+                                                       uselist=False))
 
     def __unicode__(self):
         return self.name

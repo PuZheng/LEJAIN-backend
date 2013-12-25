@@ -2,9 +2,12 @@
 from flask.ext.babel import lazy_gettext, gettext as _
 from flask.ext.databrowser import ModelView, sa, extra_widgets, filters
 from flask.ext.databrowser.col_spec import ColSpec, InputColSpec
+from flask.ext.databrowser.extra_widgets import Link
 from genuine_ap.database import db
-from genuine_ap.models import Vendor
+from genuine_ap.models import Vendor, User
 from genuine_ap.apis import wraps
+from genuine_ap import const
+from genuine_ap.spu import spu_model_view
 from wtforms import widgets
 from flask.ext.databrowser.action import DeleteAction
 
@@ -23,13 +26,16 @@ class VendorModelView(ModelView):
             ColSpec('id', _('id')),
             ColSpec('name', _('name')),
             ColSpec('create_time', _('create time')),
-            ColSpec('spu_cnt', _('spu no.')),
             ColSpec('email', _('email')),
             ColSpec('website', _('website')),
-            ColSpec('weibo', _('weibo')),
-            ColSpec('weixin_follow_link', _('weixin follow link')),
             ColSpec('brief', label=_('brief'),
-                    widget=extra_widgets.PlainText(max_len=24))]
+                    widget=extra_widgets.PlainText(max_len=24)),
+            ColSpec('spu_cnt', _('spu no.'),
+                    formatter=lambda v, obj:
+                    (v, spu_model_view.url_for_list(vendor=obj.id)),
+                    widget=Link('_blank')),
+            ColSpec('administrator', label=_('administrator'))
+        ]
 
     @property
     def create_columns(self):
@@ -43,7 +49,10 @@ class VendorModelView(ModelView):
                          widget=widgets.TextArea(),
                          render_kwargs={
                              'html_params': dict(rows=8, cols=40)
-                         })
+                         }),
+            InputColSpec('administrator', label=_('administrator'),
+                         filter_=lambda q: q.filter(User.group_id ==
+                                                    const.VENDOR_GROUP))
         ]
 
     @property
@@ -57,7 +66,11 @@ class VendorModelView(ModelView):
                              render_kwargs={
                                  'html_params': dict(rows=8, cols=40)
                              }),
-                ColSpec('spu_cnt', label=_('spu no.'))]
+                ColSpec('spu_cnt', label=_('spu no.')),
+                InputColSpec('administrator', label=_('administrator'),
+                             filter_=lambda q: q.filter(User.group_id ==
+                                                        const.VENDOR_GROUP))
+                ]
 
     def get_actions(self, processed_objs=None):
         class _DeleteAction(DeleteAction):

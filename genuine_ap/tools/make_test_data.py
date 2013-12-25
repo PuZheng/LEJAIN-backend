@@ -27,6 +27,45 @@ class InitializeTestDB(Command):
     def run(self):
         from genuine_ap.tools import build_db
         build_db.build_db()
+        # groups
+        customer_group = do_commit(Group(id=const.CUSTOMER_GROUP,
+                                         name=u'普通用户',
+                                         default_url='asdf'))
+        vendor_group = do_commit(Group(id=const.VENDOR_GROUP, name=u'生产厂家',
+                                       default_url='asdf'))
+        retailer_group = do_commit(Group(id=const.RETAILER_GROUP, name=u'零售商',
+                                         default_url='asee'))
+        group_super_admin = do_commit(Group(id=const.SUPER_ADMIN,
+                                            name=u'超级管理员',
+                                            default_url='/spu/spu-list'))
+        # users
+        customer1 = do_commit(User(name=u'liubei',
+                                   password=generate_password_hash(
+                                       'liubei', 'pbkdf2:sha256'),
+                                   group=customer_group))
+        customer2 = do_commit(User(name=u'guanyu',
+                                   password=generate_password_hash(
+                                       'guanyu', 'pbkdf2:sha256'),
+                                   group=customer_group))
+        customer3 = do_commit(User(name=u'zhangfei',
+                                   password=generate_password_hash(
+                                       'guanyu', 'pbkdf2:sha256'),
+                                   group=customer_group))
+        do_commit(User(group=group_super_admin, name=u'admin',
+                       password=generate_password_hash(
+                           'admin', 'pbkdf2:sha256')))
+        motai_admin = do_commit(User(group=vendor_group, name=u'maotai',
+                                     password=generate_password_hash(
+                                         'motai', 'pbkdf2:sha256')))
+        hongta_admin = do_commit(User(group=vendor_group, name=u'hongta',
+                                      password=generate_password_hash(
+                                          'hongta', 'pbkdf2:sha256')))
+        user_a = do_commit(User(group=retailer_group, name=u'a',
+                                password=generate_password_hash(
+                                    'a', 'pbkdf2:sha256')))
+        user_b = do_commit(User(group=retailer_group, name=u'b',
+                                password=generate_password_hash(
+                                    'b', 'pbkdf2:sha256')))
         # vendors
         brief = u'''
         贵州茅台酒股份有限公司是由中国贵州茅台酒厂有限责任公司、贵州茅台酒厂技术开发公司、贵州省轻纺集体工业联社、深圳清华大学研究院、中国食品发酵工业研究所、北京糖业烟酒公司、江苏省糖烟酒总公司、上海捷强烟草糖酒（集团）有限公司等八家公司共同发起，并经过贵州省人民政府黔府函字（1999）291号文件批准设立的股份有限公司，注册资本为一亿八千五百万元。
@@ -34,7 +73,7 @@ class InitializeTestDB(Command):
         vendor1 = do_commit(Vendor(name=u'贵州茅台酒厂有限公司',
                                    email='support@motai.com',
                                    website='http://www.motail.com',
-                                   brief=brief))
+                                   brief=brief, administrator=motai_admin))
         brief = u"""
 红塔烟草（集团）有限责任公司，创业于1956年，从一个小规模的烟叶复烤厂到名列中国第一，世界前列的现代化跨国烟草企业集团，红塔集团的发展史，就是一部中国民族工业不断求新图变追赶世界先进水平的演进史。
 在“山高人为峰”的企业精神指引下，红塔集团坚持“以主业为主，提质创新，增强企业核心竞争力”的工作思路，以消费者为导向，以科技创新带动产品品质不断提高，其主要品牌红塔山连续七年蝉联中国最有价值品牌第一名，红塔山、玉溪、恭贺新禧、阿诗玛、红梅在中国烟草行业36个名优品牌中占有五席，并与国宾、美登、人民大会堂等一起入选国家烟草专卖局全国卷烟百牌号行列，在国内外享有盛誉，有的出口国际市场，为海外消费者提供了环保、自然、健康、醇和的高品质烟草产品。红塔山品牌在世界品牌价值实验室（World Brand Value Lab）编制的2010年度《中国品牌500强》排行榜中排名第53位，品牌价值已达121.33亿元。
@@ -55,7 +94,8 @@ class InitializeTestDB(Command):
         vendor2 = do_commit(Vendor(name=u'红塔山集团',
                                    email='support@hongta.com',
                                    website='http://hongta.com',
-                                   brief=brief[:256]))
+                                   brief=brief[:256],
+                                   administrator=hongta_admin))
         # spu types
         spu_type1 = do_commit(SPUType(name=u'香烟',
                                       pic_path='static/spu_type_pics/1.jpg'))
@@ -96,48 +136,25 @@ class InitializeTestDB(Command):
                              expire_date=datetime.strptime('2012-12-12',
                                                            '%Y-%m-%d'),
                              token='000004'))
-        # groups
-        group1 = do_commit(Group(id=const.CUSTOMER_GROUP, name=u'普通客户',
-                                 default_url='asdff'))
-        do_commit(Group(id=const.VENDOR_GROUP, name=u'生产厂家',
-                        default_url='asdf'))
-        do_commit(Group(id=const.RETAILER_GROUP, name=u'零售商',
-                        default_url='asee'))
-        group_super_admin = do_commit(Group(id=const.SUPER_ADMIN,
-                                            name=u'超级管理员',
-                                            default_url='/spu/spu-list'))
-        # users
-        user1 = do_commit(User(group=group1, name=u'liubei',
-                               password=generate_password_hash(
-                                   'liubei', 'pbkdf2:sha256')))
-        user2 = do_commit(User(group=group1, name=u'guanyu',
-                               password=generate_password_hash(
-                                   'guanyu', 'pbkdf2:sha256')))
-        user3 = do_commit(User(group=group1, name=u'zhangfei',
-                               password=generate_password_hash(
-                                   'guanyu', 'pbkdf2:sha256')))
-        do_commit(User(group=group_super_admin, name=u'admin',
-                       password=generate_password_hash(
-                           'admin', 'pbkdf2:sha256')))
         # comments
-        do_commit(Comment(content=u'好酒!', spu=spu1, user=user1, rating=4.0))
-        do_commit(Comment(content=u'好酒!!', spu=spu1, user=user2, rating=4.5))
-        do_commit(Comment(content=u'好酒!!!', spu=spu1, user=user3, rating=5.0))
-        do_commit(Comment(content=u'烂烟~', spu=spu2, user=user1, rating=3.0))
-        do_commit(Comment(content=u'烂烟~~', spu=spu2, user=user2, rating=2.5))
-        do_commit(Comment(content=u'烂烟~~~', spu=spu2, user=user3, rating=2.0))
+        do_commit(Comment(content=u'好酒!', spu=spu1, user=customer1, rating=4.0))
+        do_commit(Comment(content=u'好酒!!', spu=spu1, user=customer2, rating=4.5))
+        do_commit(Comment(content=u'好酒!!!', spu=spu1, user=customer3, rating=5.0))
+        do_commit(Comment(content=u'烂烟~', spu=spu2, user=customer1, rating=3.0))
+        do_commit(Comment(content=u'烂烟~~', spu=spu2, user=customer2, rating=2.5))
+        do_commit(Comment(content=u'烂烟~~~', spu=spu2, user=customer3, rating=2.0))
         # favors
-        do_commit(Favor(spu=spu1, user=user1))
-        do_commit(Favor(spu=spu1, user=user2))
-        do_commit(Favor(spu=spu1, user=user3))
-        do_commit(Favor(spu=spu2, user=user1))
+        do_commit(Favor(spu=spu1, user=customer1))
+        do_commit(Favor(spu=spu1, user=customer2))
+        do_commit(Favor(spu=spu1, user=customer3))
+        do_commit(Favor(spu=spu2, user=customer1))
         # retailers
         do_commit(Retailer(name=u'A烟酒专卖', rating=4.0, longitude=1.0,
                            latitude=1.0, address=u'杭州市西湖区申花路789号',
-                           spu_list=[spu1, spu2]))
+                           spu_list=[spu1, spu2], administrator=user_a))
         do_commit(Retailer(name=u'B烟酒专卖', rating=4.5, longitude=1.0,
                            latitude=1.0, address=u'杭州市西湖区古墩路83号',
-                           spu_list=[spu2]))
+                           spu_list=[spu2], administrator=user_b))
 
 
 if __name__ == "__main__":

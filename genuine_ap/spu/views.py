@@ -142,13 +142,15 @@ class SPUTypeModelView(ModelView):
         save_path = lambda obj: posixpath.join('static/spu_type_pics',
                                                str(obj.id) + '.jpg')
         doc = _('size should be %(size)s, only jpeg allowable', size='256x256')
-        return [col_spec.ColSpec('id', label=_('id')),
-                col_spec.InputColSpec('name', label=_('name')),
-                col_spec.InputColSpec('weight', label=_('weight')),
-                col_spec.ColSpec('pic_url', label=_('logo'),
-                                 widget=Image()),
-                col_spec.FileColSpec('pic_url', label=_('upload logo'),
-                                     save_path=save_path, doc=doc)]
+        return [
+            col_spec.InputColSpec('id', label=_('id'), disabled=True),
+            col_spec.InputColSpec('create time', _('create time'), disabled=True),
+            col_spec.InputColSpec('name', label=_('name')),
+            col_spec.InputColSpec('weight', label=_('weight')),
+            col_spec.ColSpec('pic_url', label=_('logo'),
+                             widget=Image()),
+            col_spec.FileColSpec('pic_url', label=_('upload logo'),
+                                 save_path=save_path, doc=doc)]
 
     def expand_model(self, spu_type):
         return wraps(spu_type)
@@ -161,7 +163,7 @@ class SPUTypeModelView(ModelView):
             def get_forbidden_msg_formats(self):
                 return {-2: _("already contains SPU, so can't be removed!")}
 
-        return [_DeleteAction(u"删除")]
+        return [_DeleteAction(_("remove"))]
 
     @property
     def filters(self):

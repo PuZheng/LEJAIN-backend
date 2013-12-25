@@ -5,8 +5,8 @@ from flask.ext.babel import lazy_gettext, gettext as _
 from flask.ext.databrowser import ModelView, sa, filters, extra_widgets
 from flask.ext.databrowser.col_spec import InputColSpec, ColSpec
 from . import retailer_ws
-from genuine_ap import apis
-from genuine_ap.models import Retailer
+from genuine_ap import apis, const
+from genuine_ap.models import Retailer, User
 from genuine_ap.database import db
 from flask.ext.databrowser.action import DeleteAction
 
@@ -56,7 +56,8 @@ class RetailerModelView(ModelView):
             ColSpec('brief', label=_('brief'),
                     widget=extra_widgets.PlainText(max_len=24)),
             ColSpec('create_time', label=_('create time'),
-                    formatter=lambda v, obj: v.strftime("%Y-%m-%d %H:%M"))
+                    formatter=lambda v, obj: v.strftime("%Y-%m-%d %H:%M")),
+            ColSpec('administrator', label=_('administrator')),
         ]
 
     @property
@@ -70,7 +71,11 @@ class RetailerModelView(ModelView):
             InputColSpec('longitude', label=_('longitude')),
             InputColSpec('latitude', label=_('latitude')),
             InputColSpec('address', label=_('address')),
-            InputColSpec('spu_list', label=_('spu list'))]
+            InputColSpec('spu_list', label=_('spu list')),
+            InputColSpec('administrator', label=_('administrator'),
+                         filter_=lambda q: q.filter(User.group_id ==
+                                                    const.RETAILER_GROUP))
+        ]
 
     @property
     def edit_columns(self):
@@ -83,7 +88,11 @@ class RetailerModelView(ModelView):
             InputColSpec('longitude', label=_('longitude')),
             InputColSpec('latitude', label=_('latitude')),
             InputColSpec('address', label=_('address')),
-            InputColSpec('spu_list', label=_('spu list'))]
+            InputColSpec('spu_list', label=_('spu list')),
+            InputColSpec('administrator', label=_('administrator'),
+                         filter_=lambda q: q.filter(User.group_id ==
+                                                    const.RETAILER_GROUP))
+        ]
 
     @property
     def filters(self):
