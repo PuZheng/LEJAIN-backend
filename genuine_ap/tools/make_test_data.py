@@ -45,7 +45,7 @@ class InitializeTestDB(Command):
                                    group=customer_group))
         motai_admin = do_commit(User(group=vendor_group, name=u'maotai',
                                      password=generate_password_hash(
-                                         'motai', 'pbkdf2:sha256')))
+                                         'maotai', 'pbkdf2:sha256')))
         hongta_admin = do_commit(User(group=vendor_group, name=u'hongta',
                                       password=generate_password_hash(
                                           'hongta', 'pbkdf2:sha256')))

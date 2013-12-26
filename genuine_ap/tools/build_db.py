@@ -5,7 +5,7 @@ from genuine_ap.basemain import app
 from genuine_ap.utils import do_commit
 from genuine_ap.models import Group, User, Permission
 from genuine_ap import const
-from genuine_ap.permissions import permissions
+from genuine_ap.perm import permissions
 from werkzeug.security import generate_password_hash
 
 

@@ -190,6 +190,9 @@ class Group(db.Model):
     def __unicode__(self):
         return _(self.name)
 
+    def __repr__(self):
+        return '<Group: %s>' % self.name
+
 
 class Retailer(db.Model):
 

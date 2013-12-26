@@ -11,7 +11,7 @@ from genuine_ap.spu import spu_model_view
 from wtforms import widgets
 from flask.ext.databrowser.action import DeleteAction
 from flask.ext.principal import Permission
-from genuine_ap.permissions import view_vendor_list_need
+from genuine_ap.perm import view_vendor_list_need
 
 
 class VendorModelView(ModelView):

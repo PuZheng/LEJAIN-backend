@@ -1,15 +1,17 @@
 # -*- coding: UTF-8 -*-
 import sys
+from sqlalchemy import and_
 from collections import OrderedDict
 from flask import request, jsonify, abort
 from flask.ext.babel import lazy_gettext, gettext as _
 from flask.ext.databrowser import ModelView, sa, col_spec, filters
 from flask.ext.databrowser.extra_widgets import Image, Link
 from flask.ext.databrowser.action import DeleteAction
+from flask.ext.login import current_user
 from flask_wtf.file import FileAllowed, FileRequired
 import posixpath
 
-from genuine_ap.models import SPU, SPUType
+from genuine_ap.models import SPU, SPUType, Favor, User
 from genuine_ap.utils import get_or_404
 from . import spu_ws
 from genuine_ap.apis import wraps
@@ -26,11 +28,18 @@ def spu_view(spu_id):
         len(spu.get_nearby_recommendations(longitude, latitude))
     same_vendor_recommendations_cnt = \
         len(spu.get_same_vendor_recommendations(longitude, latitude))
+    favored = False
+    if current_user.is_authenticated():
+        q = Favor.query.filter(and_(Favor.spu_id == spu_id,
+                                    User.id == current_user.id))
+        favored = bool(q.first())
+
     return jsonify({
         'spu': spu.as_dict(),
         'nearby_recommendations_cnt': nearby_recommendations_cnt,
         'same_vendor_recommendations_cnt': same_vendor_recommendations_cnt,
         'comments_cnt': len(spu.comments),
+        'favored': favored,
     })
 
 
