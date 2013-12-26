@@ -3,6 +3,7 @@ from flask.ext.babel import lazy_gettext, gettext as _
 from flask.ext.databrowser import ModelView, sa, extra_widgets, filters
 from flask.ext.databrowser.col_spec import ColSpec, InputColSpec
 from flask.ext.databrowser.extra_widgets import Link
+from flask.ext.principal import Permission
 from genuine_ap.database import db
 from genuine_ap.models import Vendor, User
 from genuine_ap.apis import wraps
@@ -10,17 +11,9 @@ from genuine_ap import const
 from genuine_ap.spu import spu_model_view
 from wtforms import widgets
 from flask.ext.databrowser.action import DeleteAction
-from flask.ext.principal import Permission
-from genuine_ap.perm import view_vendor_list_need
 
 
 class VendorModelView(ModelView):
-
-    can_batchly_edit = False
-
-    def try_view(self, objs=None):
-        if objs is None:
-            Permission(view_vendor_list_need).test()
 
     @property
     def sortable_columns(self):
@@ -86,7 +79,13 @@ class VendorModelView(ModelView):
             def get_forbidden_msg_formats(self):
                 return {-2: _("already contains SPU, so can't be removed!")}
 
-        return [_DeleteAction(_("remove"))]
+        permission = None
+        if processed_objs:
+            needs = [self.remove_need(obj.id) for obj in processed_objs]
+            permission = Permission(*needs).union(
+                Permission(self.remove_all_need))
+
+        return [_DeleteAction(_("remove"), permission=permission)]
 
     @property
     def filters(self):

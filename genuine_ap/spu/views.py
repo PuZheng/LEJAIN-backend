@@ -9,14 +9,16 @@ from flask.ext.databrowser.extra_widgets import Image, Link
 from flask.ext.databrowser.action import DeleteAction
 from flask.ext.login import current_user
 from flask_wtf.file import FileAllowed, FileRequired
+from flask.ext.principal import Permission, RoleNeed
 import posixpath
 
-from genuine_ap.models import SPU, SPUType, Favor, User
+from genuine_ap.models import SPU, SPUType, Favor, User, Vendor
 from genuine_ap.utils import get_or_404
 from . import spu_ws
-from genuine_ap.apis import wraps
+from genuine_ap.apis import wraps, unwraps
 from genuine_ap.apis.retailer import find_retailers
 from genuine_ap.database import db
+from genuine_ap import const
 
 
 @spu_ws.route('/spu/<int:spu_id>', methods=['GET'])
@@ -115,8 +117,6 @@ def spu_list_view():
 
 class SPUTypeModelView(ModelView):
 
-    can_batchly_edit = False
-
     create_template = edit_template = 'spu/form.html'
 
     @property
@@ -172,7 +172,12 @@ class SPUTypeModelView(ModelView):
             def get_forbidden_msg_formats(self):
                 return {-2: _("already contains SPU, so can't be removed!")}
 
-        return [_DeleteAction(_("remove"))]
+        permission = None
+        if processed_objs:
+            needs = [self.remove_need(obj.id) for obj in processed_objs]
+            permission = Permission(*needs).union(
+                Permission(self.remove_all_need))
+        return [_DeleteAction(_("remove", permission=permission))]
 
     @property
     def filters(self):
@@ -193,28 +198,44 @@ class SPUModelView(ModelView):
         return ['id', 'msrp', 'spu_type', 'rating']
 
     @property
+    def default_filters(self):
+        if Permission(RoleNeed(const.VENDOR_GROUP)).can():
+            return [filters.EqualTo("vendor",
+                                    value=unwraps(current_user.vendor))]
+        return []
+
+    @property
     def list_columns(self):
         def formatter(v, obj):
             from genuine_ap.sku import sku_model_view
             return (v, sku_model_view.url_for_list(spu_id=obj.id))
-        return [col_spec.ColSpec('id', _('id')),
-                col_spec.ColSpec('name', _('name')),
-                col_spec.ColSpec('msrp', _('msrp')),
-                col_spec.ColSpec('vendor', _('vendor')),
-                col_spec.ColSpec('spu_type', _('spu type')),
-                col_spec.ColSpec('rating', _('rating')),
-                col_spec.ColSpec('sku_cnt', _('sku no.'),
-                                 formatter=formatter,
-                                 widget=Link(target='_blank'))]
+        ret = [
+            col_spec.ColSpec('id', _('id')),
+            col_spec.ColSpec('name', _('name')),
+            col_spec.ColSpec('msrp', _('msrp')),
+            col_spec.ColSpec('vendor', _('vendor')),
+            col_spec.ColSpec('spu_type', _('spu type')),
+            col_spec.ColSpec('rating', _('rating'))
+        ]
+        if not Permission(RoleNeed(const.RETAILER_GROUP)).can():
+            ret.append(col_spec.ColSpec('sku_cnt', _('sku no.'),
+                                        formatter=formatter,
+                                        widget=Link(target='_blank')))
+        return ret
 
     @property
     def create_columns(self):
         doc = _('size should be %(size)s, only jpeg allowable',
                 size='1280x720')
+        vendor_col_filter = None
+        if Permission(RoleNeed(const.VENDOR_GROUP)).can():
+            vendor_col_filter = lambda q: q.filter(Vendor.id ==
+                                                   current_user.vendor.id)
         return [col_spec.InputColSpec('name', _('name')),
                 col_spec.InputColSpec('code', _('code')),
                 col_spec.InputColSpec('msrp', _('msrp')),
-                col_spec.InputColSpec('vendor', _('vendor')),
+                col_spec.InputColSpec('vendor', _('vendor'),
+                                      filter_=vendor_col_filter),
                 col_spec.InputColSpec('spu_type', _('spu type')),
                 col_spec.InputColSpec('rating', _('rating')),
                 col_spec.FileColSpec('pic_url_list', label=_('upload logos'),
@@ -224,25 +245,30 @@ class SPUModelView(ModelView):
     def edit_columns(self):
         doc = _('size should be %(size)s, only jpeg allowable',
                 size='1280x720')
-        return [col_spec.InputColSpec('name', _('name')),
-                col_spec.InputColSpec('code', _('code')),
-                col_spec.InputColSpec('msrp', _('msrp')),
-                col_spec.InputColSpec('vendor', _('vendor')),
-                col_spec.InputColSpec('spu_type', _('spu type')),
-                col_spec.InputColSpec('rating', _('rating')),
-                col_spec.ColSpec('pic_url_list', label=_('logos'),
-                                 widget=Image(size_type=Image.SMALL)),
-                col_spec.FileColSpec('pic_url_list', label=_('upload logos'),
-                                     max_num=3, doc=doc)]
+        ret = [col_spec.InputColSpec('name', _('name')),
+               col_spec.InputColSpec('code', _('code')),
+               col_spec.InputColSpec('msrp', _('msrp')),
+               col_spec.InputColSpec('spu_type', _('spu type')),
+               col_spec.InputColSpec('rating', _('rating')),
+               col_spec.ColSpec('pic_url_list', label=_('logos'),
+                                widget=Image(size_type=Image.SMALL)),
+               col_spec.FileColSpec('pic_url_list', label=_('upload logos'),
+                                    max_num=3, doc=doc)]
+        if Permission(RoleNeed(const.SUPER_ADMIN)).can():
+            ret.append(col_spec.InputColSpec('vendor', _('vendor')))
+        return ret
 
     @property
     def filters(self):
-        return [
+        ret = [
             filters.Contains("name", label=_('name'), name=_("contains")),
-            filters.EqualTo("vendor", label=_('vendor'), name=_("is")),
             filters.EqualTo("spu_type", label=_('spu type'), name=_("is")),
             filters.Between('msrp', label=_('msrp'), name=_('between')),
         ]
+        if not Permission(RoleNeed(const.VENDOR_GROUP)).can():
+            ret.append(filters.EqualTo("vendor", label=_('vendor'),
+                                       name=_("is")))
+        return ret
 
     def get_actions(self, processed_objs=None):
         class _DeleteAction(DeleteAction):
@@ -250,9 +276,15 @@ class SPUModelView(ModelView):
                 return -2 if obj.sku_list else 0
 
             def get_forbidden_msg_formats(self):
-                return {-2: _("already contains sku, can't be removed!")}
+                return {-2:
+                        _("spu %%(obj)s already contains sku, can't be removed!")}
 
-        return [_DeleteAction(_("remove"))]
+        permission = None
+        if processed_objs:
+            needs = [self.remove_need(obj.id) for obj in processed_objs]
+            permission = Permission(*needs).union(
+                Permission(self.remove_all_need))
+        return [_DeleteAction(_("remove"), permission=permission)]
 
     def on_record_created(self, spu):
         if hasattr(spu, 'temp_pic_url_list'):

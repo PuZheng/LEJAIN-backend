@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from flask import request, jsonify
 from wtforms import widgets
+from flask.ext.principal import Permission
 from flask.ext.babel import lazy_gettext, gettext as _
 from flask.ext.databrowser import ModelView, sa, filters, extra_widgets
 from flask.ext.databrowser.col_spec import InputColSpec, ColSpec
@@ -37,8 +38,6 @@ def retailer_list():
 
 
 class RetailerModelView(ModelView):
-
-    can_batchly_edit = False
 
     @property
     def sortable_columns(self):
@@ -103,7 +102,12 @@ class RetailerModelView(ModelView):
         ]
 
     def get_actions(self, processed_objs=None):
-        return [DeleteAction(_('remove'))]
+        permission = None
+        if processed_objs:
+            needs = [self.remove_need(obj.id) for obj in processed_objs]
+            permission = Permission(*needs).union(
+                Permission(self.remove_all_need))
+        return [DeleteAction(_('remove', permission=permission))]
 
 retailer_model_view = RetailerModelView(sa.SAModell(Retailer, db,
                                                     lazy_gettext('Retailer')))

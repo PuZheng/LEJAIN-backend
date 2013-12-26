@@ -13,6 +13,7 @@ from flask.ext.databrowser import ModelView, filters, sa, extra_widgets
 from flask.ext.databrowser.col_spec import (InputColSpec, ColSpec,
                                             InputHtmlSnippetColSpec)
 from flask.ext.databrowser.action import DeleteAction
+from flask.ext.principal import Permission
 
 from genuine_ap.user import user_ws, user
 from genuine_ap.models import User, Group
@@ -107,7 +108,6 @@ def logout():
 
 class UserModelView(ModelView):
 
-    can_batchly_edit = False
     list_template = 'user/list.html'
 
     @property
@@ -168,7 +168,12 @@ class UserModelView(ModelView):
             def get_forbidden_msg_formats(self):
                 return {-2: _("you can't remove administrator account!")}
 
-        return [_DeleteAction(_("remove"))]
+        permission = None
+        if processed_objs:
+            needs = [self.remove_need(obj.id) for obj in processed_objs]
+            permission = Permission(*needs).union(
+                Permission(self.remove_all_need))
+        return [_DeleteAction(_("remove"), permission)]
 
 
 user_model_view = UserModelView(sa.SAModell(User, db, lazy_gettext('User')))

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-24 18:35+0800\n"
+"POT-Creation-Date: 2013-12-26 21:51+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,185 +17,231 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: basemain.py:14
+#: basemain.py:28
 #, python-format
 msgid "%(label)s list"
 msgstr ""
 
-#: basemain.py:18
+#: basemain.py:32
 #, python-format
 msgid "create %(label)s"
 msgstr ""
 
-#: basemain.py:22
+#: basemain.py:36
 #, python-format
 msgid "edit %(label)s"
 msgstr ""
 
-#: retailer/views.py:50 sku/views.py:18 spu/views.py:121 spu/views.py:145
-#: spu/views.py:189 vendor/views.py:23
-msgid "id"
+#: basemain.py:89 basemain.py:118 basemain.py:135
+msgid "SPU"
 msgstr ""
 
-#: retailer/views.py:51 retailer/views.py:65 retailer/views.py:78
-#: retailer/views.py:91 spu/views.py:122 spu/views.py:136 spu/views.py:146
-#: spu/views.py:169 spu/views.py:190 spu/views.py:203 spu/views.py:216
-#: spu/views.py:230 vendor/views.py:24 vendor/views.py:37 vendor/views.py:51
-#: vendor/views.py:75
-msgid "name"
+#: basemain.py:91 basemain.py:97 basemain.py:120 basemain.py:125
+msgid "SPU related"
 msgstr ""
 
-#: retailer/views.py:52 retailer/views.py:69 retailer/views.py:82
-#: spu/views.py:194 spu/views.py:208 spu/views.py:221
-msgid "rating"
+#: basemain.py:95 basemain.py:124
+msgid "SPU Type"
 msgstr ""
 
-#: retailer/views.py:53 retailer/views.py:72 retailer/views.py:85
-#: retailer/views.py:92
-msgid "address"
+#: basemain.py:101 basemain.py:128
+msgid "SKU"
 msgstr ""
 
-#: retailer/views.py:54 retailer/views.py:70 retailer/views.py:83
-msgid "longitude"
+#: basemain.py:104
+msgid "Vendor"
 msgstr ""
 
-#: retailer/views.py:55 retailer/views.py:71 retailer/views.py:84
-msgid "latitude"
-msgstr ""
-
-#: retailer/views.py:56 retailer/views.py:66 retailer/views.py:79
-#: vendor/views.py:31 vendor/views.py:42 vendor/views.py:56
-msgid "brief"
-msgstr ""
-
-#: retailer/views.py:58 sku/views.py:24 vendor/views.py:25
-msgid "create time"
-msgstr ""
-
-#: retailer/views.py:73 retailer/views.py:86
-msgid "spu list"
-msgstr ""
-
-#: retailer/views.py:91 retailer/views.py:93 sku/views.py:54 spu/views.py:169
-#: spu/views.py:230 vendor/views.py:75
-msgid "contains"
-msgstr ""
-
-#: retailer/views.py:97 sku/views.py:61 spu/views.py:244 vendor/views.py:70
-msgid "remove"
-msgstr ""
-
-#: retailer/views.py:100
+#: basemain.py:107
 msgid "Retailer"
 msgstr ""
 
-#: sku/views.py:19 sku/views.py:29 sku/views.py:38 sku/views.py:46
+#: basemain.py:111
+msgid "Account"
+msgstr ""
+
+#: basemain.py:115
+msgid "Vendor Info"
+msgstr ""
+
+#: basemain.py:132
+msgid "Retailer Info"
+msgstr ""
+
+#: retailer/views.py:49 sku/views.py:38 spu/views.py:130 spu/views.py:155
+#: spu/views.py:213 user/views.py:128 user/views.py:151 vendor/views.py:25
+msgid "id"
+msgstr ""
+
+#: retailer/views.py:50 retailer/views.py:65 retailer/views.py:82
+#: retailer/views.py:99 spu/views.py:131 spu/views.py:145 spu/views.py:157
+#: spu/views.py:185 spu/views.py:214 spu/views.py:234 spu/views.py:248
+#: spu/views.py:264 user/views.py:120 user/views.py:129 user/views.py:138
+#: user/views.py:153 vendor/views.py:26 vendor/views.py:42 vendor/views.py:59
+#: vendor/views.py:93
+msgid "name"
+msgstr ""
+
+#: retailer/views.py:51 retailer/views.py:69 retailer/views.py:86
+#: spu/views.py:218 spu/views.py:240 spu/views.py:252
+msgid "rating"
+msgstr ""
+
+#: retailer/views.py:52 retailer/views.py:72 retailer/views.py:89
+#: retailer/views.py:100
+msgid "address"
+msgstr ""
+
+#: retailer/views.py:53 retailer/views.py:70 retailer/views.py:87
+msgid "longitude"
+msgstr ""
+
+#: retailer/views.py:54 retailer/views.py:71 retailer/views.py:88
+msgid "latitude"
+msgstr ""
+
+#: retailer/views.py:55 retailer/views.py:66 retailer/views.py:83
+#: vendor/views.py:30 vendor/views.py:47 vendor/views.py:64
+msgid "brief"
+msgstr ""
+
+#: retailer/views.py:57 sku/views.py:44 spu/views.py:156 user/views.py:131
+#: user/views.py:152 vendor/views.py:27
+msgid "create time"
+msgstr ""
+
+#: retailer/views.py:59 retailer/views.py:74 retailer/views.py:91
+#: vendor/views.py:36 vendor/views.py:52 vendor/views.py:69
+msgid "administrator"
+msgstr ""
+
+#: retailer/views.py:73 retailer/views.py:90
+msgid "spu list"
+msgstr ""
+
+#: retailer/views.py:99 retailer/views.py:101 sku/views.py:82 spu/views.py:185
+#: spu/views.py:264 user/views.py:120 vendor/views.py:93
+msgid "contains"
+msgstr ""
+
+#: retailer/views.py:110 sku/views.py:98 spu/views.py:180 spu/views.py:287
+#: user/views.py:176 vendor/views.py:88
+msgid "remove"
+msgstr ""
+
+#: sku/views.py:39 sku/views.py:53 sku/views.py:66 sku/views.py:74
 msgid "spu"
 msgstr ""
 
-#: sku/views.py:20 sku/views.py:55 spu/views.py:192 spu/views.py:206
-#: spu/views.py:219 spu/views.py:231 vendor/views.py:82
+#: sku/views.py:40 sku/views.py:87 spu/views.py:216 spu/views.py:237
+#: spu/views.py:258 spu/views.py:269
 msgid "vendor"
 msgstr ""
 
-#: sku/views.py:21 sku/views.py:30 sku/views.py:39 sku/views.py:47
+#: sku/views.py:41 sku/views.py:54 sku/views.py:67 sku/views.py:75
 msgid "manufacture date"
 msgstr ""
 
-#: sku/views.py:22 sku/views.py:31 sku/views.py:40 sku/views.py:48
+#: sku/views.py:42 sku/views.py:55 sku/views.py:68 sku/views.py:76
 msgid "expire date"
 msgstr ""
 
-#: sku/views.py:23 sku/views.py:32 sku/views.py:41 sku/views.py:57
+#: sku/views.py:43 sku/views.py:56 sku/views.py:69 sku/views.py:84
 msgid "token"
 msgstr ""
 
-#: sku/views.py:53
+#: sku/views.py:81
 msgid "spu name"
 msgstr ""
 
-#: sku/views.py:55 sku/views.py:57 spu/views.py:231 spu/views.py:232
+#: sku/views.py:84 sku/views.py:88 spu/views.py:265 spu/views.py:270
+#: user/views.py:121
 msgid "is"
 msgstr ""
 
-#: spu/views.py:123 spu/views.py:137 spu/views.py:147
+#: spu/views.py:132 spu/views.py:146 spu/views.py:158
 msgid "weight"
 msgstr ""
 
-#: spu/views.py:127 vendor/views.py:26 vendor/views.py:60
+#: spu/views.py:136 vendor/views.py:32 vendor/views.py:68
 msgid "spu no."
 msgstr ""
 
-#: spu/views.py:130 spu/views.py:138 spu/views.py:148
+#: spu/views.py:139 spu/views.py:147 spu/views.py:159
 msgid "logo"
 msgstr ""
 
-#: spu/views.py:135 spu/views.py:144 spu/views.py:201 spu/views.py:214
+#: spu/views.py:144 spu/views.py:153 spu/views.py:228 spu/views.py:246
 #, python-format
 msgid "size should be %(size)s, only jpeg allowable"
 msgstr ""
 
-#: spu/views.py:150
+#: spu/views.py:161
 msgid "upload logo"
 msgstr ""
 
-#: spu/views.py:162 vendor/views.py:68
+#: spu/views.py:173 vendor/views.py:80
 msgid "already contains SPU, so can't be removed!"
 msgstr ""
 
-#: spu/views.py:191 spu/views.py:205 spu/views.py:218 spu/views.py:233
+#: spu/views.py:215 spu/views.py:236 spu/views.py:250 spu/views.py:266
 msgid "msrp"
 msgstr ""
 
-#: spu/views.py:193 spu/views.py:207 spu/views.py:220 spu/views.py:232
+#: spu/views.py:217 spu/views.py:239 spu/views.py:251 spu/views.py:265
 msgid "spu type"
 msgstr ""
 
-#: spu/views.py:195
+#: spu/views.py:221
 msgid "sku no."
 msgstr ""
 
-#: spu/views.py:204 spu/views.py:217
+#: spu/views.py:235 spu/views.py:249
 msgid "code"
 msgstr ""
 
-#: spu/views.py:209 spu/views.py:224
+#: spu/views.py:241 spu/views.py:255
 msgid "upload logos"
 msgstr ""
 
-#: spu/views.py:222
+#: spu/views.py:253
 msgid "logos"
 msgstr ""
 
-#: spu/views.py:233
+#: spu/views.py:266
 msgid "between"
 msgstr ""
 
-#: spu/views.py:242
-msgid "already contains sku, can't be removed!"
+#: spu/views.py:280
+#, python-format
+msgid "spu %%(obj)s already contains sku, can't be removed!"
 msgstr ""
 
-#: spu/views.py:251
-msgid "SPU Type"
+#: user/views.py:121 user/views.py:130 user/views.py:144 user/views.py:159
+msgid "group"
 msgstr ""
 
-#: spu/views.py:252
-msgid "SPU"
+#: user/views.py:139 user/views.py:154
+msgid "password"
 msgstr ""
 
-#: vendor/views.py:27 vendor/views.py:38 vendor/views.py:52
+#: user/views.py:169
+msgid "you can't remove administrator account!"
+msgstr ""
+
+#: vendor/views.py:28 vendor/views.py:43 vendor/views.py:60
 msgid "email"
 msgstr ""
 
-#: vendor/views.py:28 vendor/views.py:39 vendor/views.py:53
+#: vendor/views.py:29 vendor/views.py:44 vendor/views.py:61
 msgid "website"
 msgstr ""
 
-#: vendor/views.py:29 vendor/views.py:40 vendor/views.py:54
+#: vendor/views.py:45 vendor/views.py:62
 msgid "weibo"
 msgstr ""
 
-#: vendor/views.py:30 vendor/views.py:41 vendor/views.py:55
+#: vendor/views.py:46 vendor/views.py:63
 msgid "weixin follow link"
 msgstr ""
 
