@@ -1,0 +1,207 @@
+# Chinese (Simplified, China) translations for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-12-24 18:15+0800\n"
+"PO-Revision-Date: 2013-12-23 14:57+0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: zh_Hans_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#: basemain.py:14
+#, python-format
+msgid "%(label)s list"
+msgstr "%(label)s列表"
+
+#: basemain.py:18
+#, python-format
+msgid "create %(label)s"
+msgstr "创建%(label)s"
+
+#: basemain.py:22
+#, python-format
+msgid "edit %(label)s"
+msgstr "编辑%(label)s"
+
+#: retailer/views.py:50 sku/views.py:18 spu/views.py:121 spu/views.py:145
+#: spu/views.py:189 vendor/views.py:23
+msgid "id"
+msgstr "编号"
+
+#: retailer/views.py:51 retailer/views.py:65 retailer/views.py:78
+#: retailer/views.py:91 spu/views.py:122 spu/views.py:136 spu/views.py:146
+#: spu/views.py:169 spu/views.py:190 spu/views.py:203 spu/views.py:216
+#: spu/views.py:230 vendor/views.py:24 vendor/views.py:37 vendor/views.py:51
+#: vendor/views.py:75
+msgid "name"
+msgstr "名称"
+
+#: retailer/views.py:52 retailer/views.py:69 retailer/views.py:82
+#: spu/views.py:194 spu/views.py:208 spu/views.py:221
+msgid "rating"
+msgstr "评分"
+
+#: retailer/views.py:53 retailer/views.py:72 retailer/views.py:85
+#: retailer/views.py:92
+msgid "address"
+msgstr "地址"
+
+#: retailer/views.py:54 retailer/views.py:70 retailer/views.py:83
+msgid "longitude"
+msgstr "经度"
+
+#: retailer/views.py:55 retailer/views.py:71 retailer/views.py:84
+msgid "latitude"
+msgstr "纬度"
+
+#: retailer/views.py:56 retailer/views.py:66 retailer/views.py:79
+#: vendor/views.py:31 vendor/views.py:42 vendor/views.py:56
+msgid "brief"
+msgstr "简介"
+
+#: retailer/views.py:58 sku/views.py:24 vendor/views.py:25
+msgid "create time"
+msgstr "创建时间"
+
+#: retailer/views.py:73 retailer/views.py:86
+msgid "spu list"
+msgstr "spu列表"
+
+#: retailer/views.py:91 retailer/views.py:93 sku/views.py:54 spu/views.py:169
+#: spu/views.py:230 vendor/views.py:75
+msgid "contains"
+msgstr "包含"
+
+#: retailer/views.py:97 sku/views.py:61 spu/views.py:244 vendor/views.py:70
+msgid "remove"
+msgstr "删除"
+
+#: retailer/views.py:100
+msgid "Retailer"
+msgstr "商家"
+
+#: sku/views.py:19 sku/views.py:29 sku/views.py:38 sku/views.py:46
+msgid "spu"
+msgstr "spu"
+
+#: sku/views.py:20 sku/views.py:55 spu/views.py:192 spu/views.py:206
+#: spu/views.py:219 spu/views.py:231 vendor/views.py:82
+msgid "vendor"
+msgstr "生产厂家"
+
+#: sku/views.py:21 sku/views.py:30 sku/views.py:39 sku/views.py:47
+msgid "manufacture date"
+msgstr "生产日期"
+
+#: sku/views.py:22 sku/views.py:31 sku/views.py:40 sku/views.py:48
+msgid "expire date"
+msgstr "保质期"
+
+#: sku/views.py:23 sku/views.py:32 sku/views.py:41 sku/views.py:57
+msgid "token"
+msgstr "标签"
+
+#: sku/views.py:53
+msgid "spu name"
+msgstr "spu名称"
+
+#: sku/views.py:55 sku/views.py:57 spu/views.py:231 spu/views.py:232
+msgid "is"
+msgstr "是"
+
+#: spu/views.py:123 spu/views.py:137 spu/views.py:147
+msgid "weight"
+msgstr "权重"
+
+#: spu/views.py:127 vendor/views.py:26 vendor/views.py:60
+msgid "spu no."
+msgstr "spu数量"
+
+#: spu/views.py:130 spu/views.py:138 spu/views.py:148
+msgid "logo"
+msgstr "logo"
+
+#: spu/views.py:135 spu/views.py:144 spu/views.py:201 spu/views.py:214
+#, python-format
+msgid "size should be %(size)s, only jpeg allowable"
+msgstr "大小应当是%(size)s, 只接受jpeg格式"
+
+#: spu/views.py:150
+msgid "upload logo"
+msgstr "上传logo"
+
+#: spu/views.py:162 vendor/views.py:68
+msgid "already contains SPU, so can't be removed!"
+msgstr "已经包含SPU, 所以不能删除!"
+
+#: spu/views.py:191 spu/views.py:205 spu/views.py:218 spu/views.py:233
+msgid "msrp"
+msgstr "建议零售价"
+
+#: spu/views.py:193 spu/views.py:207 spu/views.py:220 spu/views.py:232
+msgid "spu type"
+msgstr "spu分类"
+
+#: spu/views.py:195
+msgid "sku no."
+msgstr "sku数量"
+
+#: spu/views.py:204 spu/views.py:217
+msgid "code"
+msgstr "编码"
+
+#: spu/views.py:209 spu/views.py:224
+msgid "upload logos"
+msgstr "上传logos"
+
+#: spu/views.py:222
+msgid "logos"
+msgstr "logos"
+
+#: spu/views.py:233
+msgid "between"
+msgstr "区间是"
+
+#: spu/views.py:242
+msgid "already contains sku, can't be removed!"
+msgstr "已经包含SKU, 所以不能删除!"
+
+#: spu/views.py:251
+msgid "SPU Type"
+msgstr "SPU分类"
+
+#: spu/views.py:252
+msgid "SPU"
+msgstr "SPU"
+
+#: vendor/views.py:27 vendor/views.py:38 vendor/views.py:52
+msgid "email"
+msgstr "电子邮箱"
+
+#: vendor/views.py:28 vendor/views.py:39 vendor/views.py:53
+msgid "website"
+msgstr "官方网站"
+
+#: vendor/views.py:29 vendor/views.py:40 vendor/views.py:54
+msgid "weibo"
+msgstr "微博"
+
+#: vendor/views.py:30 vendor/views.py:41 vendor/views.py:55
+msgid "weixin follow link"
+msgstr "微信加关注链接"
+
+#~ msgid "Select image"
+#~ msgstr "选择图片"
+
+#~ msgid "Change"
+#~ msgstr "修改"
+

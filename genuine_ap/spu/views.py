@@ -1,14 +1,17 @@
 # -*- coding: UTF-8 -*-
 import sys
+from sqlalchemy import and_
 from collections import OrderedDict
 from flask import request, jsonify, abort
+from flask.ext.babel import lazy_gettext, gettext as _
 from flask.ext.databrowser import ModelView, sa, col_spec, filters
-from flask.ext.databrowser.extra_widgets import Image
+from flask.ext.databrowser.extra_widgets import Image, Link
 from flask.ext.databrowser.action import DeleteAction
+from flask.ext.login import current_user
 from flask_wtf.file import FileAllowed, FileRequired
 import posixpath
 
-from genuine_ap.models import SPU, SPUType
+from genuine_ap.models import SPU, SPUType, Favor, User
 from genuine_ap.utils import get_or_404
 from . import spu_ws
 from genuine_ap.apis import wraps
@@ -25,11 +28,18 @@ def spu_view(spu_id):
         len(spu.get_nearby_recommendations(longitude, latitude))
     same_vendor_recommendations_cnt = \
         len(spu.get_same_vendor_recommendations(longitude, latitude))
+    favored = False
+    if current_user.is_authenticated():
+        q = Favor.query.filter(and_(Favor.spu_id == spu_id,
+                                    User.id == current_user.id))
+        favored = bool(q.first())
+
     return jsonify({
         'spu': spu.as_dict(),
         'nearby_recommendations_cnt': nearby_recommendations_cnt,
         'same_vendor_recommendations_cnt': same_vendor_recommendations_cnt,
         'comments_cnt': len(spu.comments),
+        'favored': favored,
     })
 
 
@@ -111,30 +121,45 @@ class SPUTypeModelView(ModelView):
 
     @property
     def sortable_columns(self):
-        return ['id', 'weight']
+        return ['id', 'weight', 'create_time']
 
     @property
     def list_columns(self):
-        return ['id', 'name', 'weight', 'create_time', 'spu_cnt',
-                col_spec.ColSpec('pic_url',
+        def formatter(v, obj):
+            return (v, spu_model_view.url_for_list(spu_type=obj.id))
+        return [col_spec.ColSpec('id', label=_('id')),
+                col_spec.ColSpec('name', label=_('name')),
+                col_spec.ColSpec('weight', label=_('weight')),
+                col_spec.ColSpec('create_time', label=u'create time',
+                                 formatter=lambda v, obj:
+                                 v.strftime('%Y-%m-%d %H:%M')),
+                col_spec.ColSpec('spu_cnt', label=_('spu no.'),
+                                 formatter=formatter,
+                                 widget=Link(target='_blank')),
+                col_spec.ColSpec('pic_url', label=_('logo'),
                                  widget=Image(Image.SMALL))]
 
     @property
     def create_columns(self):
-        return ['name', 'weight',
-                col_spec.FileColSpec('pic_path',
-                                     doc=u'图片大小要求为256x256, 必须是jpg格式')]
+        doc = _('size should be %(size)s, only jpeg allowable', size='256x256')
+        return [col_spec.InputColSpec('name', label=_('name')),
+                col_spec.InputColSpec('weight', label=_('weight')),
+                col_spec.FileColSpec('pic_path', label=_('logo'), doc=doc)]
 
     @property
     def edit_columns(self):
         save_path = lambda obj: posixpath.join('static/spu_type_pics',
                                                str(obj.id) + '.jpg')
-        return [col_spec.ColSpec('id'), 'name', 'weight',
-                col_spec.ColSpec('pic_url', label=u'图像预览',
-                                 widget=Image()),
-                col_spec.FileColSpec('pic_path',
-                                     save_path=save_path,
-                                     doc=u'图片大小要求为256x256, 必须是jpg格式')]
+        doc = _('size should be %(size)s, only jpeg allowable', size='256x256')
+        return [
+            col_spec.InputColSpec('id', label=_('id'), disabled=True),
+            col_spec.InputColSpec('create time', _('create time'), disabled=True),
+            col_spec.InputColSpec('name', label=_('name')),
+            col_spec.InputColSpec('weight', label=_('weight')),
+            col_spec.ColSpec('pic_url', label=_('logo'),
+                             widget=Image()),
+            col_spec.FileColSpec('pic_url', label=_('upload logo'),
+                                 save_path=save_path, doc=doc)]
 
     def expand_model(self, spu_type):
         return wraps(spu_type)
@@ -145,9 +170,15 @@ class SPUTypeModelView(ModelView):
                 return -2 if obj.spu_cnt != 0 else 0
 
             def get_forbidden_msg_formats(self):
-                return {-2: "该SPU分类下已经存在SPU，所以不能删除!"}
+                return {-2: _("already contains SPU, so can't be removed!")}
 
-        return [_DeleteAction(u"删除")]
+        return [_DeleteAction(_("remove"))]
+
+    @property
+    def filters(self):
+        return [
+            filters.Contains("name", label=_('name'), name=_("contains")),
+        ]
 
 
 class SPUModelView(ModelView):
@@ -163,33 +194,54 @@ class SPUModelView(ModelView):
 
     @property
     def list_columns(self):
-        return ['id', 'name', 'msrp', 'vendor', 'spu_type', 'rating',
-                'sku_cnt']
-
+        def formatter(v, obj):
+            from genuine_ap.sku import sku_model_view
+            return (v, sku_model_view.url_for_list(spu_id=obj.id))
+        return [col_spec.ColSpec('id', _('id')),
+                col_spec.ColSpec('name', _('name')),
+                col_spec.ColSpec('msrp', _('msrp')),
+                col_spec.ColSpec('vendor', _('vendor')),
+                col_spec.ColSpec('spu_type', _('spu type')),
+                col_spec.ColSpec('rating', _('rating')),
+                col_spec.ColSpec('sku_cnt', _('sku no.'),
+                                 formatter=formatter,
+                                 widget=Link(target='_blank'))]
 
     @property
     def create_columns(self):
-        return ['name', 'code', 'msrp', 'vendor', 'spu_type',
-                'rating', col_spec.FileColSpec('pic_url_list', max_num=3,
-                                               doc=(u'图片大小要求为1280x720, '
-                                                    u'必须是jpg格式'))]
+        doc = _('size should be %(size)s, only jpeg allowable',
+                size='1280x720')
+        return [col_spec.InputColSpec('name', _('name')),
+                col_spec.InputColSpec('code', _('code')),
+                col_spec.InputColSpec('msrp', _('msrp')),
+                col_spec.InputColSpec('vendor', _('vendor')),
+                col_spec.InputColSpec('spu_type', _('spu type')),
+                col_spec.InputColSpec('rating', _('rating')),
+                col_spec.FileColSpec('pic_url_list', label=_('upload logos'),
+                                     max_num=3, doc=doc)]
 
     @property
     def edit_columns(self):
-        return ['name', 'code', 'msrp', 'vendor', 'spu_type',
-                'rating', col_spec.ColSpec('pic_url_list',
-                                           widget=Image(size_type=Image.SMALL)),
-                col_spec.FileColSpec('pic_url_list', max_num=3,
-                                     doc=(u'图片大小要求为1280x720, '
-                                          u'必须是jpg格式'))]
+        doc = _('size should be %(size)s, only jpeg allowable',
+                size='1280x720')
+        return [col_spec.InputColSpec('name', _('name')),
+                col_spec.InputColSpec('code', _('code')),
+                col_spec.InputColSpec('msrp', _('msrp')),
+                col_spec.InputColSpec('vendor', _('vendor')),
+                col_spec.InputColSpec('spu_type', _('spu type')),
+                col_spec.InputColSpec('rating', _('rating')),
+                col_spec.ColSpec('pic_url_list', label=_('logos'),
+                                 widget=Image(size_type=Image.SMALL)),
+                col_spec.FileColSpec('pic_url_list', label=_('upload logos'),
+                                     max_num=3, doc=doc)]
 
     @property
     def filters(self):
         return [
-            filters.Contains("name", label=u'产品名称', name=u"包含"),
-            filters.EqualTo("vendor", label=u'商家', name=u"是"),
-            filters.EqualTo("spu_type", label=u'SPU分类', name=u"是"),
-            filters.Between('msrp', label=u'价格', name=u'区间')
+            filters.Contains("name", label=_('name'), name=_("contains")),
+            filters.EqualTo("vendor", label=_('vendor'), name=_("is")),
+            filters.EqualTo("spu_type", label=_('spu type'), name=_("is")),
+            filters.Between('msrp', label=_('msrp'), name=_('between')),
         ]
 
     def get_actions(self, processed_objs=None):
@@ -198,13 +250,15 @@ class SPUModelView(ModelView):
                 return -2 if obj.sku_list else 0
 
             def get_forbidden_msg_formats(self):
-                return {-2: "该SPU下已经存在SKU，所以不能删除!"}
+                return {-2: _("already contains sku, can't be removed!")}
 
-        return [_DeleteAction(u"删除")]
+        return [_DeleteAction(_("remove"))]
 
     def on_record_created(self, spu):
-        spu.save_pic_url_list(spu.temp_pic_url_list)
+        if hasattr(spu, 'temp_pic_url_list'):
+            spu.save_pic_url_list(spu.temp_pic_url_list)
 
 
-spu_type_model_view = SPUTypeModelView(sa.SAModell(SPUType, db, u"SPU分类"))
-spu_model_view = SPUModelView(sa.SAModell(SPU, db, u"SPU"))
+spu_type_model_view = SPUTypeModelView(sa.SAModell(SPUType, db,
+                                                   lazy_gettext('SPU Type')))
+spu_model_view = SPUModelView(sa.SAModell(SPU, db, lazy_gettext("SPU")))

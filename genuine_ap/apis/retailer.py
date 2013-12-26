@@ -68,3 +68,7 @@ class RetailerWrapper(ModelWrapper):
                            filename='retailer_pics/' + str(self.id) +
                            '_icon.jpg')
         return ''
+
+    @property
+    def spu_cnt(self):
+        return len(self.spu_list)

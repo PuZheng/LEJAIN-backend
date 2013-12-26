@@ -1,10 +1,12 @@
 # -*- coding: UTF-8 -*-
 from flask import request, jsonify
 from wtforms import widgets
-from flask.ext.databrowser import ModelView, sa, col_spec
+from flask.ext.babel import lazy_gettext, gettext as _
+from flask.ext.databrowser import ModelView, sa, filters, extra_widgets
+from flask.ext.databrowser.col_spec import InputColSpec, ColSpec
 from . import retailer_ws
-from genuine_ap import apis
-from genuine_ap.models import Retailer
+from genuine_ap import apis, const
+from genuine_ap.models import Retailer, User
 from genuine_ap.database import db
 from flask.ext.databrowser.action import DeleteAction
 
@@ -44,22 +46,64 @@ class RetailerModelView(ModelView):
 
     @property
     def list_columns(self):
-        return ['id', 'name', 'rating', 'address', 'longitude', 'latitude',
-                'brief']
+        return [
+            ColSpec('id', label=_('id')),
+            ColSpec('name', label=_('name')),
+            ColSpec('rating', label=_('rating')),
+            ColSpec('address', label=_('address')),
+            ColSpec('longitude', label=_('longitude')),
+            ColSpec('latitude', label=_('latitude')),
+            ColSpec('brief', label=_('brief'),
+                    widget=extra_widgets.PlainText(max_len=24)),
+            ColSpec('create_time', label=_('create time'),
+                    formatter=lambda v, obj: v.strftime("%Y-%m-%d %H:%M")),
+            ColSpec('administrator', label=_('administrator')),
+        ]
 
     @property
     def create_columns(self):
-        return ['name', col_spec.InputColSpec('brief',
-                                              widget=widgets.TextArea()),
-                'rating', 'longitude', 'latitude', 'address', 'spu_list']
+        return [
+            InputColSpec('name', label=_('name')),
+            InputColSpec('brief', label=_('brief'), widget=widgets.TextArea(),
+                         render_kwargs={'html_params':
+                                        {'rows': 8, 'cols': 40}}),
+            InputColSpec('rating', label=_('rating')),
+            InputColSpec('longitude', label=_('longitude')),
+            InputColSpec('latitude', label=_('latitude')),
+            InputColSpec('address', label=_('address')),
+            InputColSpec('spu_list', label=_('spu list')),
+            InputColSpec('administrator', label=_('administrator'),
+                         filter_=lambda q: q.filter(User.group_id ==
+                                                    const.RETAILER_GROUP))
+        ]
 
     @property
     def edit_columns(self):
-        return ['name', col_spec.InputColSpec('brief',
-                                              widget=widgets.TextArea()),
-                'rating', 'longitude', 'latitude', 'address', 'spu_list']
+        return [
+            InputColSpec('name', label=_('name')),
+            InputColSpec('brief', label=_('brief'), widget=widgets.TextArea(),
+                         render_kwargs={'html_params':
+                                        {'rows': 8, 'cols': 40}}),
+            InputColSpec('rating', label=_('rating')),
+            InputColSpec('longitude', label=_('longitude')),
+            InputColSpec('latitude', label=_('latitude')),
+            InputColSpec('address', label=_('address')),
+            InputColSpec('spu_list', label=_('spu list')),
+            InputColSpec('administrator', label=_('administrator'),
+                         filter_=lambda q: q.filter(User.group_id ==
+                                                    const.RETAILER_GROUP))
+        ]
+
+    @property
+    def filters(self):
+        return [
+            filters.Contains("name", label=_('name'), name=_("contains")),
+            filters.Contains("address", label=_('address'),
+                             name=_("contains")),
+        ]
 
     def get_actions(self, processed_objs=None):
-        return [DeleteAction(u"删除")]
+        return [DeleteAction(_('remove'))]
 
-retailer_model_view = RetailerModelView(sa.SAModell(Retailer, db, u"商家"))
+retailer_model_view = RetailerModelView(sa.SAModell(Retailer, db,
+                                                    lazy_gettext('Retailer')))

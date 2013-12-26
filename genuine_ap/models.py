@@ -5,6 +5,8 @@ import shutil
 from flask import url_for
 from datetime import datetime
 
+from sqlalchemy_utils import types as sa_utils_types
+from flask.ext.babel import _
 from .database import db
 import posixpath
 from path import path
@@ -16,6 +18,13 @@ retailer_and_spu = db.Table('TB_RETAILER_AND_SPU',
                             db.Column('spu_id', db.Integer,
                                       db.ForeignKey('TB_SPU.id')))
 
+permission_and_group_table = db.Table("TB_PERMISSION_AND_GROUP",
+                                      db.Column("permission_name",
+                                                db.String(64),
+                                                db.ForeignKey(
+                                                    'TB_PERMISSION.name')),
+                                      db.Column("group_id", db.Integer,
+                                                db.ForeignKey("TB_GROUP.id")))
 
 class Tag(db.Model):
 
@@ -109,6 +118,17 @@ class Vendor(db.Model):
     name = db.Column(db.String(32), nullable=False)
     brief = db.Column(db.String(256))
     create_time = db.Column(db.DateTime, default=datetime.now)
+    email = db.Column(sa_utils_types.EmailType, nullable=False,
+                      doc=u'客服邮箱')
+    website = db.Column(sa_utils_types.URLType, nullable=False)
+    weibo = db.Column(sa_utils_types.URLType, doc=u'微博主页')
+    weixin_follow_link = db.Column(sa_utils_types.URLType,
+                                   doc=u'微信加关注链接')
+    administrator_id = db.Column(db.Integer, db.ForeignKey('TB_USER.id'),
+                                 nullable=False)
+    administrator = db.relationship('User',
+                                    backref=db.backref("vendor",
+                                                       uselist=False))
 
     def __unicode__(self):
         return self.name
@@ -135,12 +155,28 @@ class User(db.Model):
     __tablename__ = 'TB_USER'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(16), unique=True)
-    password = db.Column(db.String(128), doc=u'保存为明文密码的md5值')
+    name = db.Column(db.String(16), unique=True, nullable=False)
+    password = db.Column(db.String(128), doc=u'保存为明文密码的sha256值')
     group_id = db.Column(db.Integer, db.ForeignKey('TB_GROUP.id'),
                          nullable=False)
     group = db.relationship('Group')
     create_time = db.Column(db.DateTime, default=datetime.now)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Customer(db.Model):
+
+    __tablename__ = 'TB_CUSTOMER'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(16), unique=True, nullable=False)
+    password = db.Column(db.String(128), doc=u'保存为明文密码的sha256值')
+    create_time = db.Column(db.DateTime, default=datetime.now)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Group(db.Model):
@@ -150,6 +186,12 @@ class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(16), unique=True)
     default_url = db.Column(db.String(256), nullable=False)
+
+    def __unicode__(self):
+        return _(self.name)
+
+    def __repr__(self):
+        return '<Group: %s>' % self.name
 
 
 class Retailer(db.Model):
@@ -166,10 +208,15 @@ class Retailer(db.Model):
                                backref='retailer_list')
     address = db.Column(db.String(64), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
-
+    administrator_id = db.Column(db.Integer, db.ForeignKey('TB_USER.id'),
+                                 nullable=False)
+    administrator = db.relationship('User',
+                                    backref=db.backref("retailer",
+                                                       uselist=False))
 
     def __unicode__(self):
         return self.name
+
 
 class Favor(db.Model):
 
@@ -198,3 +245,14 @@ class SPUType(db.Model):
 
     def __unicode__(self):
         return self.name
+
+
+class Permission(db.Model):
+    __tablename__ = "TB_PERMISSION"
+    name = db.Column(db.String(64), primary_key=True)
+
+    def __unicode__(self):
+        return self.name
+
+    def __repr__(self):
+        return "<Permission: %s>" % self.name.encode("utf-8")

@@ -1,8 +1,10 @@
 # -*- coding: UTF-8 -*-
 from flask import jsonify, request, abort
+from sqlalchemy import and_
+from flask.ext.login import current_user
 
 from . import tag_ws
-from ..models import SKU
+from ..models import SKU, User, Favor
 from genuine_ap.apis import wraps
 
 
@@ -20,6 +22,11 @@ def tag(id):
         len(spu.get_nearby_recommendations(longitude, latitude))
     same_vendor_recommendations_cnt = \
         len(spu.get_same_vendor_recommendations(longitude, latitude))
+    favored = False
+    if current_user.is_authenticated():
+        q = Favor.query.filter(and_(Favor.spu_id == spu.id,
+                                    User.id == current_user.id))
+        favored = bool(q.first())
     return jsonify({
         'token': sku.token,
         'sku': {
@@ -33,6 +40,7 @@ def tag(id):
         'same_vendor_recommendations_cnt': same_vendor_recommendations_cnt,
         'comments_cnt': len(spu.comments),
         'favor_cnt': len(spu.favors),
+        'favored': favored
     })
 
 

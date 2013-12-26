@@ -1,16 +1,24 @@
 # -*- coding: UTF-8 -*-
-from flask import jsonify, request, render_template, redirect
+from flask import (jsonify, request, render_template, redirect, session,
+                   current_app)
 from flask.ext.wtf import Form
+from flask.ext.babel import _, lazy_gettext
 from wtforms import TextField, PasswordField
 from wtforms.validators import DataRequired
 from werkzeug.security import generate_password_hash
 from flask.ext.login import (current_user, login_user, login_required,
                              logout_user)
+from flask.ext.principal import Identity, AnonymousIdentity, identity_changed
+from flask.ext.databrowser import ModelView, filters, sa, extra_widgets
+from flask.ext.databrowser.col_spec import (InputColSpec, ColSpec,
+                                            InputHtmlSnippetColSpec)
+from flask.ext.databrowser.action import DeleteAction
 
 from genuine_ap.user import user_ws, user
 from genuine_ap.models import User, Group
 from genuine_ap import utils, apis, const
 from genuine_ap.exceptions import AuthenticateFailure
+from genuine_ap.database import db
 
 
 @user_ws.route('/register', methods=['POST'])
@@ -74,8 +82,8 @@ def login():
                 return render_template("user/login.html",
                                        error=u"登陆失败"), 403
 
-            #identity_changed.send(current_app._get_current_object(),
-                                  #identity=Identity(user.id))
+            identity_changed.send(current_app._get_current_object(),
+                                  identity=Identity(user.id))
             return redirect(request.args.get('next') or "/")
         return render_template("user/login.html",
                                error=u"请输入用户名及密码", form=form), 403
@@ -88,10 +96,79 @@ def logout():
         logout_user()
     except Exception:  # in case sesson expire
         pass
-    #for key in ('identity.name', 'identity.auth_type'):
-        #session.pop(key, None)
+    for key in ('identity.name', 'identity.auth_type'):
+        session.pop(key, None)
 
-    #identity_changed.send(current_app._get_current_object(),
-                          #identity=AnonymousIdentity())
+    identity_changed.send(current_app._get_current_object(),
+                          identity=AnonymousIdentity())
     next_url = request.args.get("next", "/")
     return redirect(next_url)
+
+
+class UserModelView(ModelView):
+
+    can_batchly_edit = False
+    list_template = 'user/list.html'
+
+    @property
+    def sortable_columns(self):
+        return ['id', 'create_time']
+
+    @property
+    def filters(self):
+        return [
+            filters.Contains('name', label=_('name'), name=_('contains')),
+            filters.EqualTo('group', label=_('group'), name=_('is'),
+                            hidden=True),
+        ]
+
+    @property
+    def list_columns(self):
+        return [
+            ColSpec('id', _('id')),
+            ColSpec('name', _('name')),
+            ColSpec('group', _('group')),
+            ColSpec('create_time', _('create time'), formatter=lambda v, obj:
+                    v.strftime('%Y-%m-%d %H:%M'))
+        ]
+
+    @property
+    def create_columns(self):
+        return [
+            InputColSpec('name', _('name')),
+            InputHtmlSnippetColSpec('password', label=_('password'),
+                                    template=
+                                    '__data_browser__/snippets/password.html',
+                                    render_kwargs={'encrypt_method':
+                                                   'pbkdf2:sha256'}),
+            InputColSpec('group', _('group'), filter_=lambda q:
+                         q.filter(Group.id != const.CUSTOMER_GROUP)),
+        ]
+
+    @property
+    def edit_columns(self):
+        return [
+            InputColSpec('id', _('id'), disabled=True),
+            InputColSpec('create time', _('create time'), disabled=True),
+            InputColSpec('name', _('name')),
+            InputHtmlSnippetColSpec('password', label=_('password'),
+                                    template=
+                                    '__data_browser__/snippets/password.html',
+                                    render_kwargs={'encrypt_method':
+                                                   'pbkdf2:sha256'}),
+            InputColSpec('group', _('group'), filter_=lambda q:
+                         q.filter(Group.id != const.CUSTOMER_GROUP)),
+        ]
+
+    def get_actions(self, processed_objs=None):
+        class _DeleteAction(DeleteAction):
+            def test_enabled(self, obj):
+                return -2 if obj.group_id == const.SUPER_ADMIN else 0
+
+            def get_forbidden_msg_formats(self):
+                return {-2: _("you can't remove administrator account!")}
+
+        return [_DeleteAction(_("remove"))]
+
+
+user_model_view = UserModelView(sa.SAModell(User, db, lazy_gettext('User')))
