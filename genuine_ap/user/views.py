@@ -129,7 +129,9 @@ class UserModelView(ModelView):
             ColSpec('name', _('name')),
             ColSpec('group', _('group')),
             ColSpec('create_time', _('create time'), formatter=lambda v, obj:
-                    v.strftime('%Y-%m-%d %H:%M'))
+                    v.strftime('%Y-%m-%d %H:%M')),
+            ColSpec('vendor', _('vendor')),
+            ColSpec('retailer', _('retailer'))
         ]
 
     @property
@@ -162,18 +164,26 @@ class UserModelView(ModelView):
 
     def get_actions(self, processed_objs=None):
         class _DeleteAction(DeleteAction):
-            def test_enabled(self, obj):
-                return -2 if obj.group_id == const.SUPER_ADMIN else 0
 
-            def get_forbidden_msg_formats(self):
-                return {-2: _("you can't remove administrator account!")}
+            def test(self, *objs):
+                if any(obj.group_id == const.SUPER_ADMIN for obj in objs):
+                    return 1
+                elif any(obj.retailer for obj in objs):
+                    return 2
+                elif any(obj.vendor for obj in objs):
+                    return 3
+                return super(_DeleteAction, self).test(*objs)
 
-        permission = None
-        if processed_objs:
-            needs = [self.remove_need(obj.id) for obj in processed_objs]
-            permission = Permission(*needs).union(
-                Permission(self.remove_all_need))
-        return [_DeleteAction(_("remove"), permission)]
+            @property
+            def forbidden_msg_formats(self):
+                ret = super(_DeleteAction, self).forbidden_msg_formats
+                ret[1] = _("you can't remove administrator account %%s!")
+                ret[2] = _('user %%s has retailer, remove the retailer '
+                           'at first!')
+                ret[3] = _('user %%s has vendor, remove the vendor as first1')
+                return ret
+
+        return [_DeleteAction(_("remove"))]
 
 
 user_model_view = UserModelView(sa.SAModell(User, db, lazy_gettext('User')))

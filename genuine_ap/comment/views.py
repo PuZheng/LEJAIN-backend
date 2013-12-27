@@ -14,7 +14,7 @@ from . import comment_ws
 def comment_list_view():
     spu = get_or_404(SPU, request.args['spu_id'])
     return jsonify({
-        'data': [c.as_dict() for c in spu.comments],
+        'data': [c.as_dict() for c in spu.comment_list],
     })
 
 

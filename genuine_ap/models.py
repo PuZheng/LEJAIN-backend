@@ -26,6 +26,7 @@ permission_and_group_table = db.Table("TB_PERMISSION_AND_GROUP",
                                       db.Column("group_id", db.Integer,
                                                 db.ForeignKey("TB_GROUP.id")))
 
+
 class Tag(db.Model):
 
     __tablename__ = 'TB_TAG'
@@ -143,7 +144,7 @@ class Comment(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now)
     spu_id = db.Column(db.Integer, db.ForeignKey('TB_SPU.id'),
                        nullable=False)
-    spu = db.relationship('SPU')
+    spu = db.relationship('SPU', backref='comment_list')
     user_id = db.Column(db.Integer, db.ForeignKey('TB_USER.id'),
                         nullable=False)
     user = db.relationship('User')
@@ -155,7 +156,7 @@ class User(db.Model):
     __tablename__ = 'TB_USER'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(16), unique=True, nullable=False)
+    name = db.Column(db.String(64), unique=True, nullable=False)
     password = db.Column(db.String(128), doc=u'保存为明文密码的sha256值')
     group_id = db.Column(db.Integer, db.ForeignKey('TB_GROUP.id'),
                          nullable=False)
@@ -225,10 +226,10 @@ class Favor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     spu_id = db.Column(db.Integer, db.ForeignKey('TB_SPU.id'),
                        nullable=False)
-    spu = db.relationship('SPU')
+    spu = db.relationship('SPU', backref='favor_list')
     user_id = db.Column(db.Integer, db.ForeignKey('TB_USER.id'),
                         nullable=False)
-    user = db.relationship('User')
+    user = db.relationship('User', backref='favor_list')
     create_time = db.Column(db.DateTime, default=datetime.now)
 
 

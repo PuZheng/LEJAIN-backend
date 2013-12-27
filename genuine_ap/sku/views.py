@@ -2,7 +2,8 @@
 from flask.ext.babel import gettext as _
 from flask.ext.databrowser import ModelView, sa, filters
 from flask.ext.databrowser.col_spec import ColSpec, InputColSpec
-from flask.ext.databrowser.action import DeleteAction
+from flask.ext.databrowser.action import (DeleteAction, ACTION_OK,
+                                          ACTION_IMPERMISSIBLE)
 from flask.ext.principal import Permission, RoleNeed
 from flask.ext.login import current_user
 from genuine_ap.database import db
@@ -89,12 +90,16 @@ class SKUModelView(ModelView):
         return ret
 
     def get_actions(self, processed_objs=None):
-        permission = None
-        if processed_objs:
-            needs = [spu_model_view.remove_need(obj.spu.id) for obj in
-                     processed_objs]
-            permission = Permission(*needs).union(
-                Permission(self.remove_all_need))
-        return [DeleteAction(_("remove"), permission=permission)]
+
+        class _DeleteAction(DeleteAction):
+
+            def test(self, *processed_objs):
+                needs = [spu_model_view.remove_need(obj.spu.id) for obj in
+                         processed_objs]
+                permission = Permission(*needs).union(
+                    Permission(spu_model_view.remove_all_need))
+                return ACTION_OK if permission.can() else ACTION_IMPERMISSIBLE
+
+        return [_DeleteAction(_("remove"))]
 
 sku_model_view = SKUModelView(sa.SAModell(SKU, db, u"SKU"))

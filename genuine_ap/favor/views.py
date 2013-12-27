@@ -31,7 +31,7 @@ def favars_view():
     longitude = request.args.get('longitude', type=float)
     latitude = request.args.get('latitude', type=float)
 
-    favors = wraps(Favor.query.filter(Favor.user == current_user).all())
+    favors = wraps(current_user.favor_list)
 
     ret = {}
     if favors:

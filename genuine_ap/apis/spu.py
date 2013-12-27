@@ -1,21 +1,15 @@
 # -*- coding: UTF-8 -*-
-import os
 import posixpath
 
 from flask import url_for
-from path import path
 from sqlalchemy import and_
 from .model_wrapper import ModelWrapper
-from genuine_ap.models import Comment, SPU, Favor
+from genuine_ap.models import Comment, SPU
 from .model_wrapper import wraps
 from . import retailer
 
 
 class SPUWrapper(ModelWrapper):
-
-    @property
-    def comments(self):
-        return Comment.query.filter(Comment.spu_id == self.id).all()
 
     def get_nearby_recommendations(self, longitude, latitude):
         nearby_retailers, distance_list = \
@@ -37,7 +31,7 @@ class SPUWrapper(ModelWrapper):
                 'spu': spu.as_dict(),
                 'distance': distance,
                 'rating': spu.rating,
-                'favor_cnt': len(spu.favors),
+                'favor_cnt': len(spu.favor_list),
             })
         return ret
 
@@ -59,7 +53,7 @@ class SPUWrapper(ModelWrapper):
                 'spu': spu.as_dict(),
                 'distance': spu_id_2_distance.get(spu.id),
                 'rating': spu.rating,
-                'favor_cnt': len(spu.favors),
+                'favor_cnt': len(spu.favor_list),
             })
 
         return sorted(ret, key=lambda obj: obj['distance'])
@@ -87,9 +81,6 @@ class SPUWrapper(ModelWrapper):
             'icon': self.icon,
         }
 
-    @property
-    def favors(self):
-        return Favor.query.filter(Favor.spu_id == self.id).all()
 
 class SPUTypeWrapper(ModelWrapper):
 
