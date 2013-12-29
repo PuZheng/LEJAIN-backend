@@ -100,12 +100,21 @@ class SPU(db.Model):
                                  str(self.vendor.id), str(self.id))
         from .utils import assert_dir
         assert_dir(spu_dir)
+        to_be_removed = []
+        haystack = [posixpath.basename(fname) for fname in value]
+        haystack.append('icon.jpg')
+        for fname in path(spu_dir).files():
+            if posixpath.basename(fname) not in haystack:
+                to_be_removed.append(fname)
+        print to_be_removed
         from .utils import resize_and_crop
         resize_and_crop(value[0], posixpath.join(spu_dir, 'icon.jpg'),
                         (96, 96), 'middle')
         for fname in value:
             shutil.copy(fname, spu_dir)
             os.remove(fname)
+        for fname in to_be_removed:
+            os.unlink(fname)
 
     def __unicode__(self):
         return self.name + u'(%s)' % self.code
