@@ -151,7 +151,7 @@ class UserModelView(ModelView):
     def edit_columns(self):
         return [
             InputColSpec('id', _('id'), disabled=True),
-            InputColSpec('create time', _('create time'), disabled=True),
+            InputColSpec('create_time', _('create time'), disabled=True),
             InputColSpec('name', _('name')),
             InputHtmlSnippetColSpec('password', label=_('password'),
                                     template=
