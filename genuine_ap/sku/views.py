@@ -16,8 +16,9 @@ from genuine_ap.spu import spu_model_view
 class SKUModelView(ModelView):
 
     def try_edit(self, objs=None):
-        for obj in objs:
-            Permission(spu_model_view.edit_need(obj.spu.id)).test()
+        if not Permission(self.edit_all_need).can():
+            for obj in objs:
+                Permission(spu_model_view.edit_need(obj.spu.id)).test()
 
     @property
     def can_batchly_edit(self):
@@ -72,9 +73,9 @@ class SKUModelView(ModelView):
 
     @property
     def batch_edit_columns(self):
-        return [ColSpec('spu', _('spu')),
-                ColSpec('manufacture_date', _('manufacture date')),
-                ColSpec('expire_date', _('expire date'))]
+        return [InputColSpec('spu', _('spu')),
+                InputColSpec('manufacture_date', _('manufacture date')),
+                InputColSpec('expire_date', _('expire date'))]
 
     @property
     def filters(self):

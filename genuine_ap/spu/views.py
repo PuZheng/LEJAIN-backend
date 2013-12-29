@@ -148,12 +148,12 @@ class SPUTypeModelView(ModelView):
 
     @property
     def edit_columns(self):
-        save_path = lambda obj: posixpath.join('static/spu_type_pics',
-                                               str(obj.id) + '.jpg')
+        save_path = lambda obj, fname: posixpath.join('static/spu_type_pics',
+                                                      str(obj.id) + '.jpg')
         doc = _('size should be %(size)s, only jpeg allowable', size='256x256')
         return [
             col_spec.InputColSpec('id', label=_('id'), disabled=True),
-            col_spec.InputColSpec('create time', _('create time'),
+            col_spec.InputColSpec('create_time', _('create time'),
                                   disabled=True),
             col_spec.InputColSpec('name', label=_('name')),
             col_spec.InputColSpec('weight', label=_('weight')),
