@@ -299,7 +299,7 @@ msgstr "清除"
 #: action.py:87
 #, fuzzy, python-format
 msgid "no permission to apply %(action)s upon %(model_label)s [%%s]"
-msgstr "%(model_name)s[%%s]不能被%(action)s"
+msgstr "%(model_label)s[%%s]不能被%(action)s"
 
 #: action.py:110 model_view.py:81 model_view.py:82
 msgid "remove"
@@ -351,29 +351,29 @@ msgstr "用户%(user)s执行了%(action)s操作"
 #: model_view.py:257 model_view.py:458
 #, fuzzy, python-format
 msgid "%(model_label)s %(model)s was created successfully"
-msgstr "成功创建%(model_name)s-(%(model)s)!"
+msgstr "成功创建%(model_label)s-(%(model)s)!"
 
 #: model_view.py:267 model_view.py:278
 #, fuzzy, python-format
 msgid ""
 "you are viewing %(model_label)s-[%(obj)s], since you have only read "
 "permission"
-msgstr "您正在查看%(model_name)s-%(obj)s, 因为您只有只读权限"
+msgstr "您正在查看%(model_label)s-%(obj)s, 因为您只有只读权限"
 
 #: model_view.py:271
 #, fuzzy, python-format
 msgid "edit %(model_label)s-[%(objs)s]"
-msgstr "正在编辑%(model_name)s-%(objs)s"
+msgstr "正在编辑%(model_label)s-%(objs)s"
 
 #: model_view.py:282
 #, fuzzy, python-format
 msgid "edit %(model_label)s-[%(obj)s]"
-msgstr "正在编辑%(model_name)s-%(obj)s"
+msgstr "正在编辑%(model_label)s-%(obj)s"
 
 #: model_view.py:286
 #, fuzzy, python-format
 msgid "create %(model_label)s"
-msgstr "正在创建%(model_name)s"
+msgstr "正在创建%(model_label)s"
 
 #: model_view.py:459 templates/__data_browser__/macro.html:232
 msgid "add another"
@@ -396,12 +396,12 @@ msgstr "更新"
 #: model_view.py:1289
 #, fuzzy, python-format
 msgid "%(model_label)s %(obj)s was updated and saved"
-msgstr "%(model_name)s(%(obj)s)已经被更新并保存"
+msgstr "%(model_label)s(%(obj)s)已经被更新并保存"
 
 #: model_view.py:1298
 #, fuzzy, python-format
 msgid "Failed to update %(model_label)s %(obj)s due to %(error)s"
-msgstr "更新%(model_name)s失败，原因是%(error)s"
+msgstr "更新%(model_label)s失败，原因是%(error)s"
 
 #: convert_utils/sa.py:82
 msgid "This field is required."
@@ -753,7 +753,7 @@ msgstr "清除"
 #: action.py:87
 #, fuzzy, python-format
 msgid "no permission to apply %(action)s upon %(model_label)s [%%s]"
-msgstr "%(model_name)s[%%s]不能被%(action)s"
+msgstr "%(model_label)s[%%s]不能被%(action)s"
 
 #: action.py:110 model_view.py:81 model_view.py:82
 msgid "remove"
@@ -805,29 +805,29 @@ msgstr "用户%(user)s执行了%(action)s操作"
 #: model_view.py:257 model_view.py:458
 #, fuzzy, python-format
 msgid "%(model_label)s %(model)s was created successfully"
-msgstr "成功创建%(model_name)s-(%(model)s)!"
+msgstr "成功创建%(model_label)s-(%(model)s)!"
 
 #: model_view.py:267 model_view.py:278
 #, fuzzy, python-format
 msgid ""
 "you are viewing %(model_label)s-[%(obj)s], since you have only read "
 "permission"
-msgstr "您正在查看%(model_name)s-%(obj)s, 因为您只有只读权限"
+msgstr "您正在查看%(model_label)s-%(obj)s, 因为您只有只读权限"
 
 #: model_view.py:271
 #, fuzzy, python-format
 msgid "edit %(model_label)s-[%(objs)s]"
-msgstr "正在编辑%(model_name)s-%(objs)s"
+msgstr "正在编辑%(model_label)s-%(objs)s"
 
 #: model_view.py:282
 #, fuzzy, python-format
 msgid "edit %(model_label)s-[%(obj)s]"
-msgstr "正在编辑%(model_name)s-%(obj)s"
+msgstr "正在编辑%(model_label)s-%(obj)s"
 
 #: model_view.py:286
 #, fuzzy, python-format
 msgid "create %(model_label)s"
-msgstr "正在创建%(model_name)s"
+msgstr "正在创建%(model_label)s"
 
 #: model_view.py:459 templates/__data_browser__/macro.html:232
 msgid "add another"
@@ -850,12 +850,12 @@ msgstr "更新"
 #: model_view.py:1289
 #, fuzzy, python-format
 msgid "%(model_label)s %(obj)s was updated and saved"
-msgstr "%(model_name)s(%(obj)s)已经被更新并保存"
+msgstr "%(model_label)s(%(obj)s)已经被更新并保存"
 
 #: model_view.py:1298
 #, fuzzy, python-format
 msgid "Failed to update %(model_label)s %(obj)s due to %(error)s"
-msgstr "更新%(model_name)s失败，原因是%(error)s"
+msgstr "更新%(model_label)s失败，原因是%(error)s"
 
 #: convert_utils/sa.py:82
 msgid "This field is required."
