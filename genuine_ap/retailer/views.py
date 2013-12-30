@@ -69,7 +69,8 @@ class RetailerModelView(ModelView):
             InputColSpec('longitude', label=_('longitude')),
             InputColSpec('latitude', label=_('latitude')),
             InputColSpec('address', label=_('address')),
-            InputColSpec('spu_list', label=_('spu list')),
+            InputColSpec('spu_list', label=_('spu list'),
+                         doc=_('you could type to search spu!')),
             InputColSpec('administrator', label=_('administrator'),
                          filter_=lambda q: q.filter(User.group_id ==
                                                     const.RETAILER_GROUP))
@@ -86,7 +87,8 @@ class RetailerModelView(ModelView):
             InputColSpec('longitude', label=_('longitude')),
             InputColSpec('latitude', label=_('latitude')),
             InputColSpec('address', label=_('address')),
-            InputColSpec('spu_list', label=_('spu list')),
+            InputColSpec('spu_list', label=_('spu list'),
+                         doc=_('you could type to search spu!')),
             InputColSpec('administrator', label=_('administrator'),
                          filter_=lambda q: q.filter(User.group_id ==
                                                     const.RETAILER_GROUP))
