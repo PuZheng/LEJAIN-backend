@@ -42,3 +42,12 @@ def tag(id):
         'favor_cnt': len(spu.favor_list),
         'favored': favored
     })
+
+
+@tag_ws.route("/tag-denounce/<id>", methods=["POST"])
+def denounce(id):
+    #TODO 这是个伪实现
+    longitude = request.args.get('longitude', type=float)
+    latitude = request.args.get('latitude', type=float)
+    reason = request.args.get("reason")
+    return ""
