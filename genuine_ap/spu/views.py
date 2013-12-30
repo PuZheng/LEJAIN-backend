@@ -130,7 +130,7 @@ class SPUTypeModelView(ModelView):
         return [col_spec.ColSpec('id', label=_('id')),
                 col_spec.ColSpec('name', label=_('name')),
                 col_spec.ColSpec('weight', label=_('weight')),
-                col_spec.ColSpec('create_time', label=u'create time',
+                col_spec.ColSpec('create_time', label=_('create time'),
                                  formatter=lambda v, obj:
                                  v.strftime('%Y-%m-%d %H:%M')),
                 col_spec.ColSpec('spu_cnt', label=_('spu no.'),
@@ -216,7 +216,10 @@ class SPUModelView(ModelView):
             col_spec.ColSpec('msrp', _('msrp')),
             col_spec.ColSpec('vendor', _('vendor')),
             col_spec.ColSpec('spu_type', _('spu type')),
-            col_spec.ColSpec('rating', _('rating'))
+            col_spec.ColSpec('rating', _('rating')),
+            col_spec.ColSpec('create_time', _('create time'),
+                             formatter=lambda v, obj:
+                             v.strftime('%Y-%m-%d %H:%M'))
         ]
         if not Permission(RoleNeed(const.RETAILER_GROUP)).can():
             ret.append(col_spec.ColSpec('sku_cnt', _('sku no.'),

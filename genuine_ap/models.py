@@ -70,6 +70,7 @@ class SPU(db.Model):
                             nullable=False)
     spu_type = db.relationship('SPUType', backref="spu_list")
     rating = db.Column(db.Float, nullable=False)
+    create_time = db.Column(db.DateTime, default=datetime.now)
 
     @property
     def pic_url_list(self):

@@ -20,4 +20,4 @@ speaklater==1.3
 -e git+https://github.com/xiechao06/nav-bar.git@8753da67c907c878bce735c0ccea67bcff34c2da#egg=nav_bar-dev
 -e git+https://github.com/xiechao06/pyfeature.git@6e974306264a07c7dc3d01813e340e7a58dd0f6b#egg=pyfeature-dev
 -e git+https://github.com/PuZheng/flask-upload2.git@0e7217da3df1373e312272b4268098e6df9ca964#egg=flask_upload2-dev
--e git+https://github.com/xiechao06/Flask-DataBrowser.git@b5c93bc0593ef45a0125d5821a546cca0df1a043#egg=Flask_DataBrowser-dev
+-e git+https://github.com/xiechao06/Flask-DataBrowser.git@366b5413f76c6e6c9867d835acd362b4895023d7#egg=Flask_DataBrowser-dev

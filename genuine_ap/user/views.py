@@ -140,7 +140,7 @@ class UserModelView(ModelView):
             InputColSpec('name', _('name')),
             InputHtmlSnippetColSpec('password', label=_('password'),
                                     template=
-                                    '__data_browser__/snippets/password.html',
+                                    'data_browser__/snippets/password.html',
                                     render_kwargs={'encrypt_method':
                                                    'pbkdf2:sha256'}),
             InputColSpec('group', _('group'), filter_=lambda q:
@@ -155,7 +155,7 @@ class UserModelView(ModelView):
             InputColSpec('name', _('name')),
             InputHtmlSnippetColSpec('password', label=_('password'),
                                     template=
-                                    '__data_browser__/snippets/password.html',
+                                    'data_browser__/snippets/password.html',
                                     render_kwargs={'encrypt_method':
                                                    'pbkdf2:sha256'}),
             InputColSpec('group', _('group'), filter_=lambda q:
