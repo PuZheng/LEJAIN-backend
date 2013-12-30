@@ -232,9 +232,12 @@ class SPUModelView(ModelView):
         doc = _('size should be %(size)s, only jpeg allowable',
                 size='1280x720')
         vendor_col_filter = None
-        if Permission(RoleNeed(const.VENDOR_GROUP)).can():
-            vendor_col_filter = lambda q: q.filter(Vendor.id ==
-                                                   current_user.vendor.id)
+
+        def vendor_col_filter(q):
+            if Permission(RoleNeed(const.VENDOR_GROUP)).can():
+                return q.filter(Vendor.id == current_user.vendor.id)
+            else:
+                return q
         return [col_spec.InputColSpec('name', _('name')),
                 col_spec.InputColSpec('code', _('code')),
                 col_spec.InputColSpec('msrp', _('msrp')),
@@ -249,18 +252,23 @@ class SPUModelView(ModelView):
     def edit_columns(self):
         doc = _('size should be %(size)s, only jpeg allowable',
                 size='1280x720')
+        def vendor_col_filter(q):
+            if Permission(RoleNeed(const.VENDOR_GROUP)).can():
+                return q.filter(Vendor.id == current_user.vendor.id)
+            else:
+                return q
         ret = [
             col_spec.InputColSpec('name', _('name')),
             col_spec.InputColSpec('code', _('code')),
             col_spec.InputColSpec('msrp', _('msrp')),
             col_spec.InputColSpec('spu_type', _('spu type')),
             col_spec.InputColSpec('rating', _('rating')),
+            col_spec.InputColSpec('vendor', _('vendor'),
+                                    filter_=vendor_col_filter),
             col_spec.ColSpec('pic_url_list', label=_('logos'),
                              widget=Image(size_type=Image.SMALL)),
             col_spec.FileColSpec('pic_url_list', label=_('upload logos'),
                                  max_num=3, doc=doc)]
-        if Permission(RoleNeed(const.SUPER_ADMIN)).can():
-            ret.append(col_spec.InputColSpec('vendor', _('vendor')))
         return ret
 
     @property

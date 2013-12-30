@@ -47,10 +47,11 @@ class SKUModelView(ModelView):
 
     @property
     def create_columns(self):
-        filter_ = None
-        if Permission(RoleNeed(const.VENDOR_GROUP)).can():
-            filter_ = lambda q: q.filter(Vendor.id ==
-                                         current_user.vendor.id).join(Vendor)
+        def filter_(q):
+            if Permission(RoleNeed(const.VENDOR_GROUP)).can():
+                return q.filter(Vendor.id ==
+                                current_user.vendor.id).join(Vendor)
+            return q
         return [
             InputColSpec('spu', _('spu'), filter_=filter_),
             InputColSpec('manufacture_date', _('manufacture date')),
@@ -60,10 +61,11 @@ class SKUModelView(ModelView):
 
     @property
     def edit_columns(self):
-        filter_ = None
-        if Permission(RoleNeed(const.VENDOR_GROUP)).can():
-            filter_ = lambda q: q.filter(Vendor.id ==
-                                         current_user.vendor.id).join(Vendor)
+        def filter_(q):
+            if Permission(RoleNeed(const.VENDOR_GROUP)).can():
+                return q.filter(Vendor.id ==
+                                current_user.vendor.id).join(Vendor)
+            return q
         return [
             InputColSpec('spu', _('spu'), filter_=filter_),
             InputColSpec('manufacture_date', _('manufacture date')),
