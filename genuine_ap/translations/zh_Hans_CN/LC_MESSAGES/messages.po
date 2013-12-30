@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-27 17:49+0800\n"
+"POT-Creation-Date: 2013-12-30 17:29+0800\n"
 "PO-Revision-Date: 2013-12-23 14:57+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: zh_Hans_CN <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr "创建%(label)s"
 msgid "edit %(label)s"
 msgstr "编辑%(label)s"
 
-#: basemain.py:89 basemain.py:118 basemain.py:135 spu/views.py:305
+#: basemain.py:89 basemain.py:118 basemain.py:135
 msgid "SPU"
 msgstr "SPU"
 
@@ -40,7 +40,7 @@ msgstr "SPU"
 msgid "SPU related"
 msgstr "spu相关"
 
-#: basemain.py:95 basemain.py:124 spu/views.py:304
+#: basemain.py:95 basemain.py:124
 msgid "SPU Type"
 msgstr "SPU分类"
 
@@ -52,7 +52,7 @@ msgstr "SKU"
 msgid "Vendor"
 msgstr "生产厂家"
 
-#: basemain.py:107 retailer/views.py:107 user/__init__.py:28
+#: basemain.py:107 user/__init__.py:28
 msgid "Retailer"
 msgstr "商家"
 
@@ -68,93 +68,97 @@ msgstr "厂家信息"
 msgid "Retailer Info"
 msgstr "商家信息"
 
-#: retailer/views.py:48 sku/views.py:39 spu/views.py:130 spu/views.py:155
+#: retailer/views.py:48 sku/views.py:40 spu/views.py:130 spu/views.py:155
 #: spu/views.py:214 user/views.py:128 user/views.py:153 vendor/views.py:25
 msgid "id"
 msgstr "编号"
 
-#: retailer/views.py:49 retailer/views.py:64 retailer/views.py:81
-#: retailer/views.py:98 spu/views.py:131 spu/views.py:145 spu/views.py:158
-#: spu/views.py:186 spu/views.py:215 spu/views.py:235 spu/views.py:249
-#: spu/views.py:265 user/views.py:120 user/views.py:129 user/views.py:140
+#: retailer/views.py:49 retailer/views.py:64 retailer/views.py:82
+#: retailer/views.py:100 spu/views.py:131 spu/views.py:145 spu/views.py:158
+#: spu/views.py:186 spu/views.py:215 spu/views.py:241 spu/views.py:261
+#: spu/views.py:277 user/views.py:120 user/views.py:129 user/views.py:140
 #: user/views.py:155 vendor/views.py:26 vendor/views.py:42 vendor/views.py:59
 #: vendor/views.py:94
 msgid "name"
 msgstr "名称"
 
-#: retailer/views.py:50 retailer/views.py:68 retailer/views.py:85
-#: spu/views.py:219 spu/views.py:241 spu/views.py:253
+#: retailer/views.py:50 retailer/views.py:68 retailer/views.py:86
+#: spu/views.py:219 spu/views.py:247 spu/views.py:265
 msgid "rating"
 msgstr "评分"
 
-#: retailer/views.py:51 retailer/views.py:71 retailer/views.py:88
-#: retailer/views.py:99
+#: retailer/views.py:51 retailer/views.py:71 retailer/views.py:89
+#: retailer/views.py:101
 msgid "address"
 msgstr "地址"
 
-#: retailer/views.py:52 retailer/views.py:69 retailer/views.py:86
+#: retailer/views.py:52 retailer/views.py:69 retailer/views.py:87
 msgid "longitude"
 msgstr "经度"
 
-#: retailer/views.py:53 retailer/views.py:70 retailer/views.py:87
+#: retailer/views.py:53 retailer/views.py:70 retailer/views.py:88
 msgid "latitude"
 msgstr "纬度"
 
-#: retailer/views.py:54 retailer/views.py:65 retailer/views.py:82
+#: retailer/views.py:54 retailer/views.py:65 retailer/views.py:83
 #: vendor/views.py:30 vendor/views.py:47 vendor/views.py:64
 msgid "brief"
 msgstr "简介"
 
-#: retailer/views.py:56 sku/views.py:45 spu/views.py:156 user/views.py:131
-#: user/views.py:154 vendor/views.py:27
+#: retailer/views.py:56 sku/views.py:46 spu/views.py:133 spu/views.py:156
+#: spu/views.py:220 user/views.py:131 user/views.py:154 vendor/views.py:27
 msgid "create time"
 msgstr "创建时间"
 
-#: retailer/views.py:58 retailer/views.py:73 retailer/views.py:90
+#: retailer/views.py:58 retailer/views.py:74 retailer/views.py:92
 #: vendor/views.py:36 vendor/views.py:52 vendor/views.py:69
 msgid "administrator"
 msgstr "管理员"
 
-#: retailer/views.py:72 retailer/views.py:89
+#: retailer/views.py:72 retailer/views.py:90
 msgid "spu list"
 msgstr "spu列表"
 
-#: retailer/views.py:98 retailer/views.py:100 sku/views.py:83 spu/views.py:186
-#: spu/views.py:265 user/views.py:120 vendor/views.py:94
+#: retailer/views.py:73 retailer/views.py:91
+msgid "you could type to search spu!"
+msgstr "您可以输入产品名称来进行搜索"
+
+#: retailer/views.py:100 retailer/views.py:102 sku/views.py:86 spu/views.py:186
+#: spu/views.py:277 user/views.py:120 vendor/views.py:94
 msgid "contains"
 msgstr "包含"
 
-#: retailer/views.py:104 sku/views.py:103 spu/views.py:181 spu/views.py:296
+#: retailer/views.py:106 sku/views.py:106 spu/views.py:181 spu/views.py:308
 #: user/views.py:186 vendor/views.py:89
 msgid "remove"
 msgstr "删除"
 
-#: sku/views.py:40 sku/views.py:54 sku/views.py:67 sku/views.py:75
+#: sku/views.py:41 sku/views.py:56 sku/views.py:70 sku/views.py:78
 msgid "spu"
 msgstr "spu"
 
-#: sku/views.py:41 sku/views.py:88 spu/views.py:217 spu/views.py:238
-#: spu/views.py:259 spu/views.py:270 user/views.py:133 vendor/views.py:102
+#: sku/views.py:42 sku/views.py:91 spu/views.py:217 spu/views.py:244
+#: spu/views.py:266 spu/views.py:282 user/views.py:133
 msgid "vendor"
 msgstr "生产厂家"
 
-#: sku/views.py:42 sku/views.py:55 sku/views.py:68 sku/views.py:76
+#: sku/views.py:43 sku/views.py:57 sku/views.py:71 sku/views.py:79
 msgid "manufacture date"
 msgstr "生产日期"
 
-#: sku/views.py:43 sku/views.py:56 sku/views.py:69 sku/views.py:77
+#: sku/views.py:44 sku/views.py:58 sku/views.py:72 sku/views.py:80
 msgid "expire date"
 msgstr "保质期"
 
-#: sku/views.py:44 sku/views.py:57 sku/views.py:70 sku/views.py:85
+#: sku/views.py:45 sku/views.py:59 sku/views.py:73 sku/views.py:88
 msgid "token"
 msgstr "标签"
 
-#: sku/views.py:82
+#: sku/views.py:85
 msgid "spu name"
 msgstr "spu名称"
 
-#: sku/views.py:85 sku/views.py:89 spu/views.py:266 spu/views.py:271
+#: sku/views.py:88 sku/views.py:92 spu/views.py:278 spu/views.py:283
 #: user/views.py:121
 msgid "is"
 msgstr "是"
@@ -171,7 +175,7 @@ msgstr "spu数量"
 msgid "logo"
 msgstr "logo"
 
-#: spu/views.py:144 spu/views.py:153 spu/views.py:229 spu/views.py:247
+#: spu/views.py:144 spu/views.py:153 spu/views.py:232 spu/views.py:253
 #, python-format
 msgid "size should be %(size)s, only jpeg allowable"
 msgstr "大小应当是%(size)s, 只接受jpeg格式"
@@ -181,46 +185,50 @@ msgid "upload logo"
 msgstr "上传logo"
 
 #: spu/views.py:178
+#, python-format
 msgid "%%s already contains SPU, so can't be removed!"
 msgstr "已经包含SPU, 所以不能删除!"
 
-#: spu/views.py:216 spu/views.py:237 spu/views.py:251 spu/views.py:267
+#: spu/views.py:216 spu/views.py:243 spu/views.py:263 spu/views.py:279
 msgid "msrp"
 msgstr "建议零售价"
 
-#: spu/views.py:218 spu/views.py:240 spu/views.py:252 spu/views.py:266
+#: spu/views.py:218 spu/views.py:246 spu/views.py:264 spu/views.py:278
 msgid "spu type"
 msgstr "spu分类"
 
-#: spu/views.py:222
+#: spu/views.py:225
 msgid "sku no."
 msgstr "sku数量"
 
-#: spu/views.py:236 spu/views.py:250
+#: spu/views.py:242 spu/views.py:262
 msgid "code"
 msgstr "编码"
 
-#: spu/views.py:242 spu/views.py:256
+#: spu/views.py:248 spu/views.py:270
 msgid "upload logos"
 msgstr "上传logos"
 
-#: spu/views.py:254
+#: spu/views.py:268
 msgid "logos"
 msgstr "logos"
 
-#: spu/views.py:267
+#: spu/views.py:279
 msgid "between"
 msgstr "区间是"
 
-#: spu/views.py:290
+#: spu/views.py:302
+#, python-format
 msgid "spu %%s already contains sku, can't be removed!"
 msgstr "SPU(%%s)已经包含SKU, 所以不能删除!"
 
-#: spu/views.py:291
+#: spu/views.py:303
+#, python-format
 msgid "spu %%s already has comments, can't be removed!"
 msgstr "SPU(%%s)已经包含SKU, 所以不能删除!"
 
-#: spu/views.py:292
+#: spu/views.py:304
+#, python-format
 msgid "spu %%s already has been favored, can't beremoved"
 msgstr "SPU(%%s)已经包含SKU, 所以不能删除!"
 
@@ -241,6 +249,7 @@ msgid "password"
 msgstr "密码"
 
 #: user/views.py:180
+#, python-format
 msgid "you can't remove administrator account %%s!"
 msgstr "您不能删除管理员帐号!"
 
@@ -253,10 +262,6 @@ msgstr "用户%%s有相关商家，请先删除商家！"
 #, python-format
 msgid "user %%s has vendor, remove the vendor as first1"
 msgstr "用户%%s有相关生产厂家， 请先删除生产厂家！"
-
-#: user/views.py:189
-msgid "User"
-msgstr "用户"
 
 #: vendor/views.py:28 vendor/views.py:43 vendor/views.py:60
 msgid "email"
@@ -275,8 +280,11 @@ msgid "weixin follow link"
 msgstr "微信加关注链接"
 
 #: vendor/views.py:85
+#, python-format
 msgid "vendor %%s already contains SPU, can't be removed!"
 msgstr "厂商(%%s)已经包含SPU, 所以不能删除!"
+
+
 
 #: templates/flask_upload2__/uploader.html:8
 msgid "Select image"
