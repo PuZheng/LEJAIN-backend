@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-30 17:29+0800\n"
+"POT-Creation-Date: 2013-12-30 17:46+0800\n"
 "PO-Revision-Date: 2013-12-23 14:57+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: zh_Hans_CN <LL@li.org>\n"
@@ -73,8 +73,8 @@ msgstr "商家信息"
 msgid "id"
 msgstr "编号"
 
-#: retailer/views.py:49 retailer/views.py:64 retailer/views.py:82
-#: retailer/views.py:100 spu/views.py:131 spu/views.py:145 spu/views.py:158
+#: retailer/views.py:49 retailer/views.py:64 retailer/views.py:85
+#: retailer/views.py:106 spu/views.py:131 spu/views.py:145 spu/views.py:158
 #: spu/views.py:186 spu/views.py:215 spu/views.py:241 spu/views.py:261
 #: spu/views.py:277 user/views.py:120 user/views.py:129 user/views.py:140
 #: user/views.py:155 vendor/views.py:26 vendor/views.py:42 vendor/views.py:59
@@ -82,25 +82,25 @@ msgstr "编号"
 msgid "name"
 msgstr "名称"
 
-#: retailer/views.py:50 retailer/views.py:68 retailer/views.py:86
+#: retailer/views.py:50 retailer/views.py:68 retailer/views.py:89
 #: spu/views.py:219 spu/views.py:247 spu/views.py:265
 msgid "rating"
 msgstr "评分"
 
-#: retailer/views.py:51 retailer/views.py:71 retailer/views.py:89
-#: retailer/views.py:101
+#: retailer/views.py:51 retailer/views.py:71 retailer/views.py:92
+#: retailer/views.py:107
 msgid "address"
 msgstr "地址"
 
-#: retailer/views.py:52 retailer/views.py:69 retailer/views.py:87
+#: retailer/views.py:52 retailer/views.py:69 retailer/views.py:90
 msgid "longitude"
 msgstr "经度"
 
-#: retailer/views.py:53 retailer/views.py:70 retailer/views.py:88
+#: retailer/views.py:53 retailer/views.py:70 retailer/views.py:91
 msgid "latitude"
 msgstr "纬度"
 
-#: retailer/views.py:54 retailer/views.py:65 retailer/views.py:83
+#: retailer/views.py:54 retailer/views.py:65 retailer/views.py:86
 #: vendor/views.py:30 vendor/views.py:47 vendor/views.py:64
 msgid "brief"
 msgstr "简介"
@@ -110,25 +110,28 @@ msgstr "简介"
 msgid "create time"
 msgstr "创建时间"
 
-#: retailer/views.py:58 retailer/views.py:74 retailer/views.py:92
+#: retailer/views.py:58 retailer/views.py:77 retailer/views.py:98
 #: vendor/views.py:36 vendor/views.py:52 vendor/views.py:69
 msgid "administrator"
 msgstr "管理员"
 
-#: retailer/views.py:72 retailer/views.py:90
+#: retailer/views.py:72 retailer/views.py:93
 msgid "spu list"
 msgstr "spu列表"
 
-#: retailer/views.py:73 retailer/views.py:91
-msgid "you could type to search spu!"
-msgstr "您可以输入产品名称来进行搜索"
+#: retailer/views.py:73 retailer/views.py:94
+msgid ""
+"you could type to search spu! for Chinese character, you could just type "
+"the first letter of each character to search, for example, \"mt\" for "
+"\"茅台\""
+msgstr "您可以输入来搜索spu，对于汉字，可以输入每个字的拼音首字母进行搜索，例如'mt'对应'茅台'"
 
-#: retailer/views.py:100 retailer/views.py:102 sku/views.py:86 spu/views.py:186
+#: retailer/views.py:106 retailer/views.py:108 sku/views.py:86 spu/views.py:186
 #: spu/views.py:277 user/views.py:120 vendor/views.py:94
 msgid "contains"
 msgstr "包含"
 
-#: retailer/views.py:106 sku/views.py:106 spu/views.py:181 spu/views.py:308
+#: retailer/views.py:112 sku/views.py:106 spu/views.py:181 spu/views.py:308
 #: user/views.py:186 vendor/views.py:89
 msgid "remove"
 msgstr "删除"
@@ -283,7 +286,6 @@ msgstr "微信加关注链接"
 #, python-format
 msgid "vendor %%s already contains SPU, can't be removed!"
 msgstr "厂商(%%s)已经包含SPU, 所以不能删除!"
-
 
 
 #: templates/flask_upload2__/uploader.html:8
