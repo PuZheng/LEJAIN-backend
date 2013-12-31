@@ -1,9 +1,9 @@
 # -*- coding: UTF-8 -*-
+from sqlalchemy import and_
 from flask.ext.babel import lazy_gettext, gettext as _
 from flask.ext.databrowser import ModelView, sa, extra_widgets, filters
 from flask.ext.databrowser.col_spec import ColSpec, InputColSpec
 from flask.ext.databrowser.extra_widgets import Link
-from flask.ext.principal import Permission
 from genuine_ap.database import db
 from genuine_ap.models import Vendor, User
 from genuine_ap.apis import wraps
@@ -24,7 +24,8 @@ class VendorModelView(ModelView):
         return [
             ColSpec('id', _('id')),
             ColSpec('name', _('name')),
-            ColSpec('create_time', _('create time')),
+            ColSpec('create_time', _('create time'), formatter=lambda v, obj:
+                    v.strftime('%Y-%m-%d')),
             ColSpec('email', _('email')),
             ColSpec('website', _('website')),
             ColSpec('brief', label=_('brief'),
@@ -50,26 +51,31 @@ class VendorModelView(ModelView):
                              'html_params': dict(rows=8, cols=40)
                          }),
             InputColSpec('administrator', label=_('administrator'),
-                         filter_=lambda q: q.filter(User.group_id ==
-                                                    const.VENDOR_GROUP))
+                         filter_=lambda q: q.filter(and_(User.group_id ==
+                                                         const.VENDOR_GROUP,
+                                                         User.vendor ==
+                                                         None)))
         ]
 
     @property
     def edit_columns(self):
-        return [InputColSpec('name', _('name')),
-                InputColSpec('email', _('email')),
-                InputColSpec('website', _('website')),
-                InputColSpec('weibo', _('weibo')),
-                InputColSpec('weixin_follow_link', _('weixin follow link')),
-                InputColSpec('brief', _('brief'), widget=widgets.TextArea(),
-                             render_kwargs={
-                                 'html_params': dict(rows=8, cols=40)
-                             }),
-                ColSpec('spu_cnt', label=_('spu no.')),
-                InputColSpec('administrator', label=_('administrator'),
-                             filter_=lambda q: q.filter(User.group_id ==
-                                                        const.VENDOR_GROUP))
-                ]
+        return [
+            InputColSpec('name', _('name')),
+            InputColSpec('email', _('email')),
+            InputColSpec('website', _('website')),
+            InputColSpec('weibo', _('weibo')),
+            InputColSpec('weixin_follow_link', _('weixin follow link')),
+            InputColSpec('brief', _('brief'), widget=widgets.TextArea(),
+                         render_kwargs={
+                             'html_params': dict(rows=8, cols=40)
+                         }),
+            ColSpec('spu_cnt', label=_('spu no.')),
+            InputColSpec('administrator', label=_('administrator'),
+                         filter_=lambda q: q.filter(and_(User.group_id ==
+                                                         const.VENDOR_GROUP,
+                                                         User.vendor ==
+                                                         None)))
+        ]
 
     def get_actions(self, processed_objs=None):
         class _DeleteAction(DeleteAction):

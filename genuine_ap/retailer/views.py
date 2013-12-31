@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+from sqlalchemy import and_
 from flask import request, jsonify
 from wtforms import widgets
 from flask.ext.babel import lazy_gettext, gettext as _
@@ -75,8 +76,10 @@ class RetailerModelView(ModelView):
                                'letter of each character to search, for '
                                u'example, "mt" for "茅台"')),
             InputColSpec('administrator', label=_('administrator'),
-                         filter_=lambda q: q.filter(User.group_id ==
-                                                    const.RETAILER_GROUP))
+                         filter_=lambda q: q.filter(and_(User.group_id ==
+                                                         const.RETAILER_GROUP,
+                                                         User.retailer ==
+                                                         None)))
         ]
 
     @property
@@ -96,8 +99,10 @@ class RetailerModelView(ModelView):
                                'letter of each character to search, for '
                                u'example, "mt" for "茅台"')),
             InputColSpec('administrator', label=_('administrator'),
-                         filter_=lambda q: q.filter(User.group_id ==
-                                                    const.RETAILER_GROUP))
+                         filter_=lambda q: q.filter(and_(User.group_id ==
+                                                         const.RETAILER_GROUP,
+                                                         User.retailer ==
+                                                         None)))
         ]
 
     @property
