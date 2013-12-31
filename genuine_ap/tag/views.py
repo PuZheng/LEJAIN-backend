@@ -38,8 +38,8 @@ def tag(id):
         'create_time': sku.create_time.strftime(time_format),
         'nearby_recommendations_cnt': nearby_recommendations_cnt,
         'same_vendor_recommendations_cnt': same_vendor_recommendations_cnt,
-        'comments_cnt': len(spu.comments),
-        'favor_cnt': len(spu.favors),
+        'comments_cnt': len(spu.comment_list),
+        'favor_cnt': len(spu.favor_list),
         'favored': favored
     })
 

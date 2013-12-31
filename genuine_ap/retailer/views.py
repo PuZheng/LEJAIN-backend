@@ -38,8 +38,6 @@ def retailer_list():
 
 class RetailerModelView(ModelView):
 
-    can_batchly_edit = False
-
     @property
     def sortable_columns(self):
         return ['id', 'rating', 'create_time']
@@ -71,7 +69,11 @@ class RetailerModelView(ModelView):
             InputColSpec('longitude', label=_('longitude')),
             InputColSpec('latitude', label=_('latitude')),
             InputColSpec('address', label=_('address')),
-            InputColSpec('spu_list', label=_('spu list')),
+            InputColSpec('spu_list', label=_('spu list'),
+                         doc=_('you could type to search spu! for Chinese '
+                               'character, you could just type the first '
+                               'letter of each character to search, for '
+                               u'example, "mt" for "茅台"')),
             InputColSpec('administrator', label=_('administrator'),
                          filter_=lambda q: q.filter(User.group_id ==
                                                     const.RETAILER_GROUP))
@@ -88,7 +90,11 @@ class RetailerModelView(ModelView):
             InputColSpec('longitude', label=_('longitude')),
             InputColSpec('latitude', label=_('latitude')),
             InputColSpec('address', label=_('address')),
-            InputColSpec('spu_list', label=_('spu list')),
+            InputColSpec('spu_list', label=_('spu list'),
+                         doc=_('you could type to search spu! for Chinese '
+                               'character, you could just type the first '
+                               'letter of each character to search, for '
+                               u'example, "mt" for "茅台"')),
             InputColSpec('administrator', label=_('administrator'),
                          filter_=lambda q: q.filter(User.group_id ==
                                                     const.RETAILER_GROUP))

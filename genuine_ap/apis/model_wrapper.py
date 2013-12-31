@@ -41,6 +41,14 @@ def wraps(obj):
             return obj
     return obj
 
+
+def unwraps(obj):
+    if isinstance(obj, types.ListType) or isinstance(obj, types.TupleType):
+        return obj.__class__(unwraps(obj_) for obj_ in obj)
+    if isinstance(obj, ModelWrapper):
+        return obj.obj
+    return obj
+
 _wrappers = {}
 
 

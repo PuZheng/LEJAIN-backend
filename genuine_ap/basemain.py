@@ -9,7 +9,6 @@ import speaklater
 from flask.ext.principal import (identity_loaded, Principal, Permission,
                                  RoleNeed)
 from genuine_ap import const
-from genuine_ap.perm import view_vendor_list_need
 
 
 def register_model_view(model_view, bp, **kwargs):
@@ -20,6 +19,8 @@ def register_model_view(model_view, bp, **kwargs):
             return admin_nav_bar
         elif Permission(RoleNeed(const.VENDOR_GROUP)).can():
             return vendor_nav_bar
+        elif Permission(RoleNeed(const.RETAILER_GROUP)).can():
+            return retailer_nav_bar
 
     extra_params = {
         "list_view": {
@@ -75,6 +76,7 @@ data_browser = DataBrowser(app, logger=logging.getLogger('timeline'),
 from flask.ext.nav_bar import FlaskNavBar
 admin_nav_bar = FlaskNavBar(app)
 vendor_nav_bar = FlaskNavBar(app)
+retailer_nav_bar = FlaskNavBar(app)
 
 
 def setup_nav_bar():
@@ -107,10 +109,33 @@ def setup_nav_bar():
     default_url = speaklater.make_lazy_string(user_model_view.url_for_list,
                                               group=const.VENDOR_GROUP)
     admin_nav_bar.register(user, name=_('Account'), default_url=default_url)
+
     default_url = speaklater.make_lazy_string(
         lambda: vendor_model_view.url_for_object(current_user.vendor))
-    vendor_nav_bar.register(vendor, name=_('Vendor'),
+    vendor_nav_bar.register(vendor, name=_('Vendor Info'),
                             default_url=default_url)
+    default_url = speaklater.make_lazy_string(spu_model_view.url_for_list)
+    vendor_nav_bar.register(spu, name=_('SPU'),
+                            default_url=default_url,
+                            group=_('SPU related'),
+                            enabler=lambda nav: re.match('/spu/spu[^t]',
+                                                         request.path))
+    default_url = speaklater.make_lazy_string(spu_type_model_view.url_for_list)
+    vendor_nav_bar.register(spu, name=_('SPU Type'), default_url=default_url,
+                            group=_('SPU related'), enabler=lambda nav:
+                            request.path.startswith('/spu/sputype'))
+    default_url = speaklater.make_lazy_string(sku_model_view.url_for_list)
+    vendor_nav_bar.register(sku, name=_('SKU'), default_url=default_url)
+
+    default_url = speaklater.make_lazy_string(
+        lambda: retailer_model_view.url_for_object(current_user.retailer))
+    retailer_nav_bar.register(retailer, name=_('Retailer Info'),
+                              default_url=default_url)
+    default_url = speaklater.make_lazy_string(spu_model_view.url_for_list)
+    retailer_nav_bar.register(spu, name=_('SPU'),
+                              default_url=default_url,
+                              enabler=lambda nav: re.match('/spu/spu[^t]',
+                                                           request.path))
 
 setup_nav_bar()
 
@@ -138,13 +163,34 @@ principal = Principal(app)
 
 @identity_loaded.connect_via(app)
 def on_identity_loaded(sender, identity):
+    from genuine_ap.vendor import vendor_model_view
+    from genuine_ap.spu import spu_type_model_view, spu_model_view
+    from genuine_ap.sku import sku_model_view
+    from genuine_ap.retailer import retailer_model_view
     # Set the identity user object
     identity.user = current_user
 
     if hasattr(current_user, 'group_id'):
         identity.provides.add(RoleNeed(int(current_user.group_id)))
         if current_user.group_id == const.SUPER_ADMIN:
-            identity.provides.add(view_vendor_list_need)
+            data_browser.grant_all(identity)
+        elif current_user.group_id == const.VENDOR_GROUP:
+            vendor_model_view.grant_edit(identity,
+                                         current_user.vendor.id)
+            for spu in current_user.vendor.spu_list:
+                spu_model_view.grant_edit(identity, spu.id)
+                spu_model_view.grant_remove(identity, spu.id)
+            spu_model_view.grant_view(identity)
+            spu_model_view.grant_create(identity)
+            spu_type_model_view.grant_view(identity)
+            sku_model_view.grant_view(identity)
+            sku_model_view.grant_create(identity)
+        elif current_user.group_id == const.RETAILER_GROUP:
+            retailer_model_view.grant_edit(identity,
+                                           current_user.retailer.id)
+            spu_model_view.grant_view(identity)
+            vendor_model_view.grant_view(identity)
+
 
 from genuine_ap import utils
 utils.assert_dir('static/spu_pics')

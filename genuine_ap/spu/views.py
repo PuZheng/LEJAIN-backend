@@ -9,14 +9,16 @@ from flask.ext.databrowser.extra_widgets import Image, Link
 from flask.ext.databrowser.action import DeleteAction
 from flask.ext.login import current_user
 from flask_wtf.file import FileAllowed, FileRequired
+from flask.ext.principal import Permission, RoleNeed
 import posixpath
 
-from genuine_ap.models import SPU, SPUType, Favor, User
+from genuine_ap.models import SPU, SPUType, Favor, User, Vendor
 from genuine_ap.utils import get_or_404
 from . import spu_ws
-from genuine_ap.apis import wraps
+from genuine_ap.apis import wraps, unwraps
 from genuine_ap.apis.retailer import find_retailers
 from genuine_ap.database import db
+from genuine_ap import const
 
 
 @spu_ws.route('/spu/<int:spu_id>', methods=['GET'])
@@ -31,14 +33,14 @@ def spu_view(spu_id):
     favored = False
     if current_user.is_authenticated():
         q = Favor.query.filter(and_(Favor.spu_id == spu_id,
-                                    User.id == current_user.id))
-        favored = bool(q.first())
+                                    Favor.user_id == current_user.id))
+        favored = q.first() is not None
 
     return jsonify({
         'spu': spu.as_dict(),
         'nearby_recommendations_cnt': nearby_recommendations_cnt,
         'same_vendor_recommendations_cnt': same_vendor_recommendations_cnt,
-        'comments_cnt': len(spu.comments),
+        'comments_cnt': len(spu.comment_list),
         'favored': favored,
     })
 
@@ -107,15 +109,13 @@ def spu_list_view():
             'pic_url': spu.icon,
             'msrp': spu.msrp,
             'rating': spu.rating,
-            'favor_cnt': len(spu.favors),
+            'favor_cnt': len(spu.favor_list),
             'distance': distance,
         })
     return jsonify({'data': data})
 
 
 class SPUTypeModelView(ModelView):
-
-    can_batchly_edit = False
 
     create_template = edit_template = 'spu/form.html'
 
@@ -130,7 +130,7 @@ class SPUTypeModelView(ModelView):
         return [col_spec.ColSpec('id', label=_('id')),
                 col_spec.ColSpec('name', label=_('name')),
                 col_spec.ColSpec('weight', label=_('weight')),
-                col_spec.ColSpec('create_time', label=u'create time',
+                col_spec.ColSpec('create_time', label=_('create time'),
                                  formatter=lambda v, obj:
                                  v.strftime('%Y-%m-%d %H:%M')),
                 col_spec.ColSpec('spu_cnt', label=_('spu no.'),
@@ -148,12 +148,13 @@ class SPUTypeModelView(ModelView):
 
     @property
     def edit_columns(self):
-        save_path = lambda obj: posixpath.join('static/spu_type_pics',
-                                               str(obj.id) + '.jpg')
+        save_path = lambda obj, fname: posixpath.join('static/spu_type_pics',
+                                                      str(obj.id) + '.jpg')
         doc = _('size should be %(size)s, only jpeg allowable', size='256x256')
         return [
             col_spec.InputColSpec('id', label=_('id'), disabled=True),
-            col_spec.InputColSpec('create time', _('create time'), disabled=True),
+            col_spec.InputColSpec('create_time', _('create time'),
+                                  disabled=True),
             col_spec.InputColSpec('name', label=_('name')),
             col_spec.InputColSpec('weight', label=_('weight')),
             col_spec.ColSpec('pic_url', label=_('logo'),
@@ -166,11 +167,16 @@ class SPUTypeModelView(ModelView):
 
     def get_actions(self, processed_objs=None):
         class _DeleteAction(DeleteAction):
-            def test_enabled(self, obj):
-                return -2 if obj.spu_cnt != 0 else 0
 
-            def get_forbidden_msg_formats(self):
-                return {-2: _("already contains SPU, so can't be removed!")}
+            def test(self, *objs):
+                return 1 if any(obj.spu_cnt != 0 for obj in objs) else \
+                    super(_DeleteAction, self).test(*objs)
+
+            @property
+            def forbidden_msg_formats(self):
+                ret = super(_DeleteAction, self).forbidden_msg_formats
+                ret[1] = _("%%s already contains SPU, so can't be removed!")
+                return ret
 
         return [_DeleteAction(_("remove"))]
 
@@ -193,28 +199,50 @@ class SPUModelView(ModelView):
         return ['id', 'msrp', 'spu_type', 'rating']
 
     @property
+    def default_filters(self):
+        if Permission(RoleNeed(const.VENDOR_GROUP)).can():
+            return [filters.EqualTo("vendor",
+                                    value=unwraps(current_user.vendor))]
+        return []
+
+    @property
     def list_columns(self):
         def formatter(v, obj):
             from genuine_ap.sku import sku_model_view
             return (v, sku_model_view.url_for_list(spu_id=obj.id))
-        return [col_spec.ColSpec('id', _('id')),
-                col_spec.ColSpec('name', _('name')),
-                col_spec.ColSpec('msrp', _('msrp')),
-                col_spec.ColSpec('vendor', _('vendor')),
-                col_spec.ColSpec('spu_type', _('spu type')),
-                col_spec.ColSpec('rating', _('rating')),
-                col_spec.ColSpec('sku_cnt', _('sku no.'),
-                                 formatter=formatter,
-                                 widget=Link(target='_blank'))]
+        ret = [
+            col_spec.ColSpec('id', _('id')),
+            col_spec.ColSpec('name', _('name')),
+            col_spec.ColSpec('msrp', _('msrp')),
+            col_spec.ColSpec('vendor', _('vendor')),
+            col_spec.ColSpec('spu_type', _('spu type')),
+            col_spec.ColSpec('rating', _('rating')),
+            col_spec.ColSpec('create_time', _('create time'),
+                             formatter=lambda v, obj:
+                             v.strftime('%Y-%m-%d %H:%M'))
+        ]
+        if not Permission(RoleNeed(const.RETAILER_GROUP)).can():
+            ret.append(col_spec.ColSpec('sku_cnt', _('sku no.'),
+                                        formatter=formatter,
+                                        widget=Link(target='_blank')))
+        return ret
 
     @property
     def create_columns(self):
         doc = _('size should be %(size)s, only jpeg allowable',
                 size='1280x720')
+        vendor_col_filter = None
+
+        def vendor_col_filter(q):
+            if Permission(RoleNeed(const.VENDOR_GROUP)).can():
+                return q.filter(Vendor.id == current_user.vendor.id)
+            else:
+                return q
         return [col_spec.InputColSpec('name', _('name')),
                 col_spec.InputColSpec('code', _('code')),
                 col_spec.InputColSpec('msrp', _('msrp')),
-                col_spec.InputColSpec('vendor', _('vendor')),
+                col_spec.InputColSpec('vendor', _('vendor'),
+                                      filter_=vendor_col_filter),
                 col_spec.InputColSpec('spu_type', _('spu type')),
                 col_spec.InputColSpec('rating', _('rating')),
                 col_spec.FileColSpec('pic_url_list', label=_('upload logos'),
@@ -224,33 +252,58 @@ class SPUModelView(ModelView):
     def edit_columns(self):
         doc = _('size should be %(size)s, only jpeg allowable',
                 size='1280x720')
-        return [col_spec.InputColSpec('name', _('name')),
-                col_spec.InputColSpec('code', _('code')),
-                col_spec.InputColSpec('msrp', _('msrp')),
-                col_spec.InputColSpec('vendor', _('vendor')),
-                col_spec.InputColSpec('spu_type', _('spu type')),
-                col_spec.InputColSpec('rating', _('rating')),
-                col_spec.ColSpec('pic_url_list', label=_('logos'),
-                                 widget=Image(size_type=Image.SMALL)),
-                col_spec.FileColSpec('pic_url_list', label=_('upload logos'),
-                                     max_num=3, doc=doc)]
+        def vendor_col_filter(q):
+            if Permission(RoleNeed(const.VENDOR_GROUP)).can():
+                return q.filter(Vendor.id == current_user.vendor.id)
+            else:
+                return q
+        ret = [
+            col_spec.InputColSpec('name', _('name')),
+            col_spec.InputColSpec('code', _('code')),
+            col_spec.InputColSpec('msrp', _('msrp')),
+            col_spec.InputColSpec('spu_type', _('spu type')),
+            col_spec.InputColSpec('rating', _('rating')),
+            col_spec.InputColSpec('vendor', _('vendor'),
+                                    filter_=vendor_col_filter),
+            col_spec.ColSpec('pic_url_list', label=_('logos'),
+                             widget=Image(size_type=Image.SMALL)),
+            col_spec.FileColSpec('pic_url_list', label=_('upload logos'),
+                                 max_num=3, doc=doc)]
+        return ret
 
     @property
     def filters(self):
-        return [
+        ret = [
             filters.Contains("name", label=_('name'), name=_("contains")),
-            filters.EqualTo("vendor", label=_('vendor'), name=_("is")),
             filters.EqualTo("spu_type", label=_('spu type'), name=_("is")),
             filters.Between('msrp', label=_('msrp'), name=_('between')),
         ]
+        if not Permission(RoleNeed(const.VENDOR_GROUP)).can():
+            ret.append(filters.EqualTo("vendor", label=_('vendor'),
+                                       name=_("is")))
+        return ret
 
     def get_actions(self, processed_objs=None):
-        class _DeleteAction(DeleteAction):
-            def test_enabled(self, obj):
-                return -2 if obj.sku_list else 0
 
-            def get_forbidden_msg_formats(self):
-                return {-2: _("already contains sku, can't be removed!")}
+        class _DeleteAction(DeleteAction):
+
+            def test(self, *objs):
+                if any(obj.sku_list for obj in objs):
+                    return 1
+                elif any(obj.comment_list for obj in objs):
+                    return 2
+                elif any(obj.favor_list for obj in objs):
+                    return 3
+                return super(_DeleteAction, self).test(*objs)
+
+            @property
+            def forbidden_msg_formats(self):
+                ret = super(_DeleteAction, self).forbidden_msg_formats
+                ret[1] = _('spu %%s already contains sku, can\'t be removed!')
+                ret[2] = _('spu %%s already has comments, can\'t be removed!')
+                ret[3] = _('spu %%s already has been favored, can\'t be'
+                           'removed')
+                return ret
 
         return [_DeleteAction(_("remove"))]
 
