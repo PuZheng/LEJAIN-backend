@@ -299,9 +299,20 @@ msgstr "微信加关注链接"
 msgid "vendor %%s already contains SPU, can't be removed!"
 msgstr "厂商(%%s)已经包含SPU, 所以不能删除!"
 
-
 msgid "User"
 msgstr "用户"
+
+#: retailer/views.py:83 retailer/views.py:109
+msgid ""
+"if no account could be selected, make sure there's a retailer account "
+"with no retailer assigned"
+msgstr "如果没有账户可供选择，请确保存在一个商家账户，并且该账户没有分配商家"
+
+#: vendor/views.py:58 vendor/views.py:81
+msgid ""
+"if no account could be selected, make sure there's a vendor account with "
+"no vendor assigned"
+msgstr "如果没有账户可供选择，请确保存在一个生产厂家账户，并且该账户没有分配生产厂家"
 
 #: templates/flask_upload2__/uploader.html:8
 msgid "Select image"

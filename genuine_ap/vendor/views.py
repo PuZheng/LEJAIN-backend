@@ -54,7 +54,10 @@ class VendorModelView(ModelView):
                          filter_=lambda q: q.filter(and_(User.group_id ==
                                                          const.VENDOR_GROUP,
                                                          User.vendor ==
-                                                         None)))
+                                                         None)),
+                         doc=_('if no account could be selected, make sure '
+                               'there\'s a vendor account with no vendor '
+                               'assigned'))
         ]
 
     @property
@@ -74,7 +77,10 @@ class VendorModelView(ModelView):
                          filter_=lambda q: q.filter(and_(User.group_id ==
                                                          const.VENDOR_GROUP,
                                                          User.vendor ==
-                                                         None)))
+                                                         None)),
+                         doc=_('if no account could be selected, make sure '
+                               'there\'s a vendor account with no vendor '
+                               'assigned'))
         ]
 
     def get_actions(self, processed_objs=None):

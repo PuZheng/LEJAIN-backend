@@ -79,7 +79,10 @@ class RetailerModelView(ModelView):
                          filter_=lambda q: q.filter(and_(User.group_id ==
                                                          const.RETAILER_GROUP,
                                                          User.retailer ==
-                                                         None)))
+                                                         None)),
+                         doc=_('if no account could be selected, make sure '
+                               'there\'s a retailer account with no retailer '
+                               'assigned'))
         ]
 
     @property
@@ -102,7 +105,10 @@ class RetailerModelView(ModelView):
                          filter_=lambda q: q.filter(and_(User.group_id ==
                                                          const.RETAILER_GROUP,
                                                          User.retailer ==
-                                                         None)))
+                                                         None)),
+                         doc=_('if no account could be selected, make sure '
+                               'there\'s a retailer account with no retailer '
+                               'assigned'))
         ]
 
     @property
