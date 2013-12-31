@@ -7,6 +7,12 @@
   <link href="{{ url_for('data_browser__.static', filename='css/font-awesome.min.css') }}" rel="stylesheet">
   <script src="{{ url_for('data_browser__.static', filename='js/jquery-1.9.1.min.js') }}"></script>
   <script src="{{ url_for('data_browser__.static', filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.raty.min.js') }}"></script>
+  <script>
+    $(function () {
+      $("#rating").raty({readOnly: true, score: {{ spu.rating}}, path: '/static/js/img' })
+    });
+  </script>
 </head>
 <body>
 <br>
@@ -56,6 +62,10 @@
       <tr>
         <td>产品名称</td>
         <td>{{ spu.name }}</td>
+      </tr>
+      <tr>
+        <td>评分</td>
+        <td><span id="rating"></span></td>
       </tr>
       <tr>
         <td>生产厂家</td>
