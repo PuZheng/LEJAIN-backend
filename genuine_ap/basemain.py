@@ -144,7 +144,7 @@ def register_views():
     from . import index
     installed_ws_apps = ['tag', 'user', 'rcmd', 'spu', 'comment', 'retailer',
                          'favor']
-    installed_apps = ['user', 'spu', 'sku', 'vendor', 'retailer', 'user']
+    installed_apps = ['user', 'spu', 'sku', 'vendor', 'retailer', 'user', "share"]
     # register web services
     for mod in installed_ws_apps:
         pkg = __import__('genuine_ap.' + mod, fromlist=[mod])
