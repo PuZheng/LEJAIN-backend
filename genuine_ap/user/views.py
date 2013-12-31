@@ -31,9 +31,7 @@ def register_ws():
 
     user = User.query.filter(User.name == name).first()
     if user:
-        return jsonify({
-            'reason': u'用户名已存在, 请更换注册名。'
-        }), 403
+        return u'用户名已存在, 请更换注册名', 403
     user = utils.do_commit(User(name=name,
                                 password=generate_password_hash(
                                     password, 'pbkdf2:sha256'),
@@ -51,9 +49,7 @@ def login_ws():
     try:
         user = apis.user.authenticate(name, password)
     except AuthenticateFailure:
-        return jsonify({
-            'reason': u'用户名或者密码错误'
-        }), 403
+        return u'用户名或者密码错误', 403
     return jsonify(user.as_dict(include_auth_token=True))
 
 
