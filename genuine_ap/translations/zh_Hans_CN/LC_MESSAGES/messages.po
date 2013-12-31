@@ -68,6 +68,10 @@ msgstr "厂家信息"
 msgid "Retailer Info"
 msgstr "商家信息"
 
+#: index.py:21 index.py:25
+msgid "error"
+msgstr "错误"
+
 #: retailer/views.py:48 sku/views.py:40 spu/views.py:130 spu/views.py:155
 #: spu/views.py:214 user/views.py:128 user/views.py:153 vendor/views.py:25
 msgid "id"
@@ -235,6 +239,14 @@ msgstr "SPU(%%s)已经包含SKU, 所以不能删除!"
 msgid "spu %%s already has been favored, can't beremoved"
 msgstr "SPU(%%s)已经包含SKU, 所以不能删除!"
 
+#: templates/no_retailer.html:6
+msgid "Sorry, your shop hasn't been created yet! please wait..."
+msgstr "对不起，您的店铺还没有创建，请耐心等待..."
+
+#: templates/no_vendor.html:6
+msgid "Sorry, your vendor hasn't been created yet! please wait..."
+msgstr "对不起，您的厂家还没有创建，请耐心等待..."
+
 #: user/__init__.py:33
 msgid "Administrator"
 msgstr "管理员"
@@ -287,6 +299,9 @@ msgstr "微信加关注链接"
 msgid "vendor %%s already contains SPU, can't be removed!"
 msgstr "厂商(%%s)已经包含SPU, 所以不能删除!"
 
+
+msgid "User"
+msgstr "用户"
 
 #: templates/flask_upload2__/uploader.html:8
 msgid "Select image"

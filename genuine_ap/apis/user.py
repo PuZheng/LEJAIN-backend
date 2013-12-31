@@ -59,9 +59,15 @@ LoginManager.token_loader`_
         from genuine_ap.vendor import vendor_model_view
         from genuine_ap.retailer import retailer_model_view
         if self.group_id == const.VENDOR_GROUP:
-            return vendor_model_view.url_for_object(self.vendor)
+            if self.vendor:
+                return vendor_model_view.url_for_object(self.vendor)
+            else:
+                return url_for('no_vendor')
         if self.group_id == const.RETAILER_GROUP:
-            return retailer_model_view.url_for_object(self.retailer)
+            if self.retailer:
+                return retailer_model_view.url_for_object(self.retailer)
+            else:
+                return url_for('no_retailer')
         return self.group.default_url
 
     def as_dict(self, include_auth_token=False):

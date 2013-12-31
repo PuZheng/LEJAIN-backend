@@ -41,9 +41,11 @@
           </button>
         {% endif %}
       </div>
-      {% if user.is_authenticated() and nav_bar is defined %}
+      {% if user.is_authenticated() %}
         <nav class="collapse navbar-collapse navbar-ex1-collapse">
+          {% if nav_bar is defined %}
           {{ nav_bar.as_ul("active", grouped=True)|safe }}
+          {% endif %}
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" href="#">

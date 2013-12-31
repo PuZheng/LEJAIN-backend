@@ -175,21 +175,23 @@ def on_identity_loaded(sender, identity):
         if current_user.group_id == const.SUPER_ADMIN:
             data_browser.grant_all(identity)
         elif current_user.group_id == const.VENDOR_GROUP:
-            vendor_model_view.grant_edit(identity,
-                                         current_user.vendor.id)
-            for spu in current_user.vendor.spu_list:
-                spu_model_view.grant_edit(identity, spu.id)
-                spu_model_view.grant_remove(identity, spu.id)
-            spu_model_view.grant_view(identity)
-            spu_model_view.grant_create(identity)
-            spu_type_model_view.grant_view(identity)
-            sku_model_view.grant_view(identity)
-            sku_model_view.grant_create(identity)
+            if current_user.vendor:
+                vendor_model_view.grant_edit(identity,
+                                             current_user.vendor.id)
+                for spu in current_user.vendor.spu_list:
+                    spu_model_view.grant_edit(identity, spu.id)
+                    spu_model_view.grant_remove(identity, spu.id)
+                spu_model_view.grant_view(identity)
+                spu_model_view.grant_create(identity)
+                sku_model_view.grant_view(identity)
+                sku_model_view.grant_create(identity)
+                spu_type_model_view.grant_view(identity)
         elif current_user.group_id == const.RETAILER_GROUP:
-            retailer_model_view.grant_edit(identity,
-                                           current_user.retailer.id)
-            spu_model_view.grant_view(identity)
-            vendor_model_view.grant_view(identity)
+            if current_user.retailer:
+                retailer_model_view.grant_edit(identity,
+                                               current_user.retailer.id)
+                spu_model_view.grant_view(identity)
+                vendor_model_view.grant_view(identity)
 
 
 from genuine_ap import utils
