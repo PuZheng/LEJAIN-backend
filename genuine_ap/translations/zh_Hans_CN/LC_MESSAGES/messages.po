@@ -668,7 +668,7 @@ msgstr "祝贺您"
 #: templates/data_browser__/on_fly_result.html:26
 #, python-format
 msgid "you have created %(model_cls)s %(obj)s successfully!"
-msgstr "您成功的创建了%(model_cls) - %(obj)s!"
+msgstr "您成功的创建了%(model_cls)s - %(obj)s!"
 
 #: templates/data_browser__/on_fly_result.html:27
 msgid "I see"
