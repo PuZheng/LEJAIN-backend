@@ -141,6 +141,7 @@ class Vendor(db.Model):
     administrator = db.relationship('User',
                                     backref=db.backref("vendor",
                                                        uselist=False))
+    enabled = db.Column(db.Boolean, default=False)
 
     def __unicode__(self):
         return self.name
@@ -226,6 +227,7 @@ class Retailer(db.Model):
     administrator = db.relationship('User',
                                     backref=db.backref("retailer",
                                                        uselist=False))
+    enabled = db.Column(db.Boolean, default=False)
 
     def __unicode__(self):
         return self.name
