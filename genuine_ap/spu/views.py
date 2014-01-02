@@ -7,6 +7,7 @@ from flask.ext.babel import lazy_gettext, gettext as _
 from flask.ext.databrowser import ModelView, sa, col_spec, filters
 from flask.ext.databrowser.extra_widgets import Image, Link
 from flask.ext.databrowser.action import DeleteAction
+from flask.ext.databrowser.utils import random_str
 from flask.ext.login import current_user
 from flask_wtf.file import FileAllowed, FileRequired
 from flask.ext.principal import Permission, RoleNeed
@@ -141,15 +142,18 @@ class SPUTypeModelView(ModelView):
 
     @property
     def create_columns(self):
+        save_path = lambda obj, fname: posixpath.join('static/spu_type_pics',
+                                                      random_str(24) + '.jpg')
         doc = _('size should be %(size)s, only jpeg allowable', size='256x256')
         return [col_spec.InputColSpec('name', label=_('name')),
                 col_spec.InputColSpec('weight', label=_('weight')),
-                col_spec.FileColSpec('pic_path', label=_('logo'), doc=doc)]
+                col_spec.FileColSpec('pic_path', label=_('logo'), doc=doc,
+                                     save_path=save_path)]
 
     @property
     def edit_columns(self):
         save_path = lambda obj, fname: posixpath.join('static/spu_type_pics',
-                                                      str(obj.id) + '.jpg')
+                                                      random_str(24) + '.jpg')
         doc = _('size should be %(size)s, only jpeg allowable', size='256x256')
         return [
             col_spec.InputColSpec('id', label=_('id'), disabled=True),

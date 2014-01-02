@@ -39,6 +39,7 @@ def get_or_404(cls, id_):
     assert issubclass(cls, db.Model) or issubclass(cls, ModelWrapper)
     return wraps(cls.query.get_or_404(id_))
 
+
 def resize_and_crop(img_path, modified_path, size, crop_type='top'):
     """
     Resize and crop an image to fit the specified size.
