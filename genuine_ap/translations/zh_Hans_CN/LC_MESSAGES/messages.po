@@ -327,6 +327,12 @@ msgid "Remove"
 msgstr "清除"
 
 
+#: action.py:63
+#, python-format
+msgid ""
+"operation %(action)s applied upon %(model_label)s - [%(records)s] "
+"successfully"
+msgstr "成功对%(model_label)s - [%(records)s]实施了%(action)s操作!" 
 
 #: action.py:88
 #, python-format
