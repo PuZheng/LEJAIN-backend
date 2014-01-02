@@ -71,6 +71,7 @@ class SPU(db.Model):
     spu_type = db.relationship('SPUType', backref="spu_list")
     rating = db.Column(db.Float, nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
+    enabled = db.Column(db.Boolean, default=False)
 
     @property
     def pic_url_list(self):
@@ -253,6 +254,7 @@ class SPUType(db.Model):
     weight = db.Column(db.Integer, doc=u'SPU分类的权重，越高代表越优先显示',
                        default=0)
     pic_path = db.Column(db.String(256), nullable=False)
+    enabled = db.Column(db.Boolean, default=False)
 
     def __unicode__(self):
         return self.name
