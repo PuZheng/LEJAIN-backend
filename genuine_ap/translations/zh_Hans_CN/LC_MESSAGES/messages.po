@@ -232,12 +232,12 @@ msgstr "SPU(%%s)已经包含SKU, 所以不能删除!"
 #: spu/views.py:303
 #, python-format
 msgid "spu %%s already has comments, can't be removed!"
-msgstr "SPU(%%s)已经包含SKU, 所以不能删除!"
+msgstr "SPU(%%s)已经包含评论, 所以不能删除!"
 
 #: spu/views.py:304
 #, python-format
 msgid "spu %%s already has been favored, can't beremoved"
-msgstr "SPU(%%s)已经包含SKU, 所以不能删除!"
+msgstr "SPU(%%s)已经被收藏, 所以不能删除!"
 
 #: templates/no_retailer.html:6
 msgid "Sorry, your shop hasn't been created yet! please wait..."
