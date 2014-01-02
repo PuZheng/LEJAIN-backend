@@ -173,6 +173,7 @@ class User(db.Model):
                          nullable=False)
     group = db.relationship('Group')
     create_time = db.Column(db.DateTime, default=datetime.now)
+    enabled = db.Column(db.Boolean, default=False)
 
     def __unicode__(self):
         return self.name
