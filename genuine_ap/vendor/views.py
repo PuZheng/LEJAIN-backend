@@ -103,7 +103,8 @@ class VendorModelView(ModelView):
     @property
     def filters(self):
         return [
-            filters.Contains("name", label=_('name'), name=_("contains")),
+            filters.Contains("name", self, label=_('name'),
+                             name=_("contains")),
         ]
 
     def expand_model(self, vendor):

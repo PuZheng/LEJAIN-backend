@@ -159,7 +159,7 @@ class SPUTypeModelView(ModelView):
             col_spec.InputColSpec('weight', label=_('weight')),
             col_spec.ColSpec('pic_url', label=_('logo'),
                              widget=Image()),
-            col_spec.FileColSpec('pic_url', label=_('upload logo'),
+            col_spec.FileColSpec('pic_path', label=_('upload logo'),
                                  save_path=save_path, doc=doc)]
 
     def expand_model(self, spu_type):
@@ -183,7 +183,8 @@ class SPUTypeModelView(ModelView):
     @property
     def filters(self):
         return [
-            filters.Contains("name", label=_('name'), name=_("contains")),
+            filters.Contains("name", self, label=_('name'),
+                             name=_("contains")),
         ]
 
 
@@ -201,7 +202,7 @@ class SPUModelView(ModelView):
     @property
     def default_filters(self):
         if Permission(RoleNeed(const.VENDOR_GROUP)).can():
-            return [filters.EqualTo("vendor",
+            return [filters.EqualTo("vendor", self,
                                     value=unwraps(current_user.vendor))]
         return []
 
@@ -264,7 +265,7 @@ class SPUModelView(ModelView):
             col_spec.InputColSpec('spu_type', _('spu type')),
             col_spec.InputColSpec('rating', _('rating')),
             col_spec.InputColSpec('vendor', _('vendor'),
-                                    filter_=vendor_col_filter),
+                                  filter_=vendor_col_filter),
             col_spec.ColSpec('pic_url_list', label=_('logos'),
                              widget=Image(size_type=Image.SMALL)),
             col_spec.FileColSpec('pic_url_list', label=_('upload logos'),
@@ -274,12 +275,15 @@ class SPUModelView(ModelView):
     @property
     def filters(self):
         ret = [
-            filters.Contains("name", label=_('name'), name=_("contains")),
-            filters.EqualTo("spu_type", label=_('spu type'), name=_("is")),
-            filters.Between('msrp', label=_('msrp'), name=_('between')),
+            filters.Contains("name", self, label=_('name'),
+                             name=_("contains")),
+            filters.EqualTo("spu_type", self, label=_('spu type'),
+                            name=_("is")),
+            filters.Between('msrp', self, label=_('msrp'),
+                            name=_('between')),
         ]
         if not Permission(RoleNeed(const.VENDOR_GROUP)).can():
-            ret.append(filters.EqualTo("vendor", label=_('vendor'),
+            ret.append(filters.EqualTo("vendor", self, label=_('vendor'),
                                        name=_("is")))
         return ret
 

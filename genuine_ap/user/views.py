@@ -113,8 +113,8 @@ class UserModelView(ModelView):
     @property
     def filters(self):
         return [
-            filters.Contains('name', label=_('name'), name=_('contains')),
-            filters.EqualTo('group', label=_('group'), name=_('is'),
+            filters.Contains('name', self, label=_('name'), name=_('contains')),
+            filters.EqualTo('group', self, label=_('group'), name=_('is'),
                             hidden=True),
         ]
 

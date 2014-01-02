@@ -31,7 +31,7 @@ class SKUModelView(ModelView):
     @property
     def default_filters(self):
         if Permission(RoleNeed(const.VENDOR_GROUP)).can():
-            return [filters.EqualTo('spu.vendor',
+            return [filters.EqualTo('spu.vendor', self,
                                     value=unwraps(current_user.vendor))]
         return []
 
@@ -82,13 +82,13 @@ class SKUModelView(ModelView):
     @property
     def filters(self):
         ret = [
-            filters.Contains("spu.name", label=_('spu name'),
+            filters.Contains("spu.name", self, label=_('spu name'),
                              name=_("contains")),
-            filters.EqualTo("spu_id", hidden=True),
-            filters.EqualTo("token", label=_('token'), name=_("is")),
+            filters.EqualTo("spu_id", self, hidden=True),
+            filters.EqualTo("token", self, label=_('token'), name=_("is")),
         ]
         if Permission(RoleNeed(const.SUPER_ADMIN)).can():
-            ret.append(filters.EqualTo("spu.vendor", label=_('vendor'),
+            ret.append(filters.EqualTo("spu.vendor", self, label=_('vendor'),
                                        name=_("is")))
         return ret
 

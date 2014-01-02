@@ -3,13 +3,15 @@ from sqlalchemy import and_
 from flask import request, jsonify
 from wtforms import widgets
 from flask.ext.babel import lazy_gettext, gettext as _
+from flask.ext.principal import Permission, RoleNeed
 from flask.ext.databrowser import ModelView, sa, filters, extra_widgets
 from flask.ext.databrowser.col_spec import InputColSpec, ColSpec
+from flask.ext.databrowser.action import DeleteAction
+
 from . import retailer_ws
 from genuine_ap import apis, const
 from genuine_ap.models import Retailer, User
 from genuine_ap.database import db
-from flask.ext.databrowser.action import DeleteAction
 
 
 @retailer_ws.route('/retailer-list')
@@ -85,14 +87,19 @@ class RetailerModelView(ModelView):
                                'assigned'))
         ]
 
+    @ModelView.cached
     @property
     def edit_columns(self):
-        return [
+        ret = [
             InputColSpec('name', label=_('name')),
             InputColSpec('brief', label=_('brief'), widget=widgets.TextArea(),
                          render_kwargs={'html_params':
-                                        {'rows': 8, 'cols': 40}}),
-            InputColSpec('rating', label=_('rating')),
+                                        {'rows': 8, 'cols': 40}})
+        ]
+        if Permission(RoleNeed(const.SUPER_ADMIN)).can():
+            ret.append(InputColSpec('rating', label=_('rating')))
+
+        ret.extend([
             InputColSpec('longitude', label=_('longitude')),
             InputColSpec('latitude', label=_('latitude')),
             InputColSpec('address', label=_('address')),
@@ -100,22 +107,28 @@ class RetailerModelView(ModelView):
                          doc=_('you could type to search spu! for Chinese '
                                'character, you could just type the first '
                                'letter of each character to search, for '
-                               u'example, "mt" for "茅台"')),
-            InputColSpec('administrator', label=_('administrator'),
-                         filter_=lambda q: q.filter(and_(User.group_id ==
-                                                         const.RETAILER_GROUP,
-                                                         User.retailer ==
-                                                         None)),
-                         doc=_('if no account could be selected, make sure '
-                               'there\'s a retailer account with no retailer '
-                               'assigned'))
-        ]
+                               u'example, "mt" for "茅台"'))
+        ])
+        if Permission(RoleNeed(const.SUPER_ADMIN)).can():
+            cs = InputColSpec('administrator', label=_('administrator'),
+                              filter_=lambda q:
+                              q.filter(and_(User.group_id ==
+                                            const.RETAILER_GROUP,
+                                            User.retailer == None)),
+                              doc=_('if no account could be selected, make '
+                                    'sure there\'s a retailer account with '
+                                    'no retailer assigned'))
+        elif Permission(RoleNeed(const.RETAILER_GROUP)).can():
+            cs = ColSpec('administrator', label=_('administrator'))
+        ret.append(cs)
+        return ret
 
     @property
     def filters(self):
         return [
-            filters.Contains("name", label=_('name'), name=_("contains")),
-            filters.Contains("address", label=_('address'),
+            filters.Contains("name", self, label=_('name'),
+                             name=_("contains")),
+            filters.Contains("address", self, label=_('address'),
                              name=_("contains")),
         ]
 
