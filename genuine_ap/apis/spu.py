@@ -75,6 +75,9 @@ class SPUWrapper(ModelWrapper):
             'vendor': {
                 'id': self.vendor.id,
                 'name': self.vendor.name,
+                'tel': self.vendor.telephone,
+                'website': self.vendor.website.url,
+                'address': self.vendor.address
             },
             'pic_url_list': self.pic_url_list,
             'rating': self.rating,
