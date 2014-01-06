@@ -40,7 +40,7 @@ def tag(id):
     return jsonify({
         'token': sku.token,
         'verify_cnt': sku.verify_count,
-        'last_verify_time': last_verify_time.strftime(time_format) if last_verify_time is not None else "",
+        'last_verify_time': last_verify_time.strftime(time_format) if last_verify_time is not None else None,
         'sku': {
             'id': sku.id,
             'manufacture_time': sku.manufacture_date.strftime(time_format),
