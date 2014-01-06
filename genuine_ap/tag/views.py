@@ -1,9 +1,11 @@
 # -*- coding: UTF-8 -*-
+from datetime import datetime
 from flask import jsonify, request, abort
 from sqlalchemy import and_
 from flask.ext.login import current_user
 
 from . import tag_ws
+from genuine_ap.database import db
 from ..models import SKU, User, Favor
 from genuine_ap.apis import wraps
 
@@ -13,7 +15,7 @@ def tag(id):
     sku = SKU.query.filter(SKU.token == id).first()
     if not sku:
         abort(404)
-    time_format = '%Y-%m-%d'
+    time_format = '%Y-%m-%d %H:%M:%S'
     longitude = request.args.get('longitude', type=float)
     latitude = request.args.get('latitude', type=float)
 
@@ -27,8 +29,18 @@ def tag(id):
         q = Favor.query.filter(and_(Favor.spu_id == spu.id,
                                     User.id == current_user.id))
         favored = bool(q.first())
+    last_verify_time = sku.last_verify_time
+    try:
+        sku.last_verify_time = datetime.now()
+        sku.verify_count += 1
+        db.session.commit()
+    except:
+        db.session.rollback()
+
     return jsonify({
         'token': sku.token,
+        'verify_cnt': sku.verify_count,
+        'last_verify_time': last_verify_time.strftime(time_format) if last_verify_time is not None else None,
         'sku': {
             'id': sku.id,
             'manufacture_time': sku.manufacture_date.strftime(time_format),

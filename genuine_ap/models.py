@@ -50,6 +50,8 @@ class SKU(db.Model):
     expire_date = db.Column(db.Date)
     token = db.Column(db.String(32), unique=True, nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
+    verify_count = db.Column(db.Integer, nullable=False, default=0)
+    last_verify_time = db.Column(db.DateTime, default=datetime.now)
 
     def __unicode__(self):
         return self.token
@@ -130,6 +132,8 @@ class Vendor(db.Model):
     name = db.Column(db.String(32), nullable=False)
     brief = db.Column(db.String(256))
     create_time = db.Column(db.DateTime, default=datetime.now)
+    telephone = db.Column(db.String(32), nullable=False, doc=u'联系电话')
+    address = db.Column(db.String(256))
     email = db.Column(sa_utils_types.EmailType, nullable=False,
                       doc=u'客服邮箱')
     website = db.Column(sa_utils_types.URLType, nullable=False)
