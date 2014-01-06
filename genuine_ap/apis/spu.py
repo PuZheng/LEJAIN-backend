@@ -4,7 +4,7 @@ import posixpath
 from flask import url_for
 from sqlalchemy import and_
 from .model_wrapper import ModelWrapper
-from genuine_ap.models import Comment, SPU
+from genuine_ap.models import SPU
 from .model_wrapper import wraps
 from . import retailer
 
@@ -42,21 +42,12 @@ class SPUWrapper(ModelWrapper):
     def get_same_vendor_recommendations(self, longitude, latitude):
         cond = and_(SPU.vendor_id == self.vendor_id,
                     SPU.id != self.id)
-        #TODO related kind should be prioritized
-        #TODO should be sort by distance
-        ret = []
-        spu_id_2_distance = retailer.compose_spu_id_2_distance(longitude,
-                                                               latitude)
-        for spu in SPU.query.filter(cond).all():
-            spu = wraps(spu)
-            ret.append({
-                'spu': spu.as_dict(),
-                'distance': spu_id_2_distance.get(spu.id),
-                'rating': spu.rating,
-                'favor_cnt': len(spu.favor_list),
-            })
+        return self._get_recommendations(cond, longitude, latitude)
 
-        return sorted(ret, key=lambda obj: obj['distance'])
+    def get_same_type_recommendation(self, longitude, latitude):
+        cond = and_(SPU.spu_type_id == self.spu_type_id,
+                    SPU.id != self.id)
+        return self._get_recommendations(cond, longitude, latitude)
 
     @property
     def icon(self):
@@ -80,6 +71,22 @@ class SPUWrapper(ModelWrapper):
             'rating': self.rating,
             'icon': self.icon,
         }
+
+    def _get_recommendations(self, cond, longitude, latitude):
+        #TODO related kind should be prioritized
+        #TODO should be sort by distance
+        ret = []
+        spu_id_2_distance = retailer.compose_spu_id_2_distance(longitude,
+                                                               latitude)
+        for spu in SPU.query.filter(cond).all():
+            spu = wraps(spu)
+            ret.append({
+                'spu': spu.as_dict(),
+                'distance': spu_id_2_distance.get(spu.id),
+                'rating': spu.rating,
+                'favor_cnt': len(spu.favor_list),
+            })
+        return sorted(ret, key=lambda obj: obj['distance'])
 
 
 class SPUTypeWrapper(ModelWrapper):

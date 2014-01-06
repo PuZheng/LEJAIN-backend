@@ -7,17 +7,19 @@ from . import rcmd_ws
 @rcmd_ws.route('/rcmd-list')
 def rcmd_list():
     spu_id = request.args['spu_id']
-    longitue = request.args.get('longitude', type=float)
+    longitude = request.args.get('longitude', type=float)
     latitude = request.args.get('latitude', type=float)
     kind = request.args['kind']
-    if kind not in {'same_vendor', 'nearby'}:
+    if kind not in {'same_vendor', 'nearby', 'same_type'}:
         return '', 404
 
     spu = utils.get_or_404(models.SPU, spu_id)
     if kind == 'nearby':
-        rlist = spu.get_nearby_recommendations(longitue, latitude)
+        rlist = spu.get_nearby_recommendations(longitude, latitude)
+    elif kind == 'same_type':
+        rlist = spu.get_same_type_recommendation(longitude, latitude)
     elif kind == 'same_vendor':
-        rlist = spu.get_same_vendor_recommendations(longitue, latitude)
+        rlist = spu.get_same_vendor_recommendations(longitude, latitude)
     return jsonify({'data': [{
         'spu_id': r['spu']['id'],
         'spu_name': r['spu']['name'],
