@@ -70,7 +70,11 @@ class SKUModelView(ModelView):
             InputColSpec('spu', _('spu'), filter_=filter_),
             InputColSpec('manufacture_date', _('manufacture date')),
             InputColSpec('expire_date', _('expire date')),
-            InputColSpec('token', _('token'))
+            InputColSpec('token', _('token')),
+            InputColSpec('verify_count', _('verify_count'), disabled=True),
+            InputColSpec('last_verify_time', _('last verified'),
+                         disabled=True, formatter=lambda v, obj:
+                         v.strftime('%Y-%m-%d %H:%M'))
         ]
 
     @property

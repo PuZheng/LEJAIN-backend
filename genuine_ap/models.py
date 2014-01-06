@@ -132,7 +132,7 @@ class Vendor(db.Model):
     name = db.Column(db.String(32), nullable=False)
     brief = db.Column(db.String(256))
     create_time = db.Column(db.DateTime, default=datetime.now)
-    telephone = db.Column(db.String(32), nullable=False, doc=u'联系电话')
+    telephone = db.Column(db.String(32), nullable=False)
     address = db.Column(db.String(256))
     email = db.Column(sa_utils_types.EmailType, nullable=False,
                       doc=u'客服邮箱')

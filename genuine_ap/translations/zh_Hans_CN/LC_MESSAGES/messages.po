@@ -314,6 +314,18 @@ msgid ""
 "no vendor assigned"
 msgstr "如果没有账户可供选择，请确保存在一个生产厂家账户，并且该账户没有分配生产厂家"
 
+#: vendor/views.py:33 vendor/views.py:56 vendor/views.py:80
+msgid "telephone"
+msgstr "电话"
+
+#: sku/views.py:74
+msgid "verify_count"
+msgstr "验证次数"
+
+#: sku/views.py:75
+msgid "last verified"
+msgstr "上次验证时间"
+
 #: templates/flask_upload2__/uploader.html:8
 msgid "Select image"
 msgstr "选择图片"

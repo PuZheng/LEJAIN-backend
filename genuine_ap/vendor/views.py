@@ -30,6 +30,9 @@ class VendorModelView(ModelView):
             ColSpec('website', _('website')),
             ColSpec('brief', label=_('brief'),
                     widget=extra_widgets.PlainText(max_len=24)),
+            ColSpec('telephone', _('telephone')),
+            ColSpec('address', label=_('address'),
+                    widget=extra_widgets.PlainText(max_len=10)),
             ColSpec('spu_cnt', _('spu no.'),
                     formatter=lambda v, obj:
                     (v, spu_model_view.url_for_list(vendor=obj.id)),
@@ -50,6 +53,8 @@ class VendorModelView(ModelView):
                          render_kwargs={
                              'html_params': dict(rows=8, cols=40)
                          }),
+            InputColSpec('telephone', _('telephone')),
+            InputColSpec('address', label=_('address')),
             InputColSpec('administrator', label=_('administrator'),
                          filter_=lambda q: q.filter(and_(User.group_id ==
                                                          const.VENDOR_GROUP,
@@ -72,6 +77,8 @@ class VendorModelView(ModelView):
                          render_kwargs={
                              'html_params': dict(rows=8, cols=40)
                          }),
+            InputColSpec('telephone', _('telephone')),
+            InputColSpec('address', label=_('address')),
             ColSpec('spu_cnt', label=_('spu no.')),
             InputColSpec('administrator', label=_('administrator'),
                          filter_=lambda q: q.filter(and_(User.group_id ==
