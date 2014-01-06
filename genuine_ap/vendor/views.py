@@ -80,14 +80,6 @@ class VendorModelView(ModelView):
             InputColSpec('telephone', _('telephone')),
             InputColSpec('address', label=_('address')),
             ColSpec('spu_cnt', label=_('spu no.')),
-            InputColSpec('administrator', label=_('administrator'),
-                         filter_=lambda q: q.filter(and_(User.group_id ==
-                                                         const.VENDOR_GROUP,
-                                                         User.vendor ==
-                                                         None)),
-                         doc=_('if no account could be selected, make sure '
-                               'there\'s a vendor account with no vendor '
-                               'assigned'))
         ]
 
     def get_actions(self, processed_objs=None):
