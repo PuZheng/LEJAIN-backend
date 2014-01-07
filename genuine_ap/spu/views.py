@@ -27,8 +27,8 @@ def spu_view(spu_id):
     longitude = request.args.get('longitude', type=float)
     latitude = request.args.get('latitude', type=float)
     spu = get_or_404(SPU, spu_id)
-    nearby_recommendations_cnt = \
-        len(spu.get_nearby_recommendations(longitude, latitude))
+    same_type_recommendations_cnt = \
+        len(spu.get_same_type_recommendations(longitude, latitude))
     same_vendor_recommendations_cnt = \
         len(spu.get_same_vendor_recommendations(longitude, latitude))
     favored = False
@@ -39,7 +39,7 @@ def spu_view(spu_id):
 
     return jsonify({
         'spu': spu.as_dict(),
-        'nearby_recommendations_cnt': nearby_recommendations_cnt,
+        'same_type_recommendations_cnt': same_type_recommendations_cnt,
         'same_vendor_recommendations_cnt': same_vendor_recommendations_cnt,
         'comments_cnt': len(spu.comment_list),
         'favored': favored,

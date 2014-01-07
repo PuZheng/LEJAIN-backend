@@ -27,7 +27,6 @@ def compose_spu_id_2_distance(longitude, latitude, max_distance=1500):
 
     retailers, distance_list = find_retailers(longitude, latitude,
                                               max_distance=max_distance)
-    print retailers, distance_list
     ret = {}
     for retailer, distance in zip(retailers, distance_list):
         for spu in retailer.spu_list:
