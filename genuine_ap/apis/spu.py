@@ -44,7 +44,7 @@ class SPUWrapper(ModelWrapper):
                     SPU.id != self.id)
         return self._get_recommendations(cond, longitude, latitude)
 
-    def get_same_type_recommendation(self, longitude, latitude):
+    def get_same_type_recommendations(self, longitude, latitude):
         cond = and_(SPU.spu_type_id == self.spu_type_id,
                     SPU.id != self.id)
         return self._get_recommendations(cond, longitude, latitude)

@@ -17,7 +17,7 @@ def rcmd_list():
     if kind == 'nearby':
         rlist = spu.get_nearby_recommendations(longitude, latitude)
     elif kind == 'same_type':
-        rlist = spu.get_same_type_recommendation(longitude, latitude)
+        rlist = spu.get_same_type_recommendations(longitude, latitude)
     elif kind == 'same_vendor':
         rlist = spu.get_same_vendor_recommendations(longitude, latitude)
     return jsonify({'data': [{
