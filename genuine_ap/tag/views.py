@@ -46,6 +46,7 @@ def tag(id):
             'manufacture_time': sku.manufacture_date.strftime(time_format),
             'expire_time': sku.expire_date.strftime(time_format),
             'spu': spu.as_dict(),
+            'checksum': sku.checksum
         },
         'create_time': sku.create_time.strftime(time_format),
         'same_type_recommendations_cnt': same_type_recommendations_cnt,

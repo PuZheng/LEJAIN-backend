@@ -56,8 +56,8 @@ class SKUModelView(ModelView):
             InputColSpec('spu', _('spu'), filter_=filter_),
             InputColSpec('manufacture_date', _('manufacture date')),
             InputColSpec('expire_date', _('expire date')),
-            InputColSpec('token', _('token'))
-        ]
+            InputColSpec('token', _('token')),
+            InputColSpec('checksum', _('checksum'))]
 
     @property
     def edit_columns(self):
@@ -71,6 +71,7 @@ class SKUModelView(ModelView):
             InputColSpec('manufacture_date', _('manufacture date')),
             InputColSpec('expire_date', _('expire date')),
             InputColSpec('token', _('token')),
+            InputColSpec('checksum', _('checksum')),
             InputColSpec('verify_count', _('verify_count'), disabled=True),
             InputColSpec('last_verify_time', _('last verified'),
                          disabled=True, formatter=lambda v, obj:
