@@ -49,6 +49,7 @@ class SKU(db.Model):
     manufacture_date = db.Column(db.Date)
     expire_date = db.Column(db.Date)
     token = db.Column(db.String(32), unique=True, nullable=False)
+    checksum = db.Column(db.String(32), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
     verify_count = db.Column(db.Integer, nullable=False, default=0)
     last_verify_time = db.Column(db.DateTime, default=datetime.now)

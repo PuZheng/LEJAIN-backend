@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-30 17:46+0800\n"
+"POT-Creation-Date: 2014-01-08 15:38+0800\n"
 "PO-Revision-Date: 2013-12-23 14:57+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: zh_Hans_CN <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr "创建%(label)s"
 msgid "edit %(label)s"
 msgstr "编辑%(label)s"
 
-#: basemain.py:89 basemain.py:118 basemain.py:135
+#: basemain.py:89 basemain.py:118 basemain.py:135 spu/views.py:325
 msgid "SPU"
 msgstr "SPU"
 
@@ -40,7 +40,7 @@ msgstr "SPU"
 msgid "SPU related"
 msgstr "spu相关"
 
-#: basemain.py:95 basemain.py:124
+#: basemain.py:95 basemain.py:124 spu/views.py:324
 msgid "SPU Type"
 msgstr "SPU分类"
 
@@ -52,7 +52,7 @@ msgstr "SKU"
 msgid "Vendor"
 msgstr "生产厂家"
 
-#: basemain.py:107 user/__init__.py:28
+#: basemain.py:107 retailer/views.py:139 user/__init__.py:28
 msgid "Retailer"
 msgstr "商家"
 
@@ -68,173 +68,192 @@ msgstr "厂家信息"
 msgid "Retailer Info"
 msgstr "商家信息"
 
-#: index.py:21 index.py:25
+#: index.py:22 index.py:26
 msgid "error"
 msgstr "错误"
 
-#: retailer/views.py:48 sku/views.py:40 spu/views.py:130 spu/views.py:155
-#: spu/views.py:214 user/views.py:128 user/views.py:153 vendor/views.py:25
+#: retailer/views.py:51 sku/views.py:40 spu/views.py:131 spu/views.py:159
+#: spu/views.py:219 user/views.py:124 user/views.py:149 vendor/views.py:25
 msgid "id"
 msgstr "编号"
 
-#: retailer/views.py:49 retailer/views.py:64 retailer/views.py:85
-#: retailer/views.py:106 spu/views.py:131 spu/views.py:145 spu/views.py:158
-#: spu/views.py:186 spu/views.py:215 spu/views.py:241 spu/views.py:261
-#: spu/views.py:277 user/views.py:120 user/views.py:129 user/views.py:140
-#: user/views.py:155 vendor/views.py:26 vendor/views.py:42 vendor/views.py:59
-#: vendor/views.py:94
+#: retailer/views.py:52 retailer/views.py:67 retailer/views.py:94
+#: retailer/views.py:129 spu/views.py:132 spu/views.py:148 spu/views.py:162
+#: spu/views.py:190 spu/views.py:220 spu/views.py:246 spu/views.py:266
+#: spu/views.py:282 user/views.py:116 user/views.py:125 user/views.py:136
+#: user/views.py:151 vendor/views.py:26 vendor/views.py:46 vendor/views.py:71
+#: vendor/views.py:105
 msgid "name"
 msgstr "名称"
 
-#: retailer/views.py:50 retailer/views.py:68 retailer/views.py:89
-#: spu/views.py:219 spu/views.py:247 spu/views.py:265
+#: retailer/views.py:53 retailer/views.py:71 retailer/views.py:100
+#: spu/views.py:224 spu/views.py:252 spu/views.py:270
 msgid "rating"
 msgstr "评分"
 
-#: retailer/views.py:51 retailer/views.py:71 retailer/views.py:92
-#: retailer/views.py:107
+#: retailer/views.py:54 retailer/views.py:74 retailer/views.py:105
+#: retailer/views.py:131 vendor/views.py:34 vendor/views.py:57
+#: vendor/views.py:81
 msgid "address"
 msgstr "地址"
 
-#: retailer/views.py:52 retailer/views.py:69 retailer/views.py:90
+#: retailer/views.py:55 retailer/views.py:72 retailer/views.py:103
 msgid "longitude"
 msgstr "经度"
 
-#: retailer/views.py:53 retailer/views.py:70 retailer/views.py:91
+#: retailer/views.py:56 retailer/views.py:73 retailer/views.py:104
 msgid "latitude"
 msgstr "纬度"
 
-#: retailer/views.py:54 retailer/views.py:65 retailer/views.py:86
-#: vendor/views.py:30 vendor/views.py:47 vendor/views.py:64
+#: retailer/views.py:57 retailer/views.py:68 retailer/views.py:95
+#: vendor/views.py:31 vendor/views.py:51 vendor/views.py:76
 msgid "brief"
 msgstr "简介"
 
-#: retailer/views.py:56 sku/views.py:46 spu/views.py:133 spu/views.py:156
-#: spu/views.py:220 user/views.py:131 user/views.py:154 vendor/views.py:27
+#: retailer/views.py:59 sku/views.py:46 spu/views.py:134 spu/views.py:160
+#: spu/views.py:225 user/views.py:127 user/views.py:150 vendor/views.py:27
 msgid "create time"
 msgstr "创建时间"
 
-#: retailer/views.py:58 retailer/views.py:77 retailer/views.py:98
-#: vendor/views.py:36 vendor/views.py:52 vendor/views.py:69
+#: retailer/views.py:61 retailer/views.py:80 retailer/views.py:113
+#: retailer/views.py:122 vendor/views.py:40 vendor/views.py:58
 msgid "administrator"
 msgstr "管理员"
 
-#: retailer/views.py:72 retailer/views.py:93
+#: retailer/views.py:75 retailer/views.py:106
 msgid "spu list"
 msgstr "spu列表"
 
-#: retailer/views.py:73 retailer/views.py:94
+#: retailer/views.py:76 retailer/views.py:107
 msgid ""
 "you could type to search spu! for Chinese character, you could just type "
 "the first letter of each character to search, for example, \"mt\" for "
 "\"茅台\""
 msgstr "您可以输入来搜索spu，对于汉字，可以输入每个字的拼音首字母进行搜索，例如'mt'对应'茅台'"
 
-#: retailer/views.py:106 retailer/views.py:108 sku/views.py:86 spu/views.py:186
-#: spu/views.py:277 user/views.py:120 vendor/views.py:94
+#: retailer/views.py:85 retailer/views.py:118
+msgid ""
+"if no account could be selected, make sure there's a retailer account "
+"with no retailer assigned"
+msgstr "如果没有账户可供选择，请确保存在一个商家账户，并且该账户没有分配商家"
+
+#: retailer/views.py:130 retailer/views.py:132 sku/views.py:91 spu/views.py:191
+#: spu/views.py:283 user/views.py:116 vendor/views.py:106
 msgid "contains"
 msgstr "包含"
 
-#: retailer/views.py:112 sku/views.py:106 spu/views.py:181 spu/views.py:308
-#: user/views.py:186 vendor/views.py:89
+#: retailer/views.py:136 sku/views.py:111 spu/views.py:185 spu/views.py:316
+#: user/views.py:182 vendor/views.py:100
 msgid "remove"
 msgstr "删除"
 
-#: sku/views.py:41 sku/views.py:56 sku/views.py:70 sku/views.py:78
+#: sku/views.py:41 sku/views.py:56 sku/views.py:70 sku/views.py:83
 msgid "spu"
 msgstr "spu"
 
-#: sku/views.py:42 sku/views.py:91 spu/views.py:217 spu/views.py:244
-#: spu/views.py:266 spu/views.py:282 user/views.py:133
+#: sku/views.py:42 sku/views.py:96 spu/views.py:222 spu/views.py:249
+#: spu/views.py:271 spu/views.py:290 user/views.py:129 vendor/views.py:114
 msgid "vendor"
 msgstr "生产厂家"
 
-#: sku/views.py:43 sku/views.py:57 sku/views.py:71 sku/views.py:79
+#: sku/views.py:43 sku/views.py:57 sku/views.py:71 sku/views.py:84
 msgid "manufacture date"
 msgstr "生产日期"
 
-#: sku/views.py:44 sku/views.py:58 sku/views.py:72 sku/views.py:80
+#: sku/views.py:44 sku/views.py:58 sku/views.py:72 sku/views.py:85
 msgid "expire date"
 msgstr "保质期"
 
-#: sku/views.py:45 sku/views.py:59 sku/views.py:73 sku/views.py:88
+#: sku/views.py:45 sku/views.py:59 sku/views.py:73 sku/views.py:93
 msgid "token"
 msgstr "标签"
 
-#: sku/views.py:85
+#: sku/views.py:60 sku/views.py:74
+msgid "checksum"
+msgstr "验证码"
+
+#: sku/views.py:75
+msgid "verify_count"
+msgstr "验证次数"
+
+#: sku/views.py:76
+msgid "last verified"
+msgstr "上次验证时间"
+
+#: sku/views.py:90
 msgid "spu name"
 msgstr "spu名称"
 
-#: sku/views.py:88 sku/views.py:92 spu/views.py:278 spu/views.py:283
-#: user/views.py:121
+#: sku/views.py:93 sku/views.py:97 spu/views.py:285 spu/views.py:291
+#: user/views.py:117
 msgid "is"
 msgstr "是"
 
-#: spu/views.py:132 spu/views.py:146 spu/views.py:159
+#: spu/views.py:133 spu/views.py:149 spu/views.py:163
 msgid "weight"
 msgstr "权重"
 
-#: spu/views.py:136 vendor/views.py:32 vendor/views.py:68
+#: spu/views.py:137 vendor/views.py:36 vendor/views.py:82
 msgid "spu no."
 msgstr "spu数量"
 
-#: spu/views.py:139 spu/views.py:147 spu/views.py:160
+#: spu/views.py:140 spu/views.py:150 spu/views.py:164
 msgid "logo"
 msgstr "logo"
 
-#: spu/views.py:144 spu/views.py:153 spu/views.py:232 spu/views.py:253
+#: spu/views.py:147 spu/views.py:157 spu/views.py:237 spu/views.py:258
 #, python-format
 msgid "size should be %(size)s, only jpeg allowable"
 msgstr "大小应当是%(size)s, 只接受jpeg格式"
 
-#: spu/views.py:162
+#: spu/views.py:166
 msgid "upload logo"
 msgstr "上传logo"
 
-#: spu/views.py:178
+#: spu/views.py:182
 #, python-format
 msgid "%%s already contains SPU, so can't be removed!"
 msgstr "已经包含SPU, 所以不能删除!"
 
-#: spu/views.py:216 spu/views.py:243 spu/views.py:263 spu/views.py:279
+#: spu/views.py:221 spu/views.py:248 spu/views.py:268 spu/views.py:286
 msgid "msrp"
 msgstr "建议零售价"
 
-#: spu/views.py:218 spu/views.py:246 spu/views.py:264 spu/views.py:278
+#: spu/views.py:223 spu/views.py:251 spu/views.py:269 spu/views.py:284
 msgid "spu type"
 msgstr "spu分类"
 
-#: spu/views.py:225
+#: spu/views.py:230
 msgid "sku no."
 msgstr "sku数量"
 
-#: spu/views.py:242 spu/views.py:262
+#: spu/views.py:247 spu/views.py:267
 msgid "code"
 msgstr "编码"
 
-#: spu/views.py:248 spu/views.py:270
+#: spu/views.py:253 spu/views.py:275
 msgid "upload logos"
 msgstr "上传logos"
 
-#: spu/views.py:268
+#: spu/views.py:273
 msgid "logos"
 msgstr "logos"
 
-#: spu/views.py:279
+#: spu/views.py:287
 msgid "between"
 msgstr "区间是"
 
-#: spu/views.py:302
+#: spu/views.py:310
 #, python-format
 msgid "spu %%s already contains sku, can't be removed!"
 msgstr "SPU(%%s)已经包含SKU, 所以不能删除!"
 
-#: spu/views.py:303
+#: spu/views.py:311
 #, python-format
 msgid "spu %%s already has comments, can't be removed!"
 msgstr "SPU(%%s)已经包含评论, 所以不能删除!"
 
-#: spu/views.py:304
+#: spu/views.py:312
 #, python-format
 msgid "spu %%s already has been favored, can't beremoved"
 msgstr "SPU(%%s)已经被收藏, 所以不能删除!"
@@ -251,457 +270,302 @@ msgstr "对不起，您的厂家还没有创建，请耐心等待..."
 msgid "Administrator"
 msgstr "管理员"
 
-#: user/views.py:121 user/views.py:130 user/views.py:146 user/views.py:161
+#: user/views.py:117 user/views.py:126 user/views.py:142 user/views.py:157
 msgid "group"
 msgstr "用户组"
 
-#: user/views.py:134
+#: user/views.py:130
 msgid "retailer"
 msgstr "商家"
 
-#: user/views.py:141 user/views.py:156
+#: user/views.py:137 user/views.py:152
 msgid "password"
 msgstr "密码"
 
-#: user/views.py:180
+#: user/views.py:176
 #, python-format
 msgid "you can't remove administrator account %%s!"
 msgstr "您不能删除管理员帐号!"
 
-#: user/views.py:181
+#: user/views.py:177
 #, python-format
 msgid "user %%s has retailer, remove the retailer at first!"
 msgstr "用户%%s有相关商家，请先删除商家！"
 
-#: user/views.py:183
+#: user/views.py:179
 #, python-format
 msgid "user %%s has vendor, remove the vendor as first1"
 msgstr "用户%%s有相关生产厂家， 请先删除生产厂家！"
 
-#: vendor/views.py:28 vendor/views.py:43 vendor/views.py:60
+#: user/views.py:185
+msgid "User"
+msgstr ""
+
+#: vendor/views.py:29 vendor/views.py:47 vendor/views.py:72
 msgid "email"
 msgstr "电子邮箱"
 
-#: vendor/views.py:29 vendor/views.py:44 vendor/views.py:61
+#: vendor/views.py:30 vendor/views.py:48 vendor/views.py:73
 msgid "website"
 msgstr "官方网站"
-
-#: vendor/views.py:45 vendor/views.py:62
-msgid "weibo"
-msgstr "微博"
-
-#: vendor/views.py:46 vendor/views.py:63
-msgid "weixin follow link"
-msgstr "微信加关注链接"
-
-#: vendor/views.py:85
-#, python-format
-msgid "vendor %%s already contains SPU, can't be removed!"
-msgstr "厂商(%%s)已经包含SPU, 所以不能删除!"
-
-msgid "User"
-msgstr "用户"
-
-#: retailer/views.py:83 retailer/views.py:109
-msgid ""
-"if no account could be selected, make sure there's a retailer account "
-"with no retailer assigned"
-msgstr "如果没有账户可供选择，请确保存在一个商家账户，并且该账户没有分配商家"
-
-#: vendor/views.py:58 vendor/views.py:81
-msgid ""
-"if no account could be selected, make sure there's a vendor account with "
-"no vendor assigned"
-msgstr "如果没有账户可供选择，请确保存在一个生产厂家账户，并且该账户没有分配生产厂家"
 
 #: vendor/views.py:33 vendor/views.py:56 vendor/views.py:80
 msgid "telephone"
 msgstr "电话"
 
-#: sku/views.py:74
-msgid "verify_count"
-msgstr "验证次数"
+#: vendor/views.py:49 vendor/views.py:74
+msgid "weibo"
+msgstr "微博"
 
-#: sku/views.py:75
-msgid "last verified"
-msgstr "上次验证时间"
+#: vendor/views.py:50 vendor/views.py:75
+msgid "weixin follow link"
+msgstr "微信加关注链接"
 
-#: templates/flask_upload2__/uploader.html:8
-msgid "Select image"
-msgstr "选择图片"
-
-#: templates/flask_upload2__/uploader.html:8
-msgid "Change"
-msgstr "修改"
-
-#: templates/flask_upload2__/uploader.html:9
-msgid "Remove"
-msgstr "清除"
-
-
-#: action.py:63
-#, python-format
+#: vendor/views.py:63
 msgid ""
-"operation %(action)s applied upon %(model_label)s - [%(records)s] "
-"successfully"
-msgstr "成功对%(model_label)s - [%(records)s]实施了%(action)s操作!" 
+"if no account could be selected, make sure there's a vendor account with "
+"no vendor assigned"
+msgstr "如果没有账户可供选择，请确保存在一个生产厂家账户，并且该账户没有分配生产厂家"
 
-#: action.py:88
+#: vendor/views.py:96
 #, python-format
-msgid "no permission to apply %(action)s upon %(model_label)s [%%s]"
-msgstr "%(model_label)s[%%s]不能被%(action)s"
-
-#: action.py:111 model_view.py:81 model_view.py:82
-msgid "remove"
-msgstr "删除"
-
-#: error_handle.py:25
-#, python-format
-msgid ""
-"this operation needs the following permissions: %(permissions)s, contact "
-"administrator to grant them!"
-msgstr "本操作需要如下权限: %(permissions)s，请联系管理员获取权限！"
-
-#: error_handle.py:29
-msgid "Sorry, object doesn't exist!"
-msgstr "对不起, 对象不存在!"
-
-#: error_handle.py:37
-#, python-format
-msgid "Internal error \"%(err)s\", please contact us!"
-msgstr "内部错误\"%(err)s\"， 请联系我们！"
-
-#: extra_fields.py:52 extra_widgets.py:326
-msgid "Invalid time format"
-msgstr "错误的时间格式"
-
-#: filters.py:100 filters.py:110 filters.py:113 model_view.py:78
-#: model_view.py:79 model_view.py:82
-msgid "all"
-msgstr "所有"
-
-#: model_view.py:76 model_view.py:259 templates/data_browser__/list.html:210
-#: templates/data_browser__/macro.html:200
-msgid "create"
-msgstr "新建"
-
-#: model_view.py:77 model_view.py:78
-msgid "edit"
-msgstr "编辑"
-
-#: model_view.py:79 model_view.py:80
-msgid "view"
-msgstr "查看"
-
-#: model_view.py:241
-#, python-format
-msgid "%(user)s performed %(action)s"
-msgstr "用户%(user)s执行了%(action)s操作"
-
-#: model_view.py:257 model_view.py:458
-#, python-format
-msgid "%(model_label)s %(model)s was created successfully"
-msgstr "成功创建%(model_label)s-(%(model)s)!"
-
-#: model_view.py:267 model_view.py:278
-#, python-format
-msgid ""
-"you are viewing %(model_label)s-[%(obj)s], since you have only read "
-"permission"
-msgstr "您正在查看%(model_label)s-%(obj)s, 因为您只有只读权限"
-
-#: model_view.py:271
-#, python-format
-msgid "edit %(model_label)s-[%(objs)s]"
-msgstr "正在编辑%(model_label)s-%(objs)s"
-
-
-#: model_view.py:282
-msgid "edit %(model_label)s-[%(obj)s]"
-msgstr "正在编辑%(model_label)s-%(obj)s"
-
-#: model_view.py:286
-#, python-format
-msgid "create %(model_label)s"
-msgstr "正在创建%(model_label)s"
-
-#: model_view.py:459 templates/data_browser__/macro.html:232
-msgid "add another"
-msgstr "再增加一个"
-
-#: model_view.py:610 model_view.py:1268
-#, python-format
-msgid "invalid action %(action)s"
-msgstr "操作%(action)s非法"
-
-#: model_view.py:1238
-#, python-format
-msgid "can't apply %(action)s due to %(reason)s"
-msgstr "操作%(action)s失败，原因是%(reason)s"
-
-#: model_view.py:1300
-msgid "update"
-msgstr "更新"
-
-#: model_view.py:1302
-#, python-format
-msgid "%(model_label)s %(obj)s was updated and saved"
-msgstr "%(model_label)s(%(obj)s)已经被更新并保存"
-
-#: model_view.py:1311
-#, python-format
-msgid "Failed to update %(model_label)s %(obj)s due to %(error)s"
-msgstr "更新%(model_label)s失败，原因是%(error)s"
-
-#: convert_utils/sa.py:82
-msgid "This field is required."
-msgstr "需要该字段"
-
-#: convert_utils/sa.py:88
-#, python-format
-msgid "the input must be like %s"
-msgstr "输入必须形如%s"
-
-#: convert_utils/sa.py:93
-msgid "Invalid URL"
-msgstr "非法的URL"
-
-#: convert_utils/sa.py:101 convert_utils/sa.py:109
-#, python-format
-msgid "Invalid value, must be one of: %(values)s."
-msgstr "该字段的值必须是%(values)s"
-
-#: convert_utils/sa.py:117
-#, python-format
-msgid "Field must be at least %%(min)d character long."
-msgstr "字段长度至少为%%(min)d"
-
-#: convert_utils/sa.py:119
-#, python-format
-msgid "Field cannot be longer than %%(max)d character."
-msgstr "字段长度不能超过%%(max)d"
-
-#: convert_utils/sa.py:121
-#, python-format
-msgid "Field must be between %%(min)d and %%(max)d characters long."
-msgstr "字段长度必须大于等于%%(min)d, 小于%%(max)d"
-
-#: convert_utils/sa.py:130
-#, python-format
-msgid "Number must be greater than %%(min)s."
-msgstr "必须大于%%(min)s."
-
-#: convert_utils/sa.py:132
-#, python-format
-msgid "Number must be less than %%(max)s."
-msgstr "必须小于%%(max)s"
-
-#: convert_utils/sa.py:134
-#, python-format
-msgid "Number must be between %%(min)s and %%(max)s."
-msgstr "必须小于%%(min)s, 大于%%(max)s"
-
-#: convert_utils/sa.py:140
-msgid "Invalid email address."
-msgstr "非法的邮箱地址"
-
-#: convert_utils/sa.py:150 convert_utils/sa.py:198 sa/sa_kolumne.py:331
-#: sa/sa_kolumne.py:355
-msgid "this field can't be empty"
-msgstr "该字段不能为空"
-
-#: convert_utils/sa.py:154 convert_utils/sa.py:159
-msgid "This field must be unique, but it already exists!"
-msgstr "该字段不能重复，该字段的值已经存在"
-
-#: convert_utils/sa.py:164
-#, python-format
-msgid "value of this field must be %(values)s"
-msgstr "该字段的值必须是%(values)s"
-
-#: convert_utils/sa.py:165
-#, python-format
-msgid " or %(last_value)s"
-msgstr " 或者 %(last_value)s"
-
-#: convert_utils/sa.py:174
-msgid "this field must bigger than 0"
-msgstr "该字段必须大于0"
-
-#: sa/sa_fields.py:189 sa/sa_fields.py:247 sa/sa_fields.py:252
-msgid "Not a valid choice"
-msgstr "选择错误"
-
-#: sa/sa_kolumne.py:342
-msgid "This field must be unique!"
-msgstr "该字段必须是合法的UUID"
-
-#: sa/sa_modell.py:31
-#, python-format
-msgid "Invalid order by criterion '%(order_by)s'"
-msgstr "非法的order by条件\"%(order_by)s\""
-
-#: templates/data_browser__/error.html:38
-msgid "click to return"
-msgstr "点击返回"
-
-#: templates/data_browser__/form.html:12 templates/data_browser__/list.html:163
-msgid "help"
-msgstr "帮助"
-
-#: templates/data_browser__/form.html:30 templates/data_browser__/list.html:173
-msgid "Help"
-msgstr "帮助"
-
-#: templates/data_browser__/form.html:34 templates/data_browser__/list.html:179
-#: templates/data_browser__/list.html:437
-msgid "close"
-msgstr "关闭"
-
-#: templates/data_browser__/form.html:74
-#, python-format
-msgid "Are you sure to %%s these items?"
-msgstr "您确认要%%s这些记录?"
-
-#: templates/data_browser__/form.html:76
-#, python-format
-msgid "Are you sure to %%s this item?"
-msgstr "您确认要%%s这条记录?"
-
-#: templates/data_browser__/list.html:11 templates/data_browser__/list.html:49
-msgid "please choose one item!"
-msgstr "请选择一项"
-
-#: templates/data_browser__/list.html:52 templates/data_browser__/list.html:320
-#: templates/data_browser__/list.html:350
-msgid "batch edit"
-msgstr "批量编辑"
-
-#: templates/data_browser__/list.html:59
-#, python-format
-msgid "Are you sure to %%s the selected item(s)?"
-msgstr "您确认要%%s选中的记录?"
-
-#: templates/data_browser__/list.html:62
-msgid "Attention!"
-msgstr "注意!"
-
-#: templates/data_browser__/list.html:146
-msgid "no results matched!"
-msgstr "没有符合条件的记录!"
-
-#: templates/data_browser__/list.html:202
-#, python-format
-msgid "totally: %(count)d"
-msgstr "总计: %(count)d"
-
-#: templates/data_browser__/list.html:409
-#, python-format
-msgid "input %(label)s here"
-msgstr "在这里输入%(label)s"
-
-#: templates/data_browser__/list.html:429
-#: templates/data_browser__/list.html:448
-msgid "refine search"
-msgstr "设置查询条件"
-
-#: templates/data_browser__/list.html:436
-#: templates/data_browser__/list.html:457
-#: templates/data_browser__/macro.html:262
-#: templates/data_browser__/macro.html:286
-msgid "reset"
-msgstr "重置"
-
-#: templates/data_browser__/list.html:438
-#: templates/data_browser__/list.html:456
-msgid "refresh"
-msgstr "刷新"
-
-#: templates/data_browser__/macro.html:8 templates/data_browser__/macro.html:45
-msgid "no previous page!"
-msgstr "没有上一页!"
-
-#: templates/data_browser__/macro.html:25
-#: templates/data_browser__/macro.html:77
-msgid "no more pages!"
-msgstr "没有下一页!"
-
-#: templates/data_browser__/macro.html:46
-#: templates/data_browser__/macro.html:52
-msgid "prev"
-msgstr "上一页"
-
-#: templates/data_browser__/macro.html:73
-#, python-format
-msgid "totally matched records: %(count)d"
-msgstr "符合条件的记录数: %(count)d"
-
-#: templates/data_browser__/macro.html:79
-#: templates/data_browser__/macro.html:85
-msgid "next"
-msgstr "下一页"
-
-#: templates/data_browser__/macro.html:99
-#, python-format
-msgid "Step %(step)d"
-msgstr "第%(step)步"
-
-#: templates/data_browser__/macro.html:173
-msgid "unique field, can't be modified"
-msgstr "该字段值唯一， 不能修改"
-
-#: templates/data_browser__/macro.html:182
-msgid "keep unchanged"
-msgstr "保持原值"
-
-#: templates/data_browser__/macro.html:242
-msgid "Last step"
-msgstr "上一步"
-
-#: templates/data_browser__/macro.html:246
-#: templates/data_browser__/macro.html:264
-#: templates/data_browser__/macro.html:289
-msgid "back"
-msgstr "返回"
-
-#: templates/data_browser__/macro.html:250
-msgid "Next step"
-msgstr "下一步"
-
-#: templates/data_browser__/macro.html:261
-#: templates/data_browser__/macro.html:285
-msgid "commit"
-msgstr "提交"
-
-#: templates/data_browser__/on_fly_result.html:25
-msgid "congratulations"
-msgstr "祝贺您"
-
-#: templates/data_browser__/on_fly_result.html:26
-#, python-format
-msgid "you have created %(model_cls)s %(obj)s successfully!"
-msgstr "您成功的创建了%(model_cls)s - %(obj)s!"
-
-#: templates/data_browser__/on_fly_result.html:27
-msgid "I see"
-msgstr "我知道了"
-
-#: templates/data_browser__/snippets/password.html:11
-msgid "Password Generator"
-msgstr "密码生成器"
-
-#: templates/data_browser__/snippets/password.html:15
-msgid "password can't be empty!"
-msgstr "密码不能为空"
-
-#: templates/data_browser__/snippets/password.html:18
-msgid "input password here"
-msgstr "请输入密码"
-
-#: templates/data_browser__/snippets/password.html:25
-msgid "Close"
-msgstr "关闭"
-
-#: templates/data_browser__/snippets/password.html:26
-msgid "ok"
-msgstr "确认"
+msgid "vendor %%s already contains SPU, can't be removed!"
+msgstr "厂商(%%s)已经包含SPU, 所以不能删除!"
+
+#~ msgid "User"
+#~ msgstr "用户"
+
+#~ msgid "Select image"
+#~ msgstr "选择图片"
+
+#~ msgid "Change"
+#~ msgstr "修改"
+
+#~ msgid "Remove"
+#~ msgstr "清除"
+
+#~ msgid ""
+#~ msgstr "您正在查看%(model_label)s-%(obj)s, 因为您只有只读权限"
+
+#~ msgid "no permission to apply %(action)s upon %(model_label)s [%%s]"
+#~ msgstr "%(model_label)s[%%s]不能被%(action)s"
+
+#~ msgid "Sorry, object doesn't exist!"
+#~ msgstr "对不起, 对象不存在!"
+
+#~ msgid "Internal error \"%(err)s\", please contact us!"
+#~ msgstr "内部错误\"%(err)s\"， 请联系我们！"
+
+#~ msgid "Invalid time format"
+#~ msgstr "错误的时间格式"
+
+#~ msgid "all"
+#~ msgstr "所有"
+
+#~ msgid "create"
+#~ msgstr "新建"
+
+#~ msgid "edit"
+#~ msgstr "编辑"
+
+#~ msgid "view"
+#~ msgstr "查看"
+
+#~ msgid "%(user)s performed %(action)s"
+#~ msgstr "用户%(user)s执行了%(action)s操作"
+
+#~ msgid "%(model_label)s %(model)s was created successfully"
+#~ msgstr "成功创建%(model_label)s-(%(model)s)!"
+
+#~ msgid "edit %(model_label)s-[%(objs)s]"
+#~ msgstr "正在编辑%(model_label)s-%(objs)s"
+
+#~ msgid "edit %(model_label)s-[%(obj)s]"
+#~ msgstr "正在编辑%(model_label)s-%(obj)s"
+
+#~ msgid "create %(model_label)s"
+#~ msgstr "正在创建%(model_label)s"
+
+#~ msgid "add another"
+#~ msgstr "再增加一个"
+
+#~ msgid "invalid action %(action)s"
+#~ msgstr "操作%(action)s非法"
+
+#~ msgid "can't apply %(action)s due to %(reason)s"
+#~ msgstr "操作%(action)s失败，原因是%(reason)s"
+
+#~ msgid "update"
+#~ msgstr "更新"
+
+#~ msgid "%(model_label)s %(obj)s was updated and saved"
+#~ msgstr "%(model_label)s(%(obj)s)已经被更新并保存"
+
+#~ msgid "Failed to update %(model_label)s %(obj)s due to %(error)s"
+#~ msgstr "更新%(model_label)s失败，原因是%(error)s"
+
+#~ msgid "This field is required."
+#~ msgstr "需要该字段"
+
+#~ msgid "the input must be like %s"
+#~ msgstr "输入必须形如%s"
+
+#~ msgid "Invalid URL"
+#~ msgstr "非法的URL"
+
+#~ msgid "Invalid value, must be one of: %(values)s."
+#~ msgstr "该字段的值必须是%(values)s"
+
+#~ msgid "Field must be at least %%(min)d character long."
+#~ msgstr "字段长度至少为%%(min)d"
+
+#~ msgid "Field cannot be longer than %%(max)d character."
+#~ msgstr "字段长度不能超过%%(max)d"
+
+#~ msgid "Field must be between %%(min)d and %%(max)d characters long."
+#~ msgstr "字段长度必须大于等于%%(min)d, 小于%%(max)d"
+
+#~ msgid "Number must be greater than %%(min)s."
+#~ msgstr "必须大于%%(min)s."
+
+#~ msgid "Number must be less than %%(max)s."
+#~ msgstr "必须小于%%(max)s"
+
+#~ msgid "Number must be between %%(min)s and %%(max)s."
+#~ msgstr "必须小于%%(min)s, 大于%%(max)s"
+
+#~ msgid "Invalid email address."
+#~ msgstr "非法的邮箱地址"
+
+#~ msgid "this field can't be empty"
+#~ msgstr "该字段不能为空"
+
+#~ msgid "This field must be unique, but it already exists!"
+#~ msgstr "该字段不能重复，该字段的值已经存在"
+
+#~ msgid "value of this field must be %(values)s"
+#~ msgstr "该字段的值必须是%(values)s"
+
+#~ msgid " or %(last_value)s"
+#~ msgstr " 或者 %(last_value)s"
+
+#~ msgid "this field must bigger than 0"
+#~ msgstr "该字段必须大于0"
+
+#~ msgid "Not a valid choice"
+#~ msgstr "选择错误"
+
+#~ msgid "This field must be unique!"
+#~ msgstr "该字段必须是合法的UUID"
+
+#~ msgid "Invalid order by criterion '%(order_by)s'"
+#~ msgstr "非法的order by条件\"%(order_by)s\""
+
+#~ msgid "click to return"
+#~ msgstr "点击返回"
+
+#~ msgid "help"
+#~ msgstr "帮助"
+
+#~ msgid "Help"
+#~ msgstr "帮助"
+
+#~ msgid "close"
+#~ msgstr "关闭"
+
+#~ msgid "Are you sure to %%s these items?"
+#~ msgstr "您确认要%%s这些记录?"
+
+#~ msgid "Are you sure to %%s this item?"
+#~ msgstr "您确认要%%s这条记录?"
+
+#~ msgid "please choose one item!"
+#~ msgstr "请选择一项"
+
+#~ msgid "batch edit"
+#~ msgstr "批量编辑"
+
+#~ msgid "Are you sure to %%s the selected item(s)?"
+#~ msgstr "您确认要%%s选中的记录?"
+
+#~ msgid "Attention!"
+#~ msgstr "注意!"
+
+#~ msgid "no results matched!"
+#~ msgstr "没有符合条件的记录!"
+
+#~ msgid "totally: %(count)d"
+#~ msgstr "总计: %(count)d"
+
+#~ msgid "input %(label)s here"
+#~ msgstr "在这里输入%(label)s"
+
+#~ msgid "refine search"
+#~ msgstr "设置查询条件"
+
+#~ msgid "reset"
+#~ msgstr "重置"
+
+#~ msgid "refresh"
+#~ msgstr "刷新"
+
+#~ msgid "no previous page!"
+#~ msgstr "没有上一页!"
+
+#~ msgid "no more pages!"
+#~ msgstr "没有下一页!"
+
+#~ msgid "prev"
+#~ msgstr "上一页"
+
+#~ msgid "totally matched records: %(count)d"
+#~ msgstr "符合条件的记录数: %(count)d"
+
+#~ msgid "next"
+#~ msgstr "下一页"
+
+#~ msgid "Step %(step)d"
+#~ msgstr "第%(step)步"
+
+#~ msgid "unique field, can't be modified"
+#~ msgstr "该字段值唯一， 不能修改"
+
+#~ msgid "keep unchanged"
+#~ msgstr "保持原值"
+
+#~ msgid "Last step"
+#~ msgstr "上一步"
+
+#~ msgid "back"
+#~ msgstr "返回"
+
+#~ msgid "Next step"
+#~ msgstr "下一步"
+
+#~ msgid "commit"
+#~ msgstr "提交"
+
+#~ msgid "congratulations"
+#~ msgstr "祝贺您"
+
+#~ msgid "you have created %(model_cls)s %(obj)s successfully!"
+#~ msgstr "您成功的创建了%(model_cls)s - %(obj)s!"
+
+#~ msgid "I see"
+#~ msgstr "我知道了"
+
+#~ msgid "Password Generator"
+#~ msgstr "密码生成器"
+
+#~ msgid "password can't be empty!"
+#~ msgstr "密码不能为空"
+
+#~ msgid "input password here"
+#~ msgstr "请输入密码"
+
+#~ msgid "Close"
+#~ msgstr "关闭"
+
+#~ msgid "ok"
+#~ msgstr "确认"
+
