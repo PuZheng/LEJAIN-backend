@@ -64,10 +64,3 @@ def denounce(id):
     latitude = request.args.get('latitude', type=float)
     reason = request.args.get("reason")
     return ""
-
-
-def checksum(token):
-    import random
-    rand = token * random.random()
-    return int((round(rand, 5) - int(rand)) * 10000)
-
