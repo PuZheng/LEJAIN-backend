@@ -60,14 +60,5 @@ class RetailerWrapper(ModelWrapper):
         return ''
 
     @property
-    def icon(self):
-        if posixpath.exists(posixpath.join('static', 'retailer_pics',
-                                           str(self.id) + '_icon.jpg')):
-            return url_for('static',
-                           filename='retailer_pics/' + str(self.id) +
-                           '_icon.jpg')
-        return ''
-
-    @property
     def spu_cnt(self):
         return len(self.spu_list)

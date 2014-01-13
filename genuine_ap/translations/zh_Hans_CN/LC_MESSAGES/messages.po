@@ -332,240 +332,244 @@ msgstr "如果没有账户可供选择，请确保存在一个生产厂家账户
 msgid "vendor %%s already contains SPU, can't be removed!"
 msgstr "厂商(%%s)已经包含SPU, 所以不能删除!"
 
-#~ msgid "User"
-#~ msgstr "用户"
+#: retailer/views.py:97 retailer/views.py:124
+msgid "upload icon"
+msgstr "上传icon"
 
-#~ msgid "Select image"
-#~ msgstr "选择图片"
+msgid "User"
+msgstr "用户"
 
-#~ msgid "Change"
-#~ msgstr "修改"
+msgid "Select image"
+msgstr "选择图片"
 
-#~ msgid "Remove"
-#~ msgstr "清除"
+msgid "Change"
+msgstr "修改"
 
-#~ msgid ""
-#~ msgstr "您正在查看%(model_label)s-%(obj)s, 因为您只有只读权限"
+msgid "Remove"
+msgstr "清除"
 
-#~ msgid "no permission to apply %(action)s upon %(model_label)s [%%s]"
-#~ msgstr "%(model_label)s[%%s]不能被%(action)s"
+msgid ""
+msgstr "您正在查看%(model_label)s-%(obj)s, 因为您只有只读权限"
 
-#~ msgid "Sorry, object doesn't exist!"
-#~ msgstr "对不起, 对象不存在!"
+msgid "no permission to apply %(action)s upon %(model_label)s [%%s]"
+msgstr "%(model_label)s[%%s]不能被%(action)s"
 
-#~ msgid "Internal error \"%(err)s\", please contact us!"
-#~ msgstr "内部错误\"%(err)s\"， 请联系我们！"
+msgid "Sorry, object doesn't exist!"
+msgstr "对不起, 对象不存在!"
 
-#~ msgid "Invalid time format"
-#~ msgstr "错误的时间格式"
+msgid "Internal error \"%(err)s\", please contact us!"
+msgstr "内部错误\"%(err)s\"， 请联系我们！"
 
-#~ msgid "all"
-#~ msgstr "所有"
+msgid "Invalid time format"
+msgstr "错误的时间格式"
 
-#~ msgid "create"
-#~ msgstr "新建"
+msgid "all"
+msgstr "所有"
 
-#~ msgid "edit"
-#~ msgstr "编辑"
+msgid "create"
+msgstr "新建"
 
-#~ msgid "view"
-#~ msgstr "查看"
+msgid "edit"
+msgstr "编辑"
 
-#~ msgid "%(user)s performed %(action)s"
-#~ msgstr "用户%(user)s执行了%(action)s操作"
+msgid "view"
+msgstr "查看"
 
-#~ msgid "%(model_label)s %(model)s was created successfully"
-#~ msgstr "成功创建%(model_label)s-(%(model)s)!"
+msgid "%(user)s performed %(action)s"
+msgstr "用户%(user)s执行了%(action)s操作"
 
-#~ msgid "edit %(model_label)s-[%(objs)s]"
-#~ msgstr "正在编辑%(model_label)s-%(objs)s"
+msgid "%(model_label)s %(model)s was created successfully"
+msgstr "成功创建%(model_label)s-(%(model)s)!"
 
-#~ msgid "edit %(model_label)s-[%(obj)s]"
-#~ msgstr "正在编辑%(model_label)s-%(obj)s"
+msgid "edit %(model_label)s-[%(objs)s]"
+msgstr "正在编辑%(model_label)s-%(objs)s"
 
-#~ msgid "create %(model_label)s"
-#~ msgstr "正在创建%(model_label)s"
+msgid "edit %(model_label)s-[%(obj)s]"
+msgstr "正在编辑%(model_label)s-%(obj)s"
 
-#~ msgid "add another"
-#~ msgstr "再增加一个"
+msgid "create %(model_label)s"
+msgstr "正在创建%(model_label)s"
 
-#~ msgid "invalid action %(action)s"
-#~ msgstr "操作%(action)s非法"
+msgid "add another"
+msgstr "再增加一个"
 
-#~ msgid "can't apply %(action)s due to %(reason)s"
-#~ msgstr "操作%(action)s失败，原因是%(reason)s"
+msgid "invalid action %(action)s"
+msgstr "操作%(action)s非法"
 
-#~ msgid "update"
-#~ msgstr "更新"
+msgid "can't apply %(action)s due to %(reason)s"
+msgstr "操作%(action)s失败，原因是%(reason)s"
 
-#~ msgid "%(model_label)s %(obj)s was updated and saved"
-#~ msgstr "%(model_label)s(%(obj)s)已经被更新并保存"
+msgid "update"
+msgstr "更新"
 
-#~ msgid "Failed to update %(model_label)s %(obj)s due to %(error)s"
-#~ msgstr "更新%(model_label)s失败，原因是%(error)s"
+msgid "%(model_label)s %(obj)s was updated and saved"
+msgstr "%(model_label)s(%(obj)s)已经被更新并保存"
 
-#~ msgid "This field is required."
-#~ msgstr "需要该字段"
+msgid "Failed to update %(model_label)s %(obj)s due to %(error)s"
+msgstr "更新%(model_label)s失败，原因是%(error)s"
 
-#~ msgid "the input must be like %s"
-#~ msgstr "输入必须形如%s"
+msgid "This field is required."
+msgstr "需要该字段"
 
-#~ msgid "Invalid URL"
-#~ msgstr "非法的URL"
+msgid "the input must be like %s"
+msgstr "输入必须形如%s"
 
-#~ msgid "Invalid value, must be one of: %(values)s."
-#~ msgstr "该字段的值必须是%(values)s"
+msgid "Invalid URL"
+msgstr "非法的URL"
 
-#~ msgid "Field must be at least %%(min)d character long."
-#~ msgstr "字段长度至少为%%(min)d"
+msgid "Invalid value, must be one of: %(values)s."
+msgstr "该字段的值必须是%(values)s"
 
-#~ msgid "Field cannot be longer than %%(max)d character."
-#~ msgstr "字段长度不能超过%%(max)d"
+msgid "Field must be at least %%(min)d character long."
+msgstr "字段长度至少为%%(min)d"
 
-#~ msgid "Field must be between %%(min)d and %%(max)d characters long."
-#~ msgstr "字段长度必须大于等于%%(min)d, 小于%%(max)d"
+msgid "Field cannot be longer than %%(max)d character."
+msgstr "字段长度不能超过%%(max)d"
 
-#~ msgid "Number must be greater than %%(min)s."
-#~ msgstr "必须大于%%(min)s."
+msgid "Field must be between %%(min)d and %%(max)d characters long."
+msgstr "字段长度必须大于等于%%(min)d, 小于%%(max)d"
 
-#~ msgid "Number must be less than %%(max)s."
-#~ msgstr "必须小于%%(max)s"
+msgid "Number must be greater than %%(min)s."
+msgstr "必须大于%%(min)s."
 
-#~ msgid "Number must be between %%(min)s and %%(max)s."
-#~ msgstr "必须小于%%(min)s, 大于%%(max)s"
+msgid "Number must be less than %%(max)s."
+msgstr "必须小于%%(max)s"
 
-#~ msgid "Invalid email address."
-#~ msgstr "非法的邮箱地址"
+msgid "Number must be between %%(min)s and %%(max)s."
+msgstr "必须小于%%(min)s, 大于%%(max)s"
 
-#~ msgid "this field can't be empty"
-#~ msgstr "该字段不能为空"
+msgid "Invalid email address."
+msgstr "非法的邮箱地址"
 
-#~ msgid "This field must be unique, but it already exists!"
-#~ msgstr "该字段不能重复，该字段的值已经存在"
+msgid "this field can't be empty"
+msgstr "该字段不能为空"
 
-#~ msgid "value of this field must be %(values)s"
-#~ msgstr "该字段的值必须是%(values)s"
+msgid "This field must be unique, but it already exists!"
+msgstr "该字段不能重复，该字段的值已经存在"
 
-#~ msgid " or %(last_value)s"
-#~ msgstr " 或者 %(last_value)s"
+msgid "value of this field must be %(values)s"
+msgstr "该字段的值必须是%(values)s"
 
-#~ msgid "this field must bigger than 0"
-#~ msgstr "该字段必须大于0"
+msgid " or %(last_value)s"
+msgstr " 或者 %(last_value)s"
 
-#~ msgid "Not a valid choice"
-#~ msgstr "选择错误"
+msgid "this field must bigger than 0"
+msgstr "该字段必须大于0"
 
-#~ msgid "This field must be unique!"
-#~ msgstr "该字段必须是合法的UUID"
+msgid "Not a valid choice"
+msgstr "选择错误"
 
-#~ msgid "Invalid order by criterion '%(order_by)s'"
-#~ msgstr "非法的order by条件\"%(order_by)s\""
+msgid "This field must be unique!"
+msgstr "该字段必须是合法的UUID"
 
-#~ msgid "click to return"
-#~ msgstr "点击返回"
+msgid "Invalid order by criterion '%(order_by)s'"
+msgstr "非法的order by条件\"%(order_by)s\""
 
-#~ msgid "help"
-#~ msgstr "帮助"
+msgid "click to return"
+msgstr "点击返回"
 
-#~ msgid "Help"
-#~ msgstr "帮助"
+msgid "help"
+msgstr "帮助"
 
-#~ msgid "close"
-#~ msgstr "关闭"
+msgid "Help"
+msgstr "帮助"
 
-#~ msgid "Are you sure to %%s these items?"
-#~ msgstr "您确认要%%s这些记录?"
+msgid "close"
+msgstr "关闭"
 
-#~ msgid "Are you sure to %%s this item?"
-#~ msgstr "您确认要%%s这条记录?"
+msgid "Are you sure to %%s these items?"
+msgstr "您确认要%%s这些记录?"
 
-#~ msgid "please choose one item!"
-#~ msgstr "请选择一项"
+msgid "Are you sure to %%s this item?"
+msgstr "您确认要%%s这条记录?"
 
-#~ msgid "batch edit"
-#~ msgstr "批量编辑"
+msgid "please choose one item!"
+msgstr "请选择一项"
 
-#~ msgid "Are you sure to %%s the selected item(s)?"
-#~ msgstr "您确认要%%s选中的记录?"
+msgid "batch edit"
+msgstr "批量编辑"
 
-#~ msgid "Attention!"
-#~ msgstr "注意!"
+msgid "Are you sure to %%s the selected item(s)?"
+msgstr "您确认要%%s选中的记录?"
 
-#~ msgid "no results matched!"
-#~ msgstr "没有符合条件的记录!"
+msgid "Attention!"
+msgstr "注意!"
 
-#~ msgid "totally: %(count)d"
-#~ msgstr "总计: %(count)d"
+msgid "no results matched!"
+msgstr "没有符合条件的记录!"
 
-#~ msgid "input %(label)s here"
-#~ msgstr "在这里输入%(label)s"
+msgid "totally: %(count)d"
+msgstr "总计: %(count)d"
 
-#~ msgid "refine search"
-#~ msgstr "设置查询条件"
+msgid "input %(label)s here"
+msgstr "在这里输入%(label)s"
 
-#~ msgid "reset"
-#~ msgstr "重置"
+msgid "refine search"
+msgstr "设置查询条件"
 
-#~ msgid "refresh"
-#~ msgstr "刷新"
+msgid "reset"
+msgstr "重置"
 
-#~ msgid "no previous page!"
-#~ msgstr "没有上一页!"
+msgid "refresh"
+msgstr "刷新"
 
-#~ msgid "no more pages!"
-#~ msgstr "没有下一页!"
+msgid "no previous page!"
+msgstr "没有上一页!"
 
-#~ msgid "prev"
-#~ msgstr "上一页"
+msgid "no more pages!"
+msgstr "没有下一页!"
 
-#~ msgid "totally matched records: %(count)d"
-#~ msgstr "符合条件的记录数: %(count)d"
+msgid "prev"
+msgstr "上一页"
 
-#~ msgid "next"
-#~ msgstr "下一页"
+msgid "totally matched records: %(count)d"
+msgstr "符合条件的记录数: %(count)d"
 
-#~ msgid "Step %(step)d"
-#~ msgstr "第%(step)步"
+msgid "next"
+msgstr "下一页"
 
-#~ msgid "unique field, can't be modified"
-#~ msgstr "该字段值唯一， 不能修改"
+msgid "Step %(step)d"
+msgstr "第%(step)步"
 
-#~ msgid "keep unchanged"
-#~ msgstr "保持原值"
+msgid "unique field, can't be modified"
+msgstr "该字段值唯一， 不能修改"
 
-#~ msgid "Last step"
-#~ msgstr "上一步"
+msgid "keep unchanged"
+msgstr "保持原值"
 
-#~ msgid "back"
-#~ msgstr "返回"
+msgid "Last step"
+msgstr "上一步"
 
-#~ msgid "Next step"
-#~ msgstr "下一步"
+msgid "back"
+msgstr "返回"
 
-#~ msgid "commit"
-#~ msgstr "提交"
+msgid "Next step"
+msgstr "下一步"
 
-#~ msgid "congratulations"
-#~ msgstr "祝贺您"
+msgid "commit"
+msgstr "提交"
 
-#~ msgid "you have created %(model_cls)s %(obj)s successfully!"
-#~ msgstr "您成功的创建了%(model_cls)s - %(obj)s!"
+msgid "congratulations"
+msgstr "祝贺您"
 
-#~ msgid "I see"
-#~ msgstr "我知道了"
+msgid "you have created %(model_cls)s %(obj)s successfully!"
+msgstr "您成功的创建了%(model_cls)s - %(obj)s!"
 
-#~ msgid "Password Generator"
-#~ msgstr "密码生成器"
+msgid "I see"
+msgstr "我知道了"
 
-#~ msgid "password can't be empty!"
-#~ msgstr "密码不能为空"
+msgid "Password Generator"
+msgstr "密码生成器"
 
-#~ msgid "input password here"
-#~ msgstr "请输入密码"
+msgid "password can't be empty!"
+msgstr "密码不能为空"
 
-#~ msgid "Close"
-#~ msgstr "关闭"
+msgid "input password here"
+msgstr "请输入密码"
 
-#~ msgid "ok"
-#~ msgstr "确认"
+msgid "Close"
+msgstr "关闭"
+
+msgid "ok"
+msgstr "确认"
 
