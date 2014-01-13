@@ -110,25 +110,25 @@ class InitializeTestDB(Command):
                                                                 '%Y-%m-%d'),
                              expire_date=datetime.strptime('2020-11-11',
                                                            '%Y-%m-%d'),
-                             token='000001'))
+                             token='000001', checksum='111111'))
         sku2 = do_commit(SKU(spu=spu1,
                              manufacture_date=datetime.strptime('2011-12-12',
                                                                 '%Y-%m-%d'),
                              expire_date=datetime.strptime('2021-12-12',
                                                            '%Y-%m-%d'),
-                             token='000002'))
+                             token='000002', checksum='2222222'))
         sku3 = do_commit(SKU(spu=spu2,
                              manufacture_date=datetime.strptime('2010-11-11',
                                                                 '%Y-%m-%d'),
                              expire_date=datetime.strptime('2011-11-11',
                                                            '%Y-%m-%d'),
-                             token='000003'))
+                             token='000003', checksum='3333333'))
         sku4 = do_commit(SKU(spu=spu2,
                              manufacture_date=datetime.strptime('2011-12-12',
                                                                 '%Y-%m-%d'),
                              expire_date=datetime.strptime('2012-12-12',
                                                            '%Y-%m-%d'),
-                             token='000004'))
+                             token='000004', checksum='44444444'))
         # comments
         do_commit(Comment(content=u'好酒!', spu=spu1, user=customer1, rating=4.0))
         do_commit(Comment(content=u'好酒!!', spu=spu1, user=customer2, rating=4.5))

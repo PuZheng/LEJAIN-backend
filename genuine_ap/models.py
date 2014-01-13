@@ -237,6 +237,22 @@ class Retailer(db.Model):
     def __unicode__(self):
         return self.name
 
+    @property
+    def icon(self):
+        if posixpath.exists(posixpath.join('static', 'retailer_pics',
+                                           str(self.id) + '_icon.jpg')):
+            return url_for('static',
+                           filename='retailer_pics/' + str(self.id) +
+                           '_icon.jpg')
+        return ''
+
+    @icon.setter
+    def icon(self, value):
+        if value:
+            if not self.id:
+                # when create
+                self.temp_icon = value
+
 
 class Favor(db.Model):
 
