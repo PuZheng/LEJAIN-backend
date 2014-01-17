@@ -24,6 +24,8 @@ def tag(id):
         len(spu.get_same_type_recommendations(longitude, latitude))
     same_vendor_recommendations_cnt = \
         len(spu.get_same_vendor_recommendations(longitude, latitude))
+    distance = spu.get_retailer_shortest_distance(longitude, latitude)
+
     favored = False
     if current_user.is_authenticated():
         q = Favor.query.filter(and_(Favor.spu_id == spu.id,
@@ -53,7 +55,8 @@ def tag(id):
         'same_vendor_recommendations_cnt': same_vendor_recommendations_cnt,
         'comments_cnt': len(spu.comment_list),
         'favor_cnt': len(spu.favor_list),
-        'favored': favored
+        'favored': favored,
+        'distance': distance
     })
 
 

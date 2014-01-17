@@ -32,6 +32,7 @@ def spu_view(spu_id):
     same_vendor_recommendations_cnt = \
         len(spu.get_same_vendor_recommendations(longitude, latitude))
     favored = False
+    distance = spu.get_retailer_shortest_distance(longitude, latitude)
     if current_user.is_authenticated():
         q = Favor.query.filter(and_(Favor.spu_id == spu_id,
                                     Favor.user_id == current_user.id))
@@ -43,6 +44,7 @@ def spu_view(spu_id):
         'same_vendor_recommendations_cnt': same_vendor_recommendations_cnt,
         'comments_cnt': len(spu.comment_list),
         'favored': favored,
+        'distance': distance,
     })
 
 

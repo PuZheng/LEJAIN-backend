@@ -10,7 +10,6 @@ from . import retailer
 
 
 class SPUWrapper(ModelWrapper):
-
     def get_nearby_recommendations(self, longitude, latitude):
         nearby_retailers, distance_list = \
             retailer.find_retailers(longitude, latitude)
@@ -23,7 +22,7 @@ class SPUWrapper(ModelWrapper):
             spu_id_to_min_distance.pop(self.id)
         except KeyError:
             pass
-        #TODO related kind should be prioritized
+            #TODO related kind should be prioritized
         ret = []
         for spu_id, distance in spu_id_to_min_distance.items():
             spu = wraps(SPU.query.get(spu_id))
@@ -48,6 +47,11 @@ class SPUWrapper(ModelWrapper):
         cond = and_(SPU.spu_type_id == self.spu_type_id,
                     SPU.id != self.id)
         return self._get_recommendations(cond, longitude, latitude)
+
+    def get_retailer_shortest_distance(self, longitude, latitude):
+        recommendations = self._get_recommendations(SPU.id == self.id, longitude, latitude)
+        return recommendations[0]["distance"] if recommendations else -1
+
 
     @property
     def icon(self):
@@ -85,7 +89,7 @@ class SPUWrapper(ModelWrapper):
             spu = wraps(spu)
             ret.append({
                 'spu': spu.as_dict(),
-                'distance': spu_id_2_distance.get(spu.id),
+                'distance': spu_id_2_distance.get(spu.id, -1),
                 'rating': spu.rating,
                 'favor_cnt': len(spu.favor_list),
             })
@@ -93,7 +97,6 @@ class SPUWrapper(ModelWrapper):
 
 
 class SPUTypeWrapper(ModelWrapper):
-
     @property
     def spu_cnt(self):
         return len(self.spu_list)
