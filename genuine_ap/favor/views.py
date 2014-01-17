@@ -25,7 +25,7 @@ def favor_view(spu_id):
         return jsonify(favor.as_dict())
 
 
-@favor_ws.route('/favors', methods=['GET', 'POST'])
+@favor_ws.route('/favors', methods=['GET'])
 @login_required
 def favars_view():
     longitude = request.args.get('longitude', type=float)
@@ -40,6 +40,8 @@ def favars_view():
         for favor in favors:
             d = favor.as_dict()
             d['distance'] = spu_id_2_distance.get(favor.spu.id)
+            if d['distance'] is None:
+                d['distance'] = -1
             ret.setdefault(favor.spu.spu_type.name, []).append(d)
 
     return jsonify(ret)

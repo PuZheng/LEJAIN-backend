@@ -80,6 +80,7 @@ class VendorModelView(ModelView):
             InputColSpec('telephone', _('telephone')),
             InputColSpec('address', label=_('address')),
             ColSpec('spu_cnt', label=_('spu no.')),
+            ColSpec('administrator', label=_('administrator')),
         ]
 
     def get_actions(self, processed_objs=None):

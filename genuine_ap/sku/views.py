@@ -43,6 +43,7 @@ class SKUModelView(ModelView):
                 ColSpec('manufacture_date', _('manufacture date')),
                 ColSpec('expire_date', _('expire date')),
                 ColSpec('token', _('token')),
+                ColSpec('checksum', _('checksum')),
                 ColSpec('create_time', _('create time'))]
 
     @property
