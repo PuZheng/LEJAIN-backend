@@ -8,7 +8,7 @@ from datetime import datetime
 from sqlalchemy_utils import types as sa_utils_types
 from flask.ext.babel import _
 from .database import db
-import posixpath
+import os.path
 from path import path
 
 retailer_and_spu = db.Table('TB_RETAILER_AND_SPU',
@@ -79,14 +79,13 @@ class SPU(db.Model):
     @property
     def pic_url_list(self):
         ret = []
-        spu_dir = posixpath.join('spu_pics', str(self.vendor_id), str(self.id))
-        if posixpath.exists(posixpath.join('static', spu_dir)):
-            for fname in path(posixpath.join('static',
-                                             spu_dir)).files():
-                fname = path.basename(fname)
+        spu_dir = os.path.join('spu_pics', str(self.vendor_id), str(self.id))
+        if os.path.exists(os.path.join('static', spu_dir)):
+            for fname in path(os.path.join('static', spu_dir)).files():
+                fname = os.path.basename(fname)
                 if fname != 'icon.jpg' and re.match(r'.+\.(jpeg|jpg)', fname,
                                                     re.IGNORECASE):
-                    filename = posixpath.join(spu_dir, path.basename(fname))
+                    filename = os.path.join(spu_dir, os.path.basename(fname))
                     ret.append(url_for('static', filename=filename))
         return sorted(ret)
 
@@ -101,19 +100,19 @@ class SPU(db.Model):
 
     def save_pic_url_list(self, value):
         assert self.vendor.id and self.id
-        spu_dir = posixpath.join('static', 'spu_pics',
-                                 str(self.vendor.id), str(self.id))
+        spu_dir = os.path.join('static', 'spu_pics',
+                               str(self.vendor.id), str(self.id))
         from .utils import assert_dir
         assert_dir(spu_dir)
         to_be_removed = []
-        haystack = [posixpath.basename(fname) for fname in value]
+        haystack = [os.path.basename(fname) for fname in value]
         haystack.append('icon.jpg')
         for fname in path(spu_dir).files():
-            if posixpath.basename(fname) not in haystack:
+            if os.path.basename(fname) not in haystack:
                 to_be_removed.append(fname)
         print to_be_removed
         from .utils import resize_and_crop
-        resize_and_crop(value[0], posixpath.join(spu_dir, 'icon.jpg'),
+        resize_and_crop(value[0], os.path.join(spu_dir, 'icon.jpg'),
                         (96, 96), 'middle')
         for fname in value:
             shutil.copy(fname, spu_dir)
@@ -239,8 +238,8 @@ class Retailer(db.Model):
 
     @property
     def icon(self):
-        if posixpath.exists(posixpath.join('static', 'retailer_pics',
-                                           str(self.id) + '_icon.jpg')):
+        if os.path.exists(os.path.join('static', 'retailer_pics',
+                                 str(self.id) + '_icon.jpg')):
             return url_for('static',
                            filename='retailer_pics/' + str(self.id) +
                            '_icon.jpg')

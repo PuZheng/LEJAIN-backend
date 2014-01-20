@@ -9,11 +9,10 @@ from flask.ext.databrowser.extra_widgets import Image, Link
 from flask.ext.databrowser.action import DeleteAction
 from flask.ext.databrowser.utils import random_str
 from flask.ext.login import current_user
-from flask_wtf.file import FileAllowed, FileRequired
 from flask.ext.principal import Permission, RoleNeed
-import posixpath
+import os.path
 
-from genuine_ap.models import SPU, SPUType, Favor, User, Vendor
+from genuine_ap.models import SPU, SPUType, Favor, Vendor
 from genuine_ap.utils import get_or_404
 from . import spu_ws
 from genuine_ap.apis import wraps, unwraps
@@ -144,8 +143,8 @@ class SPUTypeModelView(ModelView):
 
     @property
     def create_columns(self):
-        save_path = lambda obj, fname: posixpath.join('static/spu_type_pics',
-                                                      random_str(24) + '.jpg')
+        save_path = lambda obj, fname: os.path.join('static/spu_type_pics',
+                                                    random_str(24) + '.jpg')
         doc = _('size should be %(size)s, only jpeg allowable', size='256x256')
         return [col_spec.InputColSpec('name', label=_('name')),
                 col_spec.InputColSpec('weight', label=_('weight')),
@@ -154,8 +153,8 @@ class SPUTypeModelView(ModelView):
 
     @property
     def edit_columns(self):
-        save_path = lambda obj, fname: posixpath.join('static/spu_type_pics',
-                                                      random_str(24) + '.jpg')
+        save_path = lambda obj, fname: os.path.join('static/spu_type_pics',
+                                                 random_str(24) + '.jpg')
         doc = _('size should be %(size)s, only jpeg allowable', size='256x256')
         return [
             col_spec.InputColSpec('id', label=_('id'), disabled=True),
@@ -247,6 +246,7 @@ class SPUModelView(ModelView):
                 yield i
                 i += 1
         g = gen()
+
         def _save_path(obj, fname):
             return str(g.next()) + '.jpg'
 
@@ -270,17 +270,20 @@ class SPUModelView(ModelView):
     def edit_columns(self):
         doc = _('size should be %(size)s, only jpeg allowable',
                 size='1280x720')
+
         def vendor_col_filter(q):
             if Permission(RoleNeed(const.VENDOR_GROUP)).can():
                 return q.filter(Vendor.id == current_user.vendor.id)
             else:
                 return q
+
         def gen():
             i = 1
             while True:
                 yield i
                 i += 1
         g = gen()
+
         def _save_path(obj, fname):
             return str(g.next()) + '.jpg'
         ret = [
