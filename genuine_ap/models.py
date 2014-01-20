@@ -88,7 +88,7 @@ class SPU(db.Model):
                                                     re.IGNORECASE):
                     filename = posixpath.join(spu_dir, path.basename(fname))
                     ret.append(url_for('static', filename=filename))
-        return ret
+        return sorted(ret)
 
     @pic_url_list.setter
     def pic_url_list(self, value):

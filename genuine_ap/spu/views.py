@@ -234,11 +234,21 @@ class SPUModelView(ModelView):
                                         widget=Link(target='_blank')))
         return ret
 
+    @ModelView.cached
     @property
     def create_columns(self):
         doc = _('size should be %(size)s, only jpeg allowable',
                 size='1280x720')
         vendor_col_filter = None
+
+        def gen():
+            i = 1
+            while True:
+                yield i
+                i += 1
+        g = gen()
+        def _save_path(obj, fname):
+            return str(g.next()) + '.jpg'
 
         def vendor_col_filter(q):
             if Permission(RoleNeed(const.VENDOR_GROUP)).can():
@@ -253,8 +263,9 @@ class SPUModelView(ModelView):
                 col_spec.InputColSpec('spu_type', _('spu type')),
                 col_spec.InputColSpec('rating', _('rating')),
                 col_spec.FileColSpec('pic_url_list', label=_('upload logos'),
-                                     max_num=3, doc=doc)]
+                                     max_num=3, doc=doc, save_path=_save_path)]
 
+    @ModelView.cached
     @property
     def edit_columns(self):
         doc = _('size should be %(size)s, only jpeg allowable',
@@ -264,6 +275,14 @@ class SPUModelView(ModelView):
                 return q.filter(Vendor.id == current_user.vendor.id)
             else:
                 return q
+        def gen():
+            i = 1
+            while True:
+                yield i
+                i += 1
+        g = gen()
+        def _save_path(obj, fname):
+            return str(g.next()) + '.jpg'
         ret = [
             col_spec.InputColSpec('name', _('name')),
             col_spec.InputColSpec('code', _('code')),
@@ -275,7 +294,7 @@ class SPUModelView(ModelView):
             col_spec.ColSpec('pic_url_list', label=_('logos'),
                              widget=Image(size_type=Image.SMALL)),
             col_spec.FileColSpec('pic_url_list', label=_('upload logos'),
-                                 max_num=3, doc=doc)]
+                                 max_num=3, doc=doc, save_path=_save_path)]
         return ret
 
     @property
