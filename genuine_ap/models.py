@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+import sys
 import os
 import re
 import shutil
@@ -86,7 +87,10 @@ class SPU(db.Model):
                 if fname != 'icon.jpg' and re.match(r'.+\.(jpeg|jpg)', fname,
                                                     re.IGNORECASE):
                     filename = os.path.join(spu_dir, os.path.basename(fname))
+                    if sys.platform.startswith("win32"):
+                        filename = filename.replace(os.path.sep, os.path.altsep)
                     ret.append(url_for('static', filename=filename))
+
         return sorted(ret)
 
     @pic_url_list.setter
