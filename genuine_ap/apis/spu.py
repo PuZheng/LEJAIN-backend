@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-import posixpath
+import os.path
 
 from flask import url_for
 from sqlalchemy import and_
@@ -49,16 +49,16 @@ class SPUWrapper(ModelWrapper):
         return self._get_recommendations(cond, longitude, latitude)
 
     def get_retailer_shortest_distance(self, longitude, latitude):
-        recommendations = self._get_recommendations(SPU.id == self.id, longitude, latitude)
+        recommendations = self._get_recommendations(SPU.id == self.id,
+                                                    longitude, latitude)
         return recommendations[0]["distance"] if recommendations else -1
-
 
     @property
     def icon(self):
-        spu_dir = posixpath.join('spu_pics', str(self.vendor_id), str(self.id))
-        if posixpath.exists(posixpath.join('static', spu_dir)):
-            return url_for('static', filename=posixpath.join(spu_dir,
-                                                             'icon.jpg'))
+        spu_dir = os.path.join('spu_pics', str(self.vendor_id), str(self.id))
+        if os.path.exists(os.path.join('static', spu_dir)):
+            return url_for('static',
+                           filename=os.path.join(spu_dir, 'icon.jpg'))
         return ''
 
     def as_dict(self):

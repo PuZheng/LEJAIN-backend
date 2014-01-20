@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-import posixpath
+import os.path
 from flask import _request_ctx_stack, current_app, request, url_for
 from flask.ext import login
 from flask.ext.principal import identity_changed, Identity, AnonymousIdentity
@@ -42,15 +42,15 @@ LoginManager.token_loader`_
 
     @property
     def pic_url(self):
-        user_pic = posixpath.join('user_pics', str(self.id) + '.jpg')
-        if posixpath.exists(posixpath.join('static', user_pic)):
+        user_pic = os.path.join('user_pics', str(self.id) + '.jpg')
+        if os.path.exists(os.path.join('static', user_pic)):
             return url_for('static', filename=user_pic)
         return ''
 
     @property
     def small_pic_url(self):
-        user_pic = posixpath.join('user_pics', str(self.id) + '_small.jpg')
-        if posixpath.exists(posixpath.join('static', user_pic)):
+        user_pic = os.path.join('user_pics', str(self.id) + '_small.jpg')
+        if os.path.exists(os.path.join('static', user_pic)):
             return url_for('static', filename=user_pic)
         return ''
 
