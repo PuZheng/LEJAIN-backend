@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 import shutil
-import posixpath
+import os.path
 from sqlalchemy import and_
 from flask import request, jsonify
 from wtforms import widgets
@@ -109,8 +109,8 @@ class RetailerModelView(ModelView):
             ret.append(InputColSpec('rating', label=_('rating')))
 
         def _save_path(obj, fname):
-            return posixpath.join('static/retailer_pics',
-                                  str(obj.id) + '_icon.jpg')
+            return os.path.join('static/retailer_pics',
+                                str(obj.id) + '_icon.jpg')
         ret.extend([
             InputColSpec('longitude', label=_('longitude')),
             InputColSpec('latitude', label=_('latitude')),
@@ -143,8 +143,8 @@ class RetailerModelView(ModelView):
     def on_record_created(self, retailer):
         if hasattr(retailer, 'temp_icon'):
             shutil.copy(retailer.temp_icon,
-                        posixpath.join('static/retailer_pics',
-                                       str(retailer.id) + '_icon.jpg'))
+                        os.path.join('static/retailer_pics',
+                                     str(retailer.id) + '_icon.jpg'))
 
 
 retailer_model_view = RetailerModelView(sa.SAModell(Retailer, db,
