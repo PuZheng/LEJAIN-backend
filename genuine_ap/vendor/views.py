@@ -14,7 +14,6 @@ from flask.ext.databrowser.action import DeleteAction
 
 
 class VendorModelView(ModelView):
-
     @property
     def sortable_columns(self):
         return ['id', 'create_time']
@@ -25,9 +24,11 @@ class VendorModelView(ModelView):
             ColSpec('id', _('id')),
             ColSpec('name', _('name')),
             ColSpec('create_time', _('create time'), formatter=lambda v, obj:
-                    v.strftime('%Y-%m-%d')),
+            v.strftime('%Y-%m-%d')),
             ColSpec('email', _('email')),
             ColSpec('website', _('website')),
+            ColSpec('weibo', _('weibo')),
+            ColSpec('weixin_number', _('weixin_number')),
             ColSpec('brief', label=_('brief'),
                     widget=extra_widgets.PlainText(max_len=24)),
             ColSpec('telephone', _('telephone')),
@@ -47,7 +48,9 @@ class VendorModelView(ModelView):
             InputColSpec('email', _('email')),
             InputColSpec('website', _('website')),
             InputColSpec('weibo', _('weibo')),
+            InputColSpec('weibo_link', _('weibo_link')),
             InputColSpec('weixin_follow_link', _('weixin follow link')),
+            InputColSpec('weixin_number', _('weixin_number')),
             InputColSpec('brief', label=_('brief'),
                          widget=widgets.TextArea(),
                          render_kwargs={
@@ -72,7 +75,9 @@ class VendorModelView(ModelView):
             InputColSpec('email', _('email')),
             InputColSpec('website', _('website')),
             InputColSpec('weibo', _('weibo')),
+            InputColSpec('weibo_link', _('weibo_link')),
             InputColSpec('weixin_follow_link', _('weixin follow link')),
+            InputColSpec('weixin_number', _('weixin_number')),
             InputColSpec('brief', _('brief'), widget=widgets.TextArea(),
                          render_kwargs={
                              'html_params': dict(rows=8, cols=40)
