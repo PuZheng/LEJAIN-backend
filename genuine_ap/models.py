@@ -90,6 +90,7 @@ class SPU(db.Model):
                     if sys.platform.startswith("win32"):
                         filename = filename.replace(os.path.sep, os.path.altsep)
                     ret.append(url_for('static', filename=filename))
+
         return sorted(ret)
 
     @pic_url_list.setter
