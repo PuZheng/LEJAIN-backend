@@ -3,6 +3,7 @@ import os.path
 
 from flask import url_for
 from sqlalchemy import and_
+import sys
 from .model_wrapper import ModelWrapper
 from genuine_ap.models import SPU
 from .model_wrapper import wraps
@@ -57,8 +58,10 @@ class SPUWrapper(ModelWrapper):
     def icon(self):
         spu_dir = os.path.join('spu_pics', str(self.vendor_id), str(self.id))
         if os.path.exists(os.path.join('static', spu_dir)):
-            return url_for('static',
-                           filename=os.path.join(spu_dir, 'icon.jpg'))
+            filename = os.path.join(spu_dir, 'icon.jpg')
+            if sys.platform.startswith("win32"):
+                filename = filename.replace(os.path.sep, os.path.altsep)
+            return url_for('static', filename=filename)
         return ''
 
     def as_dict(self):
@@ -71,9 +74,10 @@ class SPUWrapper(ModelWrapper):
                 'id': self.vendor.id,
                 'name': self.vendor.name,
                 'tel': self.vendor.telephone,
-                'website': self.vendor.website.url,
+                'website': self.vendor.website.url if self.vendor.website else "",
                 'address': self.vendor.address,
                 'weibo': self.vendor.weibo,
+                'weibo_link': self.vendor.weibo_link.url if self.vendor.weibo_link else "",
                 'weixin': self.vendor.weixin_number
             },
             'pic_url_list': self.pic_url_list,
