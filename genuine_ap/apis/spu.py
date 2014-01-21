@@ -72,7 +72,9 @@ class SPUWrapper(ModelWrapper):
                 'name': self.vendor.name,
                 'tel': self.vendor.telephone,
                 'website': self.vendor.website.url,
-                'address': self.vendor.address
+                'address': self.vendor.address,
+                'weibo': self.vendor.weibo,
+                'weixin': self.vendor.weixin_number
             },
             'pic_url_list': self.pic_url_list,
             'rating': self.rating,

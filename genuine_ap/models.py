@@ -137,9 +137,10 @@ class Vendor(db.Model):
     email = db.Column(sa_utils_types.EmailType, nullable=False,
                       doc=u'客服邮箱')
     website = db.Column(sa_utils_types.URLType, nullable=False)
-    weibo = db.Column(sa_utils_types.URLType, doc=u'微博主页')
+    weibo = db.Column(db.String(32), doc=u'微博号')
     weixin_follow_link = db.Column(sa_utils_types.URLType,
                                    doc=u'微信加关注链接')
+    weixin_number = db.Column(db.String(32), doc=u'微信号')
     administrator_id = db.Column(db.Integer, db.ForeignKey('TB_USER.id'),
                                  nullable=False)
     administrator = db.relationship('User',
