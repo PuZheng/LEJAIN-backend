@@ -327,7 +327,6 @@ msgid "telephone"
 msgstr "电话"
 
 #: vendor/views.py:51 vendor/views.py:78
-#, fuzzy
 msgid "weibo_link"
 msgstr "微博主页"
 
