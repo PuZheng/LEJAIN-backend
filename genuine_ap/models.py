@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+import sys
 import os
 import re
 import shutil
@@ -86,6 +87,8 @@ class SPU(db.Model):
                 if fname != 'icon.jpg' and re.match(r'.+\.(jpeg|jpg)', fname,
                                                     re.IGNORECASE):
                     filename = os.path.join(spu_dir, os.path.basename(fname))
+                    if sys.platform.startswith("win32"):
+                        filename = filename.replace(os.path.sep, os.path.altsep)
                     ret.append(url_for('static', filename=filename))
         return sorted(ret)
 
@@ -137,9 +140,11 @@ class Vendor(db.Model):
     email = db.Column(sa_utils_types.EmailType, nullable=False,
                       doc=u'客服邮箱')
     website = db.Column(sa_utils_types.URLType, nullable=False)
-    weibo = db.Column(sa_utils_types.URLType, doc=u'微博主页')
+    weibo = db.Column(db.String(32), doc=u'微博号')
+    weibo_link = db.Column(sa_utils_types.URLType, doc=u"微博链接")
     weixin_follow_link = db.Column(sa_utils_types.URLType,
                                    doc=u'微信加关注链接')
+    weixin_number = db.Column(db.String(32), doc=u'微信号')
     administrator_id = db.Column(db.Integer, db.ForeignKey('TB_USER.id'),
                                  nullable=False)
     administrator = db.relationship('User',
