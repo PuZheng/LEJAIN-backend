@@ -316,7 +316,7 @@ msgstr "官方网站"
 
 #: vendor/views.py:30 vendor/views.py:50 vendor/views.py:77
 msgid "weibo"
-msgstr "微博"
+msgstr "微博号"
 
 #: vendor/views.py:31 vendor/views.py:53 vendor/views.py:80
 msgid "weixin_number"
@@ -329,7 +329,7 @@ msgstr "电话"
 #: vendor/views.py:51 vendor/views.py:78
 #, fuzzy
 msgid "weibo_link"
-msgstr "微博链接"
+msgstr "微博主页"
 
 #: vendor/views.py:52 vendor/views.py:79
 msgid "weixin follow link"
