@@ -26,7 +26,7 @@ class SKUModelView(ModelView):
 
     @property
     def sortable_columns(self):
-        return ['id', 'manufacture_time', 'expire_time', 'create_time']
+        return ['id', 'manufacture_time', 'expire_time', 'create_time', 'token', 'spu.vendor']
 
     @property
     def default_filters(self):

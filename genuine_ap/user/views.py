@@ -108,7 +108,7 @@ class UserModelView(ModelView):
 
     @property
     def sortable_columns(self):
-        return ['id', 'create_time']
+        return ['id', 'create_time', "name", "vendor", "retailer"]
 
     @property
     def filters(self):

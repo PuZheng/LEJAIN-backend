@@ -48,7 +48,7 @@ class RetailerModelView(ModelView):
 
     @property
     def sortable_columns(self):
-        return ['id', 'rating', 'create_time']
+        return ['id', 'rating', 'create_time', 'name']
 
     def expand_model(self, obj):
         return apis.wraps(obj)

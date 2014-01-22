@@ -16,7 +16,7 @@ from flask.ext.databrowser.action import DeleteAction
 class VendorModelView(ModelView):
     @property
     def sortable_columns(self):
-        return ['id', 'create_time']
+        return ['id', 'create_time', 'name']
 
     @property
     def list_columns(self):
