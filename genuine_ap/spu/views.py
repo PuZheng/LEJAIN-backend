@@ -202,7 +202,7 @@ class SPUModelView(ModelView):
 
     @property
     def sortable_columns(self):
-        return ['id', 'msrp', 'spu_type', 'rating', 'vendor']
+        return ['id', 'msrp', 'spu_type', 'rating', ('vendor', 'vendor.name')]
 
     @property
     def default_filters(self):
