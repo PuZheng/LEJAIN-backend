@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="{{ url_for('static',filename="js/fancybox/source/jquery.fancybox.css") }}" type="text/css" media="screen">
   <link rel="stylesheet" href="{{ url_for('static', filename="css/custom.css") }}"/>
   <link rel="stylesheet" href="{{ url_for('static', filename="css/opentip.css") }}"/>
-  <link rel="stylesheet" href="{{ url_for('static', filename="css/jquery.pnotify.default.css") }}"/>
   <script src="{{ url_for('data_browser__.static', filename='js/select2_locale_zh-CN.js') }}"></script>
   <script src="{{ url_for("data_browser__.static", filename="js/locales/bootstrap-datetimepicker.zh-CN.js") }}" charset="UTF-8"></script>
   <script type="text/javascript" src="{{ url_for("static", filename="js/JSPinYin.js") }}"></script>
@@ -37,9 +36,6 @@
         });
       }
       $("[data-toggle=tooltip]").tooltip();
-      // 展示代办事项
-      $.pnotify.defaults.history = false;
-      $.pnotify.defaults.styling = "bootstrap";
       var stack_bottomright = {"dir1": "up", "dir2": "left", "firstpos1": 25, "firstpos2": 25};
 
       function display(message) {
