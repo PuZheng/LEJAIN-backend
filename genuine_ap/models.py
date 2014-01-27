@@ -297,3 +297,25 @@ class Permission(db.Model):
 
     def __repr__(self):
         return "<Permission: %s>" % self.name.encode("utf-8")
+
+
+class Config(db.Model):
+
+    __tablename__ = 'TB_CONFIG'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), nullable=False)
+    brief = db.Column(db.String(128))
+    type_ = db.Column(sa_utils_types.choice.ChoiceType([
+        (u'bool', _(u'Boolean')),
+        (u'string', _(u'String')),
+        (u'int', _(u'Integer')),
+    ], impl=db.String()),  default='string', nullable=False)
+    value = db.Column(db.String(128))
+
+    def __unicode__(self):
+        return self.name
+
+    def __repr__(self):
+        return "<Config: %s>" % self.name.encode("utf-8")
+

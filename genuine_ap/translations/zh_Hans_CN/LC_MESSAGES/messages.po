@@ -348,6 +348,18 @@ msgstr "厂商(%%s)已经包含SPU, 所以不能删除!"
 msgid "User"
 msgstr "用户"
 
+#: basemain.py:116
+msgid "Config"
+msgstr "配置项"
+
+#: config/views.py:32 config/views.py:42 config/views.py:53
+msgid "type"
+msgstr "类型"
+
+#: config/views.py:34 config/views.py:44 config/views.py:55
+msgid "value"
+msgstr "值"
+
 msgid "Select image"
 msgstr "选择图片"
 
