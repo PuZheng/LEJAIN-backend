@@ -2,12 +2,12 @@
 import re
 import logging
 import os
-from flask import Flask, request
+from flask import Flask, request, render_template, url_for, redirect
 from flask.ext.babel import lazy_gettext as _
 from flask.ext.upload2 import FlaskUpload
 import speaklater
 from flask.ext.principal import (identity_loaded, Principal, Permission,
-                                 RoleNeed)
+                                 RoleNeed, PermissionDenied)
 from genuine_ap import const
 
 
@@ -193,6 +193,19 @@ def on_identity_loaded(sender, identity):
                 spu_model_view.grant_view(identity)
                 vendor_model_view.grant_view(identity)
 
+if not app.debug:
+    @app.errorhandler(PermissionDenied)
+    @app.errorhandler(401)
+    def permission_denied(error):
+        if not current_user.is_anonymous():
+            return render_template("error.html",
+                                   error=_('You are not permitted to visit '
+                                           'this page or perform this action, '
+                                           'please contact Administrator to '
+                                           'grant you required permission'),
+                                   back_url=request.args.get('__back_url__'))
+        return redirect(url_for("user.login", error=_("please login"),
+                                next=request.url))
 
 from genuine_ap import utils
 utils.assert_dir('static/spu_pics')
