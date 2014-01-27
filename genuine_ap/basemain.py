@@ -143,7 +143,7 @@ setup_nav_bar()
 def register_views():
     from . import index
     installed_ws_apps = ['tag', 'user', 'rcmd', 'spu', 'comment', 'retailer',
-                         'favor']
+                         'favor', 'config']
     installed_apps = ['user', 'spu', 'sku', 'vendor', 'retailer', 'user', "share"]
     # register web services
     for mod in installed_ws_apps:
