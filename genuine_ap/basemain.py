@@ -85,6 +85,7 @@ def setup_nav_bar():
     from genuine_ap.vendor import vendor, vendor_model_view
     from genuine_ap.retailer import retailer, retailer_model_view
     from genuine_ap.user import user, user_model_view
+    from genuine_ap.config import config, config_model_view
     default_url = speaklater.make_lazy_string(spu_model_view.url_for_list)
     admin_nav_bar.register(spu, name=_('SPU'),
                            default_url=default_url,
@@ -106,9 +107,13 @@ def setup_nav_bar():
     default_url = speaklater.make_lazy_string(retailer_model_view.url_for_list)
     admin_nav_bar.register(retailer, name=_('Retailer'),
                            default_url=default_url)
+
     default_url = speaklater.make_lazy_string(user_model_view.url_for_list,
                                               group=const.VENDOR_GROUP)
     admin_nav_bar.register(user, name=_('Account'), default_url=default_url)
+
+    default_url = speaklater.make_lazy_string(config_model_view.url_for_list)
+    admin_nav_bar.register(config, name=_('Config'), default_url=default_url)
 
     default_url = speaklater.make_lazy_string(
         lambda: vendor_model_view.url_for_object(current_user.vendor))
@@ -144,7 +149,8 @@ def register_views():
     from . import index
     installed_ws_apps = ['tag', 'user', 'rcmd', 'spu', 'comment', 'retailer',
                          'favor', 'config']
-    installed_apps = ['user', 'spu', 'sku', 'vendor', 'retailer', 'user', "share"]
+    installed_apps = ['user', 'spu', 'sku', 'vendor', 'retailer', 'user',
+                      "share", "config"]
     # register web services
     for mod in installed_ws_apps:
         pkg = __import__('genuine_ap.' + mod, fromlist=[mod])

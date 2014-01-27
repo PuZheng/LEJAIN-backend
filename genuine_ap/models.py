@@ -312,3 +312,10 @@ class Config(db.Model):
         (u'int', _(u'Integer')),
     ], impl=db.String()),  default='string', nullable=False)
     value = db.Column(db.String(128))
+
+    def __unicode__(self):
+        return self.name
+
+    def __repr__(self):
+        return "<Config: %s>" % self.name.encode("utf-8")
+

@@ -150,9 +150,12 @@ class InitializeTestDB(Command):
                            spu_list=[spu2], administrator=user_b))
         # config
         do_commit(Config(name=u'share_content', brief=u'分享用语',
-                         type_=u'string', value=u"360真品，值得拥有, 查看{{ spu_name }}, 只要{{ spu_msrp }}元，http://127.0.0.1/spu/spu/{{ spu_id }}"))
+                         type_=u'string', value=u"360真品，值得拥有, 查看{{ spu.name }}, 只要{{ spu.msrp }}元"))
         do_commit(Config(name=u'spu_share_media', brief=u'SPU是否分享图片',
                          type_=u'bool', value='True'))
+        do_commit(Config(name=u'spu_share_url', brief=u'SPU分享链接',
+                         type_=u'string',
+                         value='http://127.0.0.1:5000/spu/spu/<spu.id>'))
 
 
 if __name__ == "__main__":
