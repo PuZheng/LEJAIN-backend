@@ -1,3 +1,4 @@
+/alembic.ini
 /genuine_ap/messages.pot
 *.py[cod]
 
@@ -35,6 +36,7 @@ nosetests.xml
 .Session.vim
 tags
 config.py
+!/genuine_ap/apis/config.py
 *.log
 /genuine_ap/.ropeproject/*
 /genuine_ap/*.db

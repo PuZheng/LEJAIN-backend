@@ -2,12 +2,13 @@
 import re
 import logging
 import os
-from flask import Flask, request
+from flask import Flask, request, render_template, url_for, redirect
 from flask.ext.babel import lazy_gettext as _
+from sqlalchemy.exc import SQLAlchemyError
 from flask.ext.upload2 import FlaskUpload
 import speaklater
 from flask.ext.principal import (identity_loaded, Principal, Permission,
-                                 RoleNeed)
+                                 RoleNeed, PermissionDenied)
 from genuine_ap import const
 
 
@@ -85,6 +86,7 @@ def setup_nav_bar():
     from genuine_ap.vendor import vendor, vendor_model_view
     from genuine_ap.retailer import retailer, retailer_model_view
     from genuine_ap.user import user, user_model_view
+    from genuine_ap.config import config, config_model_view
     default_url = speaklater.make_lazy_string(spu_model_view.url_for_list)
     admin_nav_bar.register(spu, name=_('SPU'),
                            default_url=default_url,
@@ -106,9 +108,13 @@ def setup_nav_bar():
     default_url = speaklater.make_lazy_string(retailer_model_view.url_for_list)
     admin_nav_bar.register(retailer, name=_('Retailer'),
                            default_url=default_url)
+
     default_url = speaklater.make_lazy_string(user_model_view.url_for_list,
                                               group=const.VENDOR_GROUP)
     admin_nav_bar.register(user, name=_('Account'), default_url=default_url)
+
+    default_url = speaklater.make_lazy_string(config_model_view.url_for_list)
+    admin_nav_bar.register(config, name=_('Config'), default_url=default_url)
 
     default_url = speaklater.make_lazy_string(
         lambda: vendor_model_view.url_for_object(current_user.vendor))
@@ -143,8 +149,9 @@ setup_nav_bar()
 def register_views():
     from . import index
     installed_ws_apps = ['tag', 'user', 'rcmd', 'spu', 'comment', 'retailer',
-                         'favor']
-    installed_apps = ['user', 'spu', 'sku', 'vendor', 'retailer', 'user', "share"]
+                         'favor', 'config']
+    installed_apps = ['user', 'spu', 'sku', 'vendor', 'retailer', 'user',
+                      "share", "config"]
     # register web services
     for mod in installed_ws_apps:
         pkg = __import__('genuine_ap.' + mod, fromlist=[mod])
@@ -193,6 +200,35 @@ def on_identity_loaded(sender, identity):
                 spu_model_view.grant_view(identity)
                 vendor_model_view.grant_view(identity)
 
+if not app.debug:
+    @app.errorhandler(PermissionDenied)
+    @app.errorhandler(401)
+    def permission_denied(error):
+        if not current_user.is_anonymous():
+            return render_template("error.html",
+                                   error=_('You are not permitted to visit '
+                                           'this page or perform this action, '
+                                           'please contact Administrator to '
+                                           'grant you required permission'),
+                                   back_url=request.args.get('__back_url__'))
+        return redirect(url_for("user.login", error=_("please login"),
+                                next=request.url))
+
+    @app.errorhandler(Exception)
+    def error(error_):
+        if isinstance(error_, SQLAlchemyError):
+            from .database import db
+            db.session.rollback()
+        from werkzeug.debug.tbtools import get_current_traceback
+        traceback = get_current_traceback(skip=1, show_hidden_frames=False,
+                                          ignore_system_exceptions=True)
+        app.logger.error("%s %s" % (request.method, request.url))
+        app.logger.error(traceback.plaintext)
+        return render_template("error.html",
+                               error=_("Failed to %(method)s %(url)s",
+                                       method=request.method, url=request.url),
+                               detail=traceback.render_summary(),
+                               back_url=request.args.get("__back_url__", "/"))
 
 from genuine_ap import utils
 utils.assert_dir('static/spu_pics')

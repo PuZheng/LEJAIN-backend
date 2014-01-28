@@ -64,7 +64,8 @@ def login():
     form = LoginForm()
     if request.method == "GET":
         if current_user.is_anonymous():
-            return render_template("user/login.html", form=form)
+            return render_template("user/login.html", form=form, error=request.args.get("error"),
+                                   next=request.args.get("next"))
         return redirect("/")
     else:
         if form.validate_on_submit():
@@ -81,7 +82,7 @@ def login():
 
             identity_changed.send(current_app._get_current_object(),
                                   identity=Identity(user.id))
-            return redirect(request.args.get('next') or "/")
+            return redirect(request.args.get('next', "/"))
         return render_template("user/login.html",
                                error=u"请输入用户名及密码", form=form), 403
 
