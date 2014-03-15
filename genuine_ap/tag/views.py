@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 from datetime import datetime
-from flask import jsonify, request, abort
+from flask import jsonify, request, abort, make_response
 from sqlalchemy import and_
 from flask.ext.login import current_user
 
@@ -39,7 +39,7 @@ def tag(id):
     except:
         db.session.rollback()
 
-    return jsonify({
+    rv = jsonify({
         'token': sku.token,
         'verify_cnt': sku.verify_count,
         'last_verify_time': last_verify_time.strftime(time_format) if last_verify_time is not None else None,
@@ -58,6 +58,10 @@ def tag(id):
         'favored': favored,
         'distance': distance
     })
+    rv = make_response(rv)
+    rv.headers['Access-Control-Allow-Origin'] = '*'
+    return rv
+
 
 
 @tag_ws.route("/tag-denounce/<id>", methods=["POST"])
