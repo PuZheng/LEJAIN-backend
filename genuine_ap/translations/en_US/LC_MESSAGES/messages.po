@@ -1,0 +1,418 @@
+# English (United States) translations for PROJECT.
+# Copyright (C) 2014 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2014-04-09 13:11+0800\n"
+"PO-Revision-Date: 2014-04-09 13:31+0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: en_US <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#: basemain.py:29
+#, python-format
+msgid "%(label)s list"
+msgstr ""
+
+#: basemain.py:33
+#, python-format
+msgid "create %(label)s"
+msgstr ""
+
+#: basemain.py:37
+#, python-format
+msgid "edit %(label)s"
+msgstr ""
+
+#: basemain.py:91 basemain.py:124 basemain.py:141
+msgid "SPU"
+msgstr ""
+
+#: basemain.py:93 basemain.py:99 basemain.py:126 basemain.py:131
+msgid "SPU related"
+msgstr ""
+
+#: basemain.py:97 basemain.py:130
+msgid "SPU Type"
+msgstr ""
+
+#: basemain.py:103 basemain.py:134
+msgid "SKU"
+msgstr ""
+
+#: basemain.py:106 templates/share/spu.html:71 user/__init__.py:23
+msgid "Vendor"
+msgstr ""
+
+#: basemain.py:109 user/__init__.py:28
+msgid "Retailer"
+msgstr ""
+
+#: basemain.py:114
+msgid "Account"
+msgstr ""
+
+#: basemain.py:117
+msgid "Config"
+msgstr ""
+
+#: basemain.py:121
+msgid "Vendor Info"
+msgstr ""
+
+#: basemain.py:138
+msgid "Retailer Info"
+msgstr ""
+
+#: basemain.py:209
+msgid ""
+"You are not permitted to visit this page or perform this action, please "
+"contact Administrator to grant you required permission"
+msgstr ""
+
+#: basemain.py:214
+msgid "please login"
+msgstr ""
+
+#: basemain.py:228
+#, python-format
+msgid "Failed to %(method)s %(url)s"
+msgstr ""
+
+#: index.py:22 index.py:26
+msgid "error"
+msgstr ""
+
+#: models.py:310
+msgid "Boolean"
+msgstr ""
+
+#: models.py:311
+msgid "String"
+msgstr ""
+
+#: models.py:312
+msgid "Integer"
+msgstr ""
+
+#: config/views.py:30 retailer/views.py:59 sku/views.py:40 spu/views.py:132
+#: spu/views.py:160 spu/views.py:220 user/views.py:125 user/views.py:150
+#: vendor/views.py:24
+msgid "id"
+msgstr ""
+
+#: config/views.py:31 config/views.py:41 config/views.py:52
+#: retailer/views.py:60 retailer/views.py:76 retailer/views.py:103
+#: retailer/views.py:134 spu/views.py:133 spu/views.py:149 spu/views.py:163
+#: spu/views.py:191 spu/views.py:221 spu/views.py:258 spu/views.py:290
+#: spu/views.py:306 user/views.py:117 user/views.py:126 user/views.py:137
+#: user/views.py:152 vendor/views.py:25 vendor/views.py:47 vendor/views.py:74
+#: vendor/views.py:111
+msgid "name"
+msgstr ""
+
+#: config/views.py:32 config/views.py:42 config/views.py:53
+msgid "type"
+msgstr ""
+
+#: config/views.py:33 config/views.py:43 config/views.py:54
+#: retailer/views.py:65 retailer/views.py:77 retailer/views.py:104
+#: vendor/views.py:32 vendor/views.py:54 vendor/views.py:81
+msgid "brief"
+msgstr ""
+
+#: config/views.py:34 config/views.py:44 config/views.py:55
+msgid "value"
+msgstr ""
+
+#: config/views.py:60 retailer/views.py:141 sku/views.py:112 spu/views.py:186
+#: spu/views.py:340 user/views.py:183 vendor/views.py:106
+msgid "remove"
+msgstr ""
+
+#: retailer/views.py:61 retailer/views.py:80 retailer/views.py:109
+#: spu/views.py:225 spu/views.py:264 spu/views.py:294
+msgid "rating"
+msgstr ""
+
+#: retailer/views.py:62 retailer/views.py:83 retailer/views.py:117
+#: retailer/views.py:136 vendor/views.py:35 vendor/views.py:60
+#: vendor/views.py:86
+msgid "address"
+msgstr ""
+
+#: retailer/views.py:63 retailer/views.py:81 retailer/views.py:115
+msgid "longitude"
+msgstr ""
+
+#: retailer/views.py:64 retailer/views.py:82 retailer/views.py:116
+msgid "latitude"
+msgstr ""
+
+#: retailer/views.py:67 sku/views.py:47 spu/views.py:135 spu/views.py:161
+#: spu/views.py:226 user/views.py:128 user/views.py:151 vendor/views.py:26
+msgid "create time"
+msgstr ""
+
+#: retailer/views.py:69 retailer/views.py:123
+msgid "icon"
+msgstr ""
+
+#: retailer/views.py:70 retailer/views.py:89 retailer/views.py:127
+#: vendor/views.py:41 vendor/views.py:61 vendor/views.py:88
+msgid "administrator"
+msgstr ""
+
+#: retailer/views.py:84 retailer/views.py:118
+msgid "spu list"
+msgstr ""
+
+#: retailer/views.py:85 retailer/views.py:119
+msgid ""
+"you could type to search spu! for Chinese character, you could just type "
+"the first letter of each character to search, for example, \"mt\" for "
+"\"茅台\""
+msgstr ""
+
+#: retailer/views.py:94
+msgid ""
+"if no account could be selected, make sure there's a retailer account "
+"with no retailer assigned"
+msgstr ""
+
+#: retailer/views.py:97 retailer/views.py:124
+msgid "upload icon"
+msgstr ""
+
+#: retailer/views.py:125 spu/views.py:148 spu/views.py:158 spu/views.py:239
+#: spu/views.py:271
+#, python-format
+msgid "size should be %(size)s, only jpeg allowable"
+msgstr ""
+
+#: retailer/views.py:135 retailer/views.py:137 sku/views.py:92 spu/views.py:192
+#: spu/views.py:307 user/views.py:117 vendor/views.py:112
+msgid "contains"
+msgstr ""
+
+#: sku/views.py:41 sku/views.py:57 sku/views.py:71 sku/views.py:84
+msgid "spu"
+msgstr ""
+
+#: sku/views.py:42 sku/views.py:97 spu/views.py:223 spu/views.py:261
+#: spu/views.py:295 spu/views.py:314 user/views.py:130
+msgid "vendor"
+msgstr ""
+
+#: sku/views.py:43 sku/views.py:58 sku/views.py:72 sku/views.py:85
+msgid "manufacture date"
+msgstr ""
+
+#: sku/views.py:44 sku/views.py:59 sku/views.py:73 sku/views.py:86
+msgid "expire date"
+msgstr ""
+
+#: sku/views.py:45 sku/views.py:60 sku/views.py:74 sku/views.py:94
+msgid "token"
+msgstr ""
+
+#: sku/views.py:46 sku/views.py:61 sku/views.py:75
+msgid "checksum"
+msgstr ""
+
+#: sku/views.py:76
+msgid "verify_count"
+msgstr ""
+
+#: sku/views.py:77
+msgid "last verified"
+msgstr ""
+
+#: sku/views.py:91
+msgid "spu name"
+msgstr ""
+
+#: sku/views.py:94 sku/views.py:98 spu/views.py:309 spu/views.py:315
+#: user/views.py:118
+msgid "is"
+msgstr ""
+
+#: spu/views.py:134 spu/views.py:150 spu/views.py:164
+msgid "weight"
+msgstr ""
+
+#: spu/views.py:138 vendor/views.py:37 vendor/views.py:87
+msgid "spu no."
+msgstr ""
+
+#: spu/views.py:141 spu/views.py:151 spu/views.py:165
+msgid "logo"
+msgstr ""
+
+#: spu/views.py:167
+msgid "upload logo"
+msgstr ""
+
+#: spu/views.py:183
+#, python-format
+msgid "%%s already contains SPU, so can't be removed!"
+msgstr ""
+
+#: spu/views.py:222 spu/views.py:260 spu/views.py:292 spu/views.py:310
+msgid "msrp"
+msgstr ""
+
+#: spu/views.py:224 spu/views.py:263 spu/views.py:293 spu/views.py:308
+msgid "spu type"
+msgstr ""
+
+#: spu/views.py:231
+msgid "sku no."
+msgstr ""
+
+#: spu/views.py:259 spu/views.py:291
+msgid "code"
+msgstr ""
+
+#: spu/views.py:265 spu/views.py:299
+msgid "upload logos"
+msgstr ""
+
+#: spu/views.py:297
+msgid "logos"
+msgstr ""
+
+#: spu/views.py:311
+msgid "between"
+msgstr ""
+
+#: spu/views.py:334
+#, python-format
+msgid "spu %%s already contains sku, can't be removed!"
+msgstr ""
+
+#: spu/views.py:335
+#, python-format
+msgid "spu %%s already has comments, can't be removed!"
+msgstr ""
+
+#: spu/views.py:336
+#, python-format
+msgid "spu %%s already has been favored, can't beremoved"
+msgstr ""
+
+#: templates/error.html:3
+msgid "Error"
+msgstr ""
+
+#: templates/error.html:15
+msgid "Back"
+msgstr ""
+
+#: templates/no_retailer.html:6
+msgid "Sorry, your shop hasn't been created yet! please wait..."
+msgstr ""
+
+#: templates/no_vendor.html:6
+msgid "Sorry, your vendor hasn't been created yet! please wait..."
+msgstr ""
+
+#: templates/share/spu.html:55
+msgid "SPU Info"
+msgstr ""
+
+#: templates/share/spu.html:59
+msgid "SPU ID"
+msgstr ""
+
+#: templates/share/spu.html:63
+msgid "SPU Name"
+msgstr ""
+
+#: templates/share/spu.html:67
+msgid "Rating"
+msgstr ""
+
+#: templates/share/spu.html:77
+msgid "Download APP"
+msgstr ""
+
+#: user/__init__.py:33
+msgid "Administrator"
+msgstr ""
+
+#: user/views.py:118 user/views.py:127 user/views.py:143 user/views.py:158
+msgid "group"
+msgstr ""
+
+#: user/views.py:131
+msgid "retailer"
+msgstr ""
+
+#: user/views.py:138 user/views.py:153
+msgid "password"
+msgstr ""
+
+#: user/views.py:177
+#, python-format
+msgid "you can't remove administrator account %%s!"
+msgstr ""
+
+#: user/views.py:178
+#, python-format
+msgid "user %%s has retailer, remove the retailer at first!"
+msgstr ""
+
+#: user/views.py:180
+#, python-format
+msgid "user %%s has vendor, remove the vendor as first1"
+msgstr ""
+
+#: vendor/views.py:28 vendor/views.py:48 vendor/views.py:75
+msgid "email"
+msgstr ""
+
+#: vendor/views.py:29 vendor/views.py:49 vendor/views.py:76
+msgid "website"
+msgstr ""
+
+#: vendor/views.py:30 vendor/views.py:50 vendor/views.py:77
+msgid "weibo"
+msgstr ""
+
+#: vendor/views.py:31 vendor/views.py:53 vendor/views.py:80
+msgid "weixin_number"
+msgstr ""
+
+#: vendor/views.py:34 vendor/views.py:59 vendor/views.py:85
+msgid "telephone"
+msgstr ""
+
+#: vendor/views.py:51 vendor/views.py:78
+msgid "weibo_link"
+msgstr ""
+
+#: vendor/views.py:52 vendor/views.py:79
+msgid "weixin follow link"
+msgstr ""
+
+#: vendor/views.py:66
+msgid ""
+"if no account could be selected, make sure there's a vendor account with "
+"no vendor assigned"
+msgstr ""
+
+#: vendor/views.py:102
+#, python-format
+msgid "vendor %%s already contains SPU, can't be removed!"
+msgstr ""
+

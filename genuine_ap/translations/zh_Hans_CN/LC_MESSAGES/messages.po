@@ -361,6 +361,10 @@ msgstr "产品名称"
 msgid "Rating"
 msgstr "评分"
 
+#: templates/share/spu.html:77
+msgid "Download APP"
+msgstr "下载 乐鉴"
+
 msgid "User"
 msgstr "用户"
 
