@@ -48,6 +48,15 @@ app.config.from_pyfile(os.path.join(os.getcwd(), "config.py"), silent=True)
 from flask.ext.babel import Babel
 babel = Babel(app)
 
+LANGUAGES= {
+    "en_US": "English",
+    "zh_CN": "zh_Hans_CN"
+}
+
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(LANGUAGES.keys())
+
 FlaskUpload(app)
 
 

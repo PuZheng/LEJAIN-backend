@@ -345,6 +345,26 @@ msgstr "如果没有账户可供选择，请确保存在一个生产厂家账户
 msgid "vendor %%s already contains SPU, can't be removed!"
 msgstr "厂商(%%s)已经包含SPU, 所以不能删除!"
 
+#: templates/share/spu.html:55
+msgid "SPU Info"
+msgstr "产品信息"
+
+#: templates/share/spu.html:59
+msgid "SPU ID"
+msgstr "产品编号"
+
+#: templates/share/spu.html:63
+msgid "SPU Name"
+msgstr "产品名称"
+
+#: templates/share/spu.html:67
+msgid "Rating"
+msgstr "评分"
+
+#: templates/share/spu.html:77
+msgid "Download APP"
+msgstr "下载 乐鉴"
+
 msgid "User"
 msgstr "用户"
 
