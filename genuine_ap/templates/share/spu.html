@@ -52,23 +52,23 @@
 
   <div class="panel panel-info">
     <div class="panel-heading">
-      <h3 class="panel-title">产品信息</h3>
+      <h3 class="panel-title">{{ _("SPU Info") }}</h3>
     </div>
     <table class="table">
       <tr>
-        <td>产品编号</td>
+        <td>{{ _("SPU ID") }}</td>
         <td>{{ spu.code }}</td>
       </tr>
       <tr>
-        <td>产品名称</td>
+        <td>{{ _("SPU Name") }}</td>
         <td>{{ spu.name }}</td>
       </tr>
       <tr>
-        <td>评分</td>
+        <td>{{ _("Rating") }}</td>
         <td><span id="rating"></span></td>
       </tr>
       <tr>
-        <td>生产厂家</td>
+        <td>{{ _("Vendor") }}</td>
         <td>{{ spu.vendor.name }}</td>
       </tr>
     </table>
