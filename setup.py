@@ -1,10 +1,11 @@
+# -*- coding: UTF-8 -*-
 from distutils.core import setup
 from setuptools import find_packages
 from setuptools.command.test import test as TestCommand
 import sys
 
-PACKAGE = "genuine_ap"
-NAME = "Genuine-AP"
+PACKAGE = "lejian"
+NAME = "LEJIAN-BACKEND"
 DESCRIPTION = ""
 AUTHOR = "xiechao"
 AUTHOR_EMAIL = "xiechao06@gmail.com"
@@ -37,9 +38,9 @@ setup(
     tests_require=['pytest'],
     cmdclass={'test': PyTest},
     entry_points={
-        "distutils.commands": [
-            "make_test_data=genuine_ap.tools.make_test_data:InitializeTestDB",
-        ]
+        # "distutils.commands": [
+        #     "make_test_data=lejian.tools.make_test_data:InitializeTestDB",
+        # ]
     }
 
 )
