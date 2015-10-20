@@ -1,7 +1,7 @@
 LEJIAN-backend
 =================
 
-乐鉴后台服务器
+乐鉴后台接口服务器
 
 ## QUICK START
 
