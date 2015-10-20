@@ -6,11 +6,12 @@ import shutil
 from flask import url_for
 from datetime import datetime
 
-from sqlalchemy_utils import types as sa_utils_types
-from flask.ext.babel import _
+# from sqlalchemy_utils import types as sa_utils_types
+# from flask.ext.babel import _
 from .database import db
 import os.path
 from path import path
+from lejian.utils import to_camel_case
 
 retailer_and_spu = db.Table('TB_RETAILER_AND_SPU',
                             db.Column('retailer_id', db.Integer,
@@ -19,13 +20,41 @@ retailer_and_spu = db.Table('TB_RETAILER_AND_SPU',
                             db.Column('spu_id', db.Integer,
                                       db.ForeignKey('TB_SPU.id')))
 
-permission_and_group_table = db.Table("TB_PERMISSION_AND_GROUP",
-                                      db.Column("permission_name",
-                                                db.String(64),
-                                                db.ForeignKey(
-                                                    'TB_PERMISSION.name')),
-                                      db.Column("group_id", db.Integer,
-                                                db.ForeignKey("TB_GROUP.id")))
+
+class Unicodable(object):
+
+    @property
+    def _unicode_fields(self):
+        return [k for k in self.__mapper__.columns.keys() if k != 'id']
+
+    def __unicode__(self):
+        ret = self.__class__.__name__
+        if self.id:
+            ret += ' ' + str(self.id) + ' '
+        l = []
+        for field in self._unicode_fields:
+            value = getattr(self, field)
+            if value:
+                l.append([field, value])
+
+        return (u'<' + ret + u'(' + ','.join([':'.join(map(unicode, [k, v]))
+                                              for k, v in l]) + ')' + '>')
+
+    def __str__(self):
+        return self.__unicode__().encode('utf-8')
+
+
+class JSONSerializable(object):
+
+    def __json__(self, camel_case=True, excluded=set()):
+        ret = {}
+        for c in self.__mapper__.columns:
+            if c.name not in excluded:
+                v = getattr(self, c.name)
+                if isinstance(v, datetime):
+                    v = v.strftime('%Y-%m-%d %H:%M:%S')
+                ret[c.name] = v
+        return to_camel_case(ret) if camel_case else ret
 
 
 class Tag(db.Model):
@@ -113,7 +142,6 @@ class SPU(db.Model):
         for fname in path(spu_dir).files():
             if os.path.basename(fname) not in haystack:
                 to_be_removed.append(fname)
-        print to_be_removed
         from .utils import resize_and_crop
         resize_and_crop(value[0], os.path.join(spu_dir, 'icon.jpg'),
                         (96, 96), 'middle')
@@ -137,12 +165,12 @@ class Vendor(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now)
     telephone = db.Column(db.String(32), nullable=False)
     address = db.Column(db.String(256))
-    email = db.Column(sa_utils_types.EmailType, nullable=False,
+    email = db.Column(db.String(32), nullable=False,
                       doc=u'客服邮箱')
-    website = db.Column(sa_utils_types.URLType, nullable=False)
+    website = db.Column(db.String(32), nullable=False)
     weibo = db.Column(db.String(32), doc=u'微博UID')
-    weibo_link = db.Column(sa_utils_types.URLType, doc=u"微博主页")
-    weixin_follow_link = db.Column(sa_utils_types.URLType,
+    weibo_link = db.Column(db.String(32), doc=u"微博主页")
+    weixin_follow_link = db.Column(db.String(32),
                                    doc=u'微信加关注链接')
     weixin_number = db.Column(db.String(32), doc=u'微信号')
     administrator_id = db.Column(db.Integer, db.ForeignKey('TB_USER.id'),
@@ -172,21 +200,25 @@ class Comment(db.Model):
     rating = db.Column(db.Float, nullable=False)
 
 
-class User(db.Model):
+class User(db.Model, JSONSerializable, Unicodable):
 
     __tablename__ = 'TB_USER'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True, nullable=False)
+    email = db.Column(db.String(64), unique=True)
+    name = db.Column(db.String(64))
     password = db.Column(db.String(128), doc=u'保存为明文密码的sha256值')
-    group_id = db.Column(db.Integer, db.ForeignKey('TB_GROUP.id'),
-                         nullable=False)
-    group = db.relationship('Group')
-    create_time = db.Column(db.DateTime, default=datetime.now)
+    role_id = db.Column(db.Integer, db.ForeignKey('TB_ROLE.id'),
+                        nullable=False)
+    role = db.relationship('Role')
+    created_at = db.Column(db.DateTime, default=datetime.now)
     enabled = db.Column(db.Boolean, default=False)
 
-    def __unicode__(self):
-        return self.name
+    def __json__(self, camel_case=True, excluded=set()):
+        ret = super(User, self).__json__(camel_case, excluded)
+        if 'role' not in excluded:
+            ret['role'] = self.role.__json__()
+        return ret
 
 
 class Customer(db.Model):
@@ -202,19 +234,12 @@ class Customer(db.Model):
         return self.name
 
 
-class Group(db.Model):
+class Role(db.Model, JSONSerializable, Unicodable):
 
-    __tablename__ = 'TB_GROUP'
+    __tablename__ = 'TB_ROLE'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(16), unique=True)
-    default_url = db.Column(db.String(256), nullable=False)
-
-    def __unicode__(self):
-        return _(self.name)
-
-    def __repr__(self):
-        return '<Group: %s>' % self.name
 
 
 class Retailer(db.Model):
@@ -244,7 +269,7 @@ class Retailer(db.Model):
     @property
     def icon(self):
         if os.path.exists(os.path.join('static', 'retailer_pics',
-                                 str(self.id) + '_icon.jpg')):
+                                       str(self.id) + '_icon.jpg')):
             return url_for('static',
                            filename='retailer_pics/' + str(self.id) +
                            '_icon.jpg')
@@ -288,17 +313,6 @@ class SPUType(db.Model):
         return self.name
 
 
-class Permission(db.Model):
-    __tablename__ = "TB_PERMISSION"
-    name = db.Column(db.String(64), primary_key=True)
-
-    def __unicode__(self):
-        return self.name
-
-    def __repr__(self):
-        return "<Permission: %s>" % self.name.encode("utf-8")
-
-
 class Config(db.Model):
 
     __tablename__ = 'TB_CONFIG'
@@ -306,11 +320,7 @@ class Config(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False)
     brief = db.Column(db.String(128))
-    type_ = db.Column(sa_utils_types.choice.ChoiceType([
-        (u'bool', _(u'Boolean')),
-        (u'string', _(u'String')),
-        (u'int', _(u'Integer')),
-    ], impl=db.String()),  default='string', nullable=False)
+    type_ = db.Column(db.String(64))
     value = db.Column(db.String(128))
 
     def __unicode__(self):
@@ -318,4 +328,3 @@ class Config(db.Model):
 
     def __repr__(self):
         return "<Config: %s>" % self.name.encode("utf-8")
-

@@ -1,15 +1,16 @@
 # -*- coding: UTF-8 -*-
 import os
 import types
-from .apis import ModelWrapper, wraps
+# from .apis import ModelWrapper, wraps
 from PIL import Image
+import re
 
 
 def do_commit(obj, action="add"):
     from .database import db
     if action == "add":
-        if isinstance(obj, types.ListType) or \
-           isinstance(obj, types.TupleType):
+        if isinstance(obj, list) or \
+           isinstance(obj, tuple):
             db.session.add_all(obj)
         else:
             db.session.add(obj)
@@ -34,10 +35,10 @@ def assert_dir(dir_path):
         os.makedirs(dir_path)
 
 
-def get_or_404(cls, id_):
-    from .database import db
-    assert issubclass(cls, db.Model) or issubclass(cls, ModelWrapper)
-    return wraps(cls.query.get_or_404(id_))
+# def get_or_404(cls, id_):
+#     from .database import db
+#     assert issubclass(cls, db.Model) or issubclass(cls, ModelWrapper)
+#     return wraps(cls.query.get_or_404(id_))
 
 
 def resize_and_crop(img_path, modified_path, size, crop_type='top'):
@@ -93,3 +94,10 @@ def resize_and_crop(img_path, modified_path, size, crop_type='top'):
                 Image.ANTIALIAS)
         # If the scale is the same, we do not need to crop
     img.save(modified_path)
+
+
+def to_camel_case(arg):
+    if isinstance(arg, dict):
+        return dict((to_camel_case(k), v) for k, v in arg.items())
+    assert isinstance(arg, str)
+    return re.sub(r'_([a-z0-9])', lambda m: m.groups()[0].upper(), arg)
