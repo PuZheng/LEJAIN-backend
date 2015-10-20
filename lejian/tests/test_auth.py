@@ -29,7 +29,7 @@ def test_login():
 
     with app.test_request_context():
         data = json.dumps({
-            'email_or_name': 'admin@lejian.com',
+            'emailOrName': 'admin@lejian.com',
             'password': 'admin'
         })
         rv = client.post(url_for('auth.login'), data=data,
