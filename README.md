@@ -1,6 +1,7 @@
-TheGenuine-AP
+LEJIAN-backend
 =================
-乐鉴管理后台
+
+乐鉴后台服务器
 
 ## QUICK START
 

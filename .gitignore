@@ -1,42 +1,69 @@
-/alembic.ini
-/genuine_ap/messages.pot
+#### joe made this: http://goel.io/joe
+
+#####=== Python ===#####
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
 *.py[cod]
 
 # C extensions
 *.so
 
-# Packages
-*.egg
-*.egg-info
-dist
-build
-eggs
-parts
-var
-sdist
-develop-eggs
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
 .installed.cfg
-lib
-lib64
-upload
+*.egg
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
 
 # Installer logs
 pip-log.txt
+pip-delete-this-directory.txt
 
 # Unit test / coverage reports
+htmlcov/
+.tox/
 .coverage
-.tox
+.cache
 nosetests.xml
+coverage.xml
 
-# Mr Developer
-.mr.developer.cfg
-.project
-.pydevproject
-*.swp
-.Session.vim
-tags
-config.py
-!/genuine_ap/apis/config.py
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
 *.log
-/genuine_ap/.ropeproject/*
-/genuine_ap/*.db
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+#### joe made this: http://goel.io/joe
+
+#####=== Vim ===#####
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
