@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
 from flask import Blueprint, request, jsonify
-from werkzeug.security import safe_str_cmp
 import jwt
 from sqlalchemy import or_
 from werkzeug.security import check_password_hash
