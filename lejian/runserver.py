@@ -23,11 +23,11 @@ for o, v in opts:
     elif o == "-p":
         port = int(v)
     elif o == "-h":
-        print __doc__
+        print(__doc__)
     else:
-        print "unkown option: " + o
-        print __doc__
+        print("unkown option: " + o)
+        print(__doc__)
 
-from genuine_ap.basemain import app
+from lejian.basemain import app
 
 app.run(host=host, port=port, debug=True)
