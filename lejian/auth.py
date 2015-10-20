@@ -21,7 +21,7 @@ def authenticate(email_or_name, password):
 
 @bp.route('/login', methods=['POST'])
 def login():
-    email_or_name = request.json.get('email_or_name')
+    email_or_name = request.json.get('emailOrName')
     password = request.json.get('password')
 
     if not (email_or_name and password):

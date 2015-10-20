@@ -45,6 +45,7 @@ app = Flask(__name__, instance_relative_config=True)
 app.config.from_object("lejian.default_settings")
 app.config.from_pyfile(os.path.join(os.getcwd(), "config.py"), silent=True)
 
+
 # from flask.ext.babel import Babel
 # babel = Babel(app)
 
@@ -234,3 +235,7 @@ register_views()
 # utils.assert_dir('static/retailer_pics')
 # utils.assert_dir('static/spu_type_pics')
 # utils.assert_dir('static/user_pics')
+
+
+from flask.ext.cors import CORS
+CORS(app)
