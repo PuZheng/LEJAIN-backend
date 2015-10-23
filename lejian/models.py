@@ -297,7 +297,7 @@ class Favor(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now)
 
 
-class SPUType(db.Model):
+class SPUType(db.Model, JSONSerializable, Unicodable):
 
     __tablename__ = 'TB_SPU_TYPE'
 
@@ -308,9 +308,6 @@ class SPUType(db.Model):
                        default=0)
     pic_path = db.Column(db.String(256), nullable=False)
     enabled = db.Column(db.Boolean, default=False)
-
-    def __unicode__(self):
-        return self.name
 
 
 class Config(db.Model):
