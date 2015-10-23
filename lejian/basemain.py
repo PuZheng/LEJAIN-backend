@@ -157,7 +157,7 @@ def register_views():
     #     pkg = __import__('lejian.' + mod, fromlist=[mod])
     #     app.register_blueprint(getattr(pkg, mod + '_ws'),
     #                            url_prefix='/' + mod + '-ws')
-    for mod in ['auth']:
+    for mod in ['auth', 'spu']:
         pkg = __import__('lejian.' + mod, fromlist=[mod])
         app.register_blueprint(getattr(pkg, 'bp'),
                                url_prefix='/' + mod)
