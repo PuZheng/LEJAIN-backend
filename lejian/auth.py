@@ -1,10 +1,9 @@
 # -*- coding: UTF-8 -*-
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app, g
 import jwt
 from sqlalchemy import or_
 from werkzeug.security import check_password_hash
 
-from lejian.basemain import app
 from lejian.models import User
 
 
@@ -37,6 +36,32 @@ def login():
     user = user.__json__()
     return jsonify({
         'user': user,
-        'token': jwt.encode(user, app.config['SECRET_KEY'],
+        'token': jwt.encode(user, current_app.config['SECRET_KEY'],
                             algorithm='HS256').decode('utf-8')
     })
+
+
+class JWTError(Exception):
+    pass
+
+
+def jwt_required(f):
+
+    def _f(*args, **kwargs):
+        auth_header_value = request.headers.get('Authorization', None)
+        if not auth_header_value:
+            raise JWTError('Token missing')
+        prefix, token = auth_header_value.split()
+
+        if prefix != 'JWT':
+            raise JWTError('Token should be prefixed with JWT')
+
+        try:
+            g.current_user = jwt.decode(
+                token, current_app.config['SECRET_KEY'], algorithm='HS256')
+        except jwt.InvalidTokenError as e:
+            raise JWTError('Invalid token ' + str(e))
+        return f(*args, **kwargs)
+
+    _f.__name__ = f.__name__
+    return _f
