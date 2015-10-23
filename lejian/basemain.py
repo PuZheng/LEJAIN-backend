@@ -2,7 +2,7 @@
 # import re
 # import logging
 import os
-from flask import Flask, request, render_template, url_for, redirect
+from flask import Flask, request, render_template, url_for, redirect, jsonify
 # from flask.ext.babel import lazy_gettext as _
 # from sqlalchemy.exc import SQLAlchemyError
 # from flask.ext.upload2 import FlaskUpload
@@ -236,6 +236,14 @@ register_views()
 # utils.assert_dir('static/spu_type_pics')
 # utils.assert_dir('static/user_pics')
 
+from lejian.auth import JWTError
+
+if not app.debug:
+    @app.errorhandler(JWTError)
+    def permission_denied(error):
+        return jsonify({
+            'reason': str(error)
+        }), 403
 
 from flask.ext.cors import CORS
 CORS(app)
