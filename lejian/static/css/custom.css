@@ -1,0 +1,11 @@
+@media screen {
+    body {
+        padding-top: 80px !important;
+    }
+
+    .form-signin {
+        margin: 10px auto;
+        width: 30em;
+    }
+
+}
