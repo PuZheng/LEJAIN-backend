@@ -309,6 +309,12 @@ class SPUType(db.Model, JSONSerializable, Unicodable):
     pic_path = db.Column(db.String(256), nullable=False)
     enabled = db.Column(db.Boolean, default=False)
 
+    def __json__(self, camel_case=True, excluded=set()):
+
+        ret = super(SPUType, self).__json__(camel_case, excluded)
+        ret['spuCnt' if camel_case else 'spu_cnt'] = len(self.spu_list)
+        return ret
+
 
 class Config(db.Model):
 
