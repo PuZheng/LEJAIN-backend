@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 import shutil
 from path import path
+import os
 
 from flask import Blueprint, jsonify, request, current_app
 
@@ -22,7 +23,7 @@ def spu_type_list():
     })
 
 
-@bp.route('/spu-type/<int:id>', methods=['GET', 'PUT'])
+@bp.route('/spu-type/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 @jwt_required
 def spu_type(id):
 
@@ -30,6 +31,15 @@ def spu_type(id):
 
     if request.method == 'GET':
         return jsonify(spu_type.__json__())
+
+    if request.method == 'DELETE':
+        id_ = spu_type.id
+        if spu_type.pic_path:
+            os.unlink(spu_type.pic_path)
+        do_commit(spu_type, 'delete')
+        return jsonify({
+            id: id_
+        })
 
     for k, v in snakeize(request.json).items():
         if k == 'pic_path':
@@ -39,8 +49,6 @@ def spu_type(id):
             _, ext = path(v).splitext()
             spu_type.pic_path = path.joinpath(dir_, str(spu_type.id) + ext)
             shutil.move(v, spu_type.pic_path)
-        elif k == 'enabled':
-            setattr(spu_type, k, v == '1')
         else:
             setattr(spu_type, k, v)
 
