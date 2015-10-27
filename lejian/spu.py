@@ -21,7 +21,7 @@ def spu_type_list():
     name = request.args.get('name')
     if name:
         q = q.filter(SPUType.name == name)
-    spu_types = sorted(q.all(), key=lambda obj: obj.weight,
+    spu_types = sorted(q.all(), key=lambda obj: obj.weight or 0,
                        reverse=True)
     return jsonify({
         'data': [spu_type.__json__() for spu_type in spu_types]
