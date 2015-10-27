@@ -27,9 +27,9 @@ if __name__ == '__main__':
                          vendor=vendor_motai, msrp=1300,
                          spu_type=spu_type_spirit,
                          rating=4.0))
-    # spu2 = do_commit(SPU(name=u'红塔山(大经典)', code='987360',
-    #                      vendor=vendor_hongta, msrp=50, spu_type=spu_type_cigar,
-    #                      rating=4.0))
+    spu2 = do_commit(SPU(name=u'红塔山(大经典)', code='987360',
+                         vendor=vendor_hongta, msrp=50, spu_type=spu_type_cigar,
+                         rating=4.0))
     do_commit(SPU(name=u'茅台迎宾酒', code='582677',
                   vendor=vendor_motai, msrp=100, spu_type=spu_type_spirit,
                   rating=3.0))

@@ -5,6 +5,7 @@ import os
 from flask import (Flask, request, jsonify)
 import tempfile
 from werkzeug import secure_filename
+from sqlalchemy.exc import SQLAlchemyError
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object("lejian.default_settings")
@@ -26,6 +27,9 @@ from lejian.auth import JWTError
 if not app.debug:
     @app.errorhandler(JWTError)
     def permission_denied(error):
+        if isinstance(error, SQLAlchemyError):
+            from lng_dianping.database import db
+            db.session.rollback()
         return jsonify({
             'reason': str(error)
         }), 403
