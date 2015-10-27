@@ -34,11 +34,9 @@ def login():
             'reason': '不正确的用户名和密码'
         }), 403
     user = user.__json__()
-    return jsonify({
-        'user': user,
-        'token': jwt.encode(user, current_app.config['SECRET_KEY'],
-                            algorithm='HS256').decode('utf-8')
-    })
+    user['token'] = jwt.encode(user, current_app.config['SECRET_KEY'],
+                               algorithm='HS256').decode('utf-8')
+    return jsonify(user)
 
 
 class JWTError(Exception):
