@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: UTF-8 -*-
 from werkzeug.security import generate_password_hash
+from loremipsum import get_paragraph
 
 from lejian.tools.init_db import init_db
 from lejian.tools.gen_roles import gen_roles
@@ -9,6 +10,10 @@ from lejian.tools.gen_spu_types import gen_spu_types
 from lejian.models import User, SPU
 from lejian.utils import do_commit
 
+lorem = \
+('Omnis nesciunt sed debitis ad illum facere in exercitationem. Dolorum eum'
+'impedit sit nostrum porro quia laborum. Nesciunt temporibus voluptatum in '
+'nihil eum consequuntur. Aut porro nemo cupiditate aut nobis maxime.')
 
 if __name__ == '__main__':
     init_db()
@@ -26,10 +31,12 @@ if __name__ == '__main__':
     spu1 = do_commit(SPU(name=u'飞天茅台53度', code='854013',
                          vendor=vendor_motai, msrp=1300,
                          spu_type=spu_type_spirit,
+                         description=lorem,
                          rating=4.0))
     spu2 = do_commit(SPU(name=u'红塔山(大经典)', code='987360',
                          vendor=vendor_hongta, msrp=50, spu_type=spu_type_cigar,
+                         description=lorem,
                          rating=4.0))
-    do_commit(SPU(name=u'茅台迎宾酒', code='582677',
-                  vendor=vendor_motai, msrp=100, spu_type=spu_type_spirit,
-                  rating=3.0))
+    spu3 = do_commit(SPU(name=u'茅台迎宾酒', code='582677',
+                         vendor=vendor_motai, msrp=100, description=lorem,
+                         spu_type=spu_type_spirit, rating=3.0))

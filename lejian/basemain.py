@@ -51,3 +51,30 @@ def upload():
     return jsonify({
         'paths': paths
     })
+
+
+from json import JSONEncoder
+import datetime
+
+
+class DynamicJSONEncoder(JSONEncoder):
+    """
+    JSON encoder for custom classes:
+        Uses __json__() method if available to prepare the object.
+        Especially useful for SQLAlchemy models
+    """
+
+    def default(self, o):
+        # Custom JSON-encodeable objects
+        if hasattr(o, '__json__'):
+            return o.__json__()
+        if isinstance(o, datetime.datetime):
+            return o.isoformat(' ')
+        if isinstance(o, datetime.date):
+            return o.isoformat()
+        if isinstance(o, set):
+            return list(o)
+        # Default
+        return super(DynamicJSONEncoder, self).default(o)
+
+app.json_encoder = DynamicJSONEncoder

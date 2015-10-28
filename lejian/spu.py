@@ -5,8 +5,9 @@ import os
 import tempfile
 
 from flask import Blueprint, jsonify, request, current_app
+from sqlalchemy import or_
 
-from lejian.models import SPUType
+from lejian.models import SPUType, SPU
 from lejian.auth import jwt_required
 from lejian.utils import do_commit, snakeize, assert_dir
 
@@ -21,10 +22,9 @@ def spu_type_list():
     name = request.args.get('name')
     if name:
         q = q.filter(SPUType.name == name)
-    spu_types = sorted(q.all(), key=lambda obj: obj.weight or 0,
-                       reverse=True)
+    q = q.order_by(SPUType.weight.desc())
     return jsonify({
-        'data': [spu_type.__json__() for spu_type in spu_types]
+        'data': q.all(),
     })
 
 
@@ -72,3 +72,48 @@ def spu_type(id=None):
             setattr(spu_type, k, v)
 
     return jsonify(do_commit(spu_type).__json__())
+
+
+@bp.route('/spu-list')
+@jwt_required
+def spu_list():
+
+    q = SPU.query
+
+    vendor_id = request.args.get('vendor_id')
+    if vendor_id:
+        q = q.filter(SPU.vendor_id == vendor_id)
+
+    spu_type_id = request.args.get('spu_type_id')
+    if spu_type_id:
+        q = q.filter(SPU.spu_type_id == spu_type_id)
+
+    only_enabled = request.args.get('only_enabled', type=int)
+    if only_enabled:
+        q = q.filter(SPU.enabled)
+
+    kw = request.args.get('kw')
+    if kw:
+        q = q.filter(or_(SPU.name.like('%%' + kw + '%%'),
+                         SPU.code.like('%%' + kw + '%%')))
+
+    total_cnt = q.count()
+
+    # order by create_time desendentally
+    order_by = request.args.get('order_by', 'create_time')
+    order_by = getattr(SPU, order_by)
+    if request.args.get('desc', 1, type=int):
+        order_by = order_by.desc()
+
+    q = q.order_by(order_by)
+
+    per_page = request.args.get('per_page', current_app.config['PER_PAGE'],
+                                type=int)
+    page = request.args.get('page', 1, type=int)
+
+    q = q.offset((page - 1) * per_page).limit(per_page)
+
+    return jsonify({
+        'totalCnt': total_cnt,
+        'data': q.all(),
+    })
