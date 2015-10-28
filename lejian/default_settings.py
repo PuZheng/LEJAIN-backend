@@ -17,3 +17,5 @@ BABEL_DEFAULT_LOCALE = "zh_CN"
 UPLOADS_DEFAULT_DEST = 'uploads'
 
 ASSETS_DIR = 'static/assets'
+
+PER_PAGE = 16

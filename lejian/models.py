@@ -88,7 +88,7 @@ class SKU(db.Model):
         return self.token
 
 
-class SPU(db.Model):
+class SPU(db.Model, JSONSerializable, Unicodable):
 
     __tablename__ = 'TB_SPU'
 
@@ -105,6 +105,7 @@ class SPU(db.Model):
     rating = db.Column(db.Float, nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
     enabled = db.Column(db.Boolean, default=False)
+    description = db.Column(db.String(256))
 
     @property
     def pic_url_list(self):
@@ -151,8 +152,10 @@ class SPU(db.Model):
         for fname in to_be_removed:
             os.unlink(fname)
 
-    def __unicode__(self):
-        return self.name + u'(%s)' % self.code
+    def __json__(self, camel_case=True, excluded=set()):
+        ret = super(SPU, self).__json__(camel_case, excluded)
+        ret['spuType' if camel_case else 'spu_type'] = self.spu_type.__json__()
+        return ret
 
 
 class Vendor(db.Model):
