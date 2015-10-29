@@ -33,6 +33,7 @@ def as_dict(fields, d):
 def assert_dir(dir_path):
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
+    return dir_path
 
 
 # def get_or_404(cls, id_):

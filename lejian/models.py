@@ -3,7 +3,7 @@ import sys
 import os
 import re
 import shutil
-from flask import url_for
+from flask import url_for, current_app
 from datetime import datetime
 
 # from sqlalchemy_utils import types as sa_utils_types
@@ -108,6 +108,24 @@ class SPU(db.Model, JSONSerializable, Unicodable):
     description = db.Column(db.String(256))
 
     @property
+    def pics(self):
+        ret = []
+        dir_ = path.joinpath(current_app.config['ASSETS_DIR'], 'spu_pics',
+                             str(self.id))
+        for fname in dir_.files():
+            if path.basename(fname) != 'icon.jpg' and \
+                    re.match(r'.+\.(jpeg|jpg)', fname, re.IGNORECASE):
+                ret.append(fname)
+        return ret
+
+    @property
+    def icon(self):
+        dir_ = path.joinpath(current_app.config['ASSETS_DIR'], 'spu_pics',
+                             str(self.id))
+        ret = dir_.glob('icon.jpg')
+        return ret and ret[0]
+
+    @property
     def pic_url_list(self):
         ret = []
         spu_dir = os.path.join('spu_pics', str(self.vendor_id), str(self.id))
@@ -155,6 +173,8 @@ class SPU(db.Model, JSONSerializable, Unicodable):
     def __json__(self, camel_case=True, excluded=set()):
         ret = super(SPU, self).__json__(camel_case, excluded)
         ret['spuType' if camel_case else 'spu_type'] = self.spu_type.__json__()
+        ret['pics'] = self.pics
+        ret['icon'] = self.icon
         return ret
 
 
