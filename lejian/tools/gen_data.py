@@ -3,9 +3,8 @@
 from werkzeug.security import generate_password_hash
 from path import path
 import sh
-import tempfile
 import random
-import word
+import string
 
 from lejian.basemain import app
 from lejian.tools.init_db import init_db
@@ -34,12 +33,14 @@ if __name__ == '__main__':
     dir_ = assert_dir(path.joinpath(app.config['ASSETS_DIR'],
                                     'spu_type_pics'))
     spu_types = []
-    for i in xrange(8):
+    for i in range(8):
+        name = chance.word()
         spu_types.append(
-            do_commit(SPUType(name=chance.word(),
+            do_commit(SPUType(name=name,
                               enabled=True,
                               weight=random.randrange(0, 10),
-                              pic_path=chance.image(dir=dir_, size=(480, 480))))
+                              pic_path=chance.image(dir_=dir_, text=name,
+                                                    size=(480, 480))))
         )
 
     dir_ = path.joinpath(app.config['ASSETS_DIR'], 'spu_pics')
@@ -47,7 +48,7 @@ if __name__ == '__main__':
     assert_dir(dir_)
 
     vendor_role = Role.query.filter(Role.name == '厂商').one()
-    for i in xrange(16):
+    for i in range(16):
         name = chance.word()
         print('create vendor ' + name + ' ...')
         admin = do_commit(User(role=vendor_role,
@@ -62,7 +63,7 @@ if __name__ == '__main__':
                                   brief=chance.lorem(),
                                   administrator=admin))
 
-        for i in xrange(random.randrange(1, 16)):
+        for i in range(random.randrange(1, 16)):
             spu = do_commit(SPU(name=chance.word(),
                                 code=chance.word(string.digits),
                                 vendor=vendor, msrp=random.randrange(1000,
@@ -73,8 +74,8 @@ if __name__ == '__main__':
             dir_ = assert_dir(path.joinpath(app.config['ASSETS_DIR'],
                                             'spu_pics',
                                             str(spu.id)))
-            chance.image(dir=dir_, filename='icon.jpg', size=(96, 96))
-            chance.image(dir=dir_, size=(480, 480))
-            chance.image(dir=dir_, size=(480, 480))
-            chance.image(dir=dir_, size=(480, 480))
-            chance.image(dir=dir_, size=(480, 480))
+            chance.image(dir_=dir_, filename='icon.jpg', size=(96, 96))
+            chance.image(dir_=dir_, size=(480, 480))
+            chance.image(dir_=dir_, size=(480, 480))
+            chance.image(dir_=dir_, size=(480, 480))
+            chance.image(dir_=dir_, size=(480, 480))

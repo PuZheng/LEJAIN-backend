@@ -3,6 +3,10 @@
 import string
 import math
 import random
+import tempfile
+import os
+
+from PIL import ImageFont, Image, ImageDraw
 
 provinces = [
     {
@@ -64,7 +68,7 @@ def word(chars=None, size=8):
     if size > len(chars):
         chars *= math.ceil(size / len(chars))
 
-    return random.sample(chars, size)
+    return ''.join(random.sample(chars, size))
 
 
 def domain():
@@ -77,12 +81,46 @@ def telephone():
 
 
 def lorem(word_cnt=32):
-    return ' '.join([word() for i in xrange(word_cnt)])
+    return ' '.join([word() for i in range(word_cnt)])
 
 
 def address():
     province = random.choice(provinces)
-    city = random.choice(province.cities)
-    county = random.choice(city.counties)
-    return province.name + city.name + county.name + word() + '路' + \
-        random.randrange(1, 100) + '号'
+    city = random.choice(province['cities'])
+    county = random.choice(city['counties'])
+    return province['name'] + city['name'] + county['name'] + word() + '路' + \
+        str(random.randrange(1, 100)) + '号'
+
+
+def color():
+    return random.randrange(0, 0xffff)
+
+
+def image(size, text=None, dir_=None, filename=None, bg=None, fg=None):
+
+    size = size or (256, 256)
+    text = text or 'x'.join(map(str, size))
+    bg = color() if bg is None else bg
+    fg = color() if fg is None else fg
+
+    if (size[0] / size[1] > len(text)):  # text should be laid in landscape mode
+        font_size = math.floor(size[1] * 0.95)
+    else:
+        font_size = math.floor(size[0] / len(text) * 0.95)
+
+    font = ImageFont.truetype('FreeMono.ttf', font_size)
+
+    im = Image.new('RGB', size, color=bg)
+    draw = ImageDraw.Draw(im)
+    text_size = font.getsize(text)
+    draw.text(
+        ((size[0] - text_size[0]) / 2, (size[1] - text_size[1]) / 2),
+        text=text, font=font, fill=fg)
+
+    dir_ = dir_ or './'
+    filename = os.path.join(dir_, filename) if filename else \
+        tempfile.mktemp(dir=dir_, suffix='.jpg', prefix='')
+
+    im.save(filename)
+
+    return filename
