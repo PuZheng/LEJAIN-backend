@@ -7,30 +7,43 @@ import tempfile
 from flask import Blueprint, jsonify, request, current_app
 from sqlalchemy import or_
 
+from lejian.database import db
 from lejian.models import SPUType, SPU
 from lejian.auth import jwt_required
-from lejian.utils import do_commit, snakeize, assert_dir
+from lejian.utils import do_commit, snakeize, assert_dir, web_api
 
 bp = Blueprint('spu', __name__, static_folder='static',
                template_folder='templates')
 
 
-@bp.route('/spu-type-list')
+@bp.route('/spu-type-list', methods=['GET', 'DELETE'])
 @jwt_required
 def spu_type_list():
     q = SPUType.query
-    name = request.args.get('name')
-    if name:
-        q = q.filter(SPUType.name == name)
-    q = q.order_by(SPUType.weight.desc())
-    return jsonify({
-        'data': q.all(),
-    })
+    if request.method == 'GET':
+        name = request.args.get('name')
+        if name:
+            q = q.filter(SPUType.name == name)
+        q = q.order_by(SPUType.weight.desc())
+        return jsonify({
+            'data': q.all(),
+        })
+
+    # DELETE
+    ids = request.args.get('ids', '').split(',')
+    for id_ in ids:
+        spu_type = SPUType.query.get(id_)
+        if spu_type.pic_path:
+            os.unlink(spu_type.pic_path)
+        db.session.delete(spu_type)
+    db.session.commit()
+    return jsonify({})
 
 
 @bp.route('/spu-type/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 @bp.route('/spu-type/', methods=['POST'])
 @jwt_required
+@web_api
 def spu_type(id=None):
 
     if request.method == 'POST':

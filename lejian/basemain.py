@@ -2,7 +2,7 @@
 # import re
 # import logging
 import os
-from flask import (Flask, request, jsonify)
+from flask import (Flask, request, jsonify, g, render_template)
 import tempfile
 from werkzeug import secure_filename
 from sqlalchemy.exc import SQLAlchemyError
@@ -24,15 +24,34 @@ register_views()
 
 from lejian.auth import JWTError
 
-if not app.debug:
+if not (app.debug and app.testing):
     @app.errorhandler(JWTError)
     def permission_denied(error):
-        if isinstance(error, SQLAlchemyError):
-            from lng_dianping.database import db
-            db.session.rollback()
         return jsonify({
             'reason': str(error)
         }), 403
+
+    @app.errorhandler(Exception)
+    def error(error):
+        if isinstance(error, SQLAlchemyError):
+            from lng_dianping.database import db
+            db.session.rollback()
+        from werkzeug.debug.tbtools import get_current_traceback
+
+        traceback = get_current_traceback(skip=1, show_hidden_frames=False,
+                                          ignore_system_exceptions=True)
+        app.logger.error("%s %s" % (request.method, request.url))
+        app.logger.error(traceback.plaintext)
+        if getattr(g, 'is_web_api'):
+            return jsonify({
+                'error': traceback.plaintext
+            }), 403
+        return render_template('error.html',
+                               title=_(u"failed request: %(method)s %(url)s",
+                                       method=request.method,
+                                       url=request.url),
+                               text=traceback.render_summary(),
+                               backref=request.args.get('backref', '/'))
 
 from flask.ext.cors import CORS
 CORS(app)

@@ -110,3 +110,12 @@ def snakeize(arg):
     assert isinstance(arg, str)
     tmp = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', arg)
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', tmp).lower()
+
+def web_api(f):
+
+    def f_(*args, **kwargs):
+        g.is_web_api = True
+        return f(*args, **kwargs)
+
+    f_.__name__ = f.__name__
+    return f_

@@ -1,0 +1,3 @@
+# coding: utf-8
+from lejian.basemain import app; from lejian.database import db; from lejian.models import *; from lejian.utils import do_commit
+
