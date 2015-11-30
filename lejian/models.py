@@ -175,10 +175,11 @@ class SPU(db.Model, JSONSerializable, Unicodable):
         ret['spuType' if camel_case else 'spu_type'] = self.spu_type.__json__()
         ret['pics'] = self.pics
         ret['icon'] = self.icon
+        ret['vendor'] = self.vendor
         return ret
 
 
-class Vendor(db.Model):
+class Vendor(db.Model, JSONSerializable, Unicodable):
 
     __tablename__ = 'TB_VENDOR'
 
@@ -202,9 +203,6 @@ class Vendor(db.Model):
                                     backref=db.backref("vendor",
                                                        uselist=False))
     enabled = db.Column(db.Boolean, default=False)
-
-    def __unicode__(self):
-        return self.name
 
 
 class Comment(db.Model):

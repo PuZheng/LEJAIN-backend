@@ -24,7 +24,7 @@ register_views()
 
 from lejian.auth import JWTError
 
-if not (app.debug and app.testing):
+if not app.debug:
     @app.errorhandler(JWTError)
     def permission_denied(error):
         return jsonify({
@@ -42,16 +42,9 @@ if not (app.debug and app.testing):
                                           ignore_system_exceptions=True)
         app.logger.error("%s %s" % (request.method, request.url))
         app.logger.error(traceback.plaintext)
-        if getattr(g, 'is_web_api'):
-            return jsonify({
-                'error': traceback.plaintext
-            }), 403
-        return render_template('error.html',
-                               title=_(u"failed request: %(method)s %(url)s",
-                                       method=request.method,
-                                       url=request.url),
-                               text=traceback.render_summary(),
-                               backref=request.args.get('backref', '/'))
+        return jsonify({
+            'error': traceback.plaintext
+        }), 403
 
 from flask.ext.cors import CORS
 CORS(app)

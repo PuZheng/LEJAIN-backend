@@ -10,7 +10,7 @@ from sqlalchemy import or_
 from lejian.database import db
 from lejian.models import SPUType, SPU
 from lejian.auth import jwt_required
-from lejian.utils import do_commit, snakeize, assert_dir, web_api
+from lejian.utils import do_commit, snakeize, assert_dir
 
 bp = Blueprint('spu', __name__, static_folder='static',
                template_folder='templates')
@@ -43,7 +43,6 @@ def spu_type_list():
 @bp.route('/spu-type/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 @bp.route('/spu-type/', methods=['POST'])
 @jwt_required
-@web_api
 def spu_type(id=None):
 
     if request.method == 'POST':
@@ -113,12 +112,17 @@ def spu_list():
     total_cnt = q.count()
 
     # order by create_time desendentally
-    order_by = request.args.get('order_by', 'create_time')
-    order_by = getattr(SPU, order_by)
-    if request.args.get('desc', 1, type=int):
-        order_by = order_by.desc()
+    sort_by = request.args.get('sort_by', 'create_time.desc')
+    sort_by = sort_by.split('.')
+    sort_by = {
+        'name': sort_by[0],
+        'order': sort_by[1],
+    }
+    c = getattr(SPU, sort_by['name'])
+    if sort_by['order'] == 'desc':
+        c = c.desc()
 
-    q = q.order_by(order_by)
+    q = q.order_by(c)
 
     per_page = request.args.get('per_page', current_app.config['PER_PAGE'],
                                 type=int)
