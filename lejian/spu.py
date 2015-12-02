@@ -86,19 +86,45 @@ def spu_type(id=None):
     return jsonify(do_commit(spu_type).__json__())
 
 
-@bp.route('/spu-list')
+def delete_spus(ids):
+    for id_ in ids:
+        spu = SPU.query.get(id_)
+        if spu:
+            try:
+                if spu.icon:
+                    os.unlink(spu.icon)
+                if spu.pic_url_list:
+                    for pic in spu.pic_url_list:
+                        os.unlink(pic)
+            except OSError as e:
+                current_app.logger.error(e)
+            db.session.delete(spu)
+    db.session.commit()
+
+
+@bp.route('/spu-list', methods=['GET', 'DELETE'])
 @jwt_required
 def spu_list():
 
     q = SPU.query
 
-    vendor_id = request.args.get('vendor_id')
-    if vendor_id:
-        q = q.filter(SPU.vendor_id == vendor_id)
+    if request.method == 'DELETE':
+        ids = request.args.get('ids')
+        if ids:
+            delete_spus(ids.split(','))
+        return jsonify({})
 
-    spu_type_id = request.args.get('spu_type_id')
-    if spu_type_id:
-        q = q.filter(SPU.spu_type_id == spu_type_id)
+    vendor = request.args.get('vendor')
+    if vendor:
+        q = q.filter(SPU.vendor_id == vendor)
+
+    spu_type = request.args.get('spu_type')
+    if spu_type:
+        q = q.filter(SPU.spu_type_id == spu_type)
+
+    rating = request.args.get('rating')
+    if rating:
+        q = q.filter(SPU.rating == rating)
 
     only_enabled = request.args.get('only_enabled', type=int)
     if only_enabled:
@@ -133,4 +159,15 @@ def spu_list():
     return jsonify({
         'totalCnt': total_cnt,
         'data': q.all(),
+    })
+
+
+@bp.route('/auto-complete/<kw>')
+def auto_complete(kw):
+
+    kw = kw.lower()
+    return jsonify({
+        "results": [{
+            "title": spu.name
+        } for spu in SPU.query.filter(SPU.name.like('%%%s%%' % kw))]
     })
