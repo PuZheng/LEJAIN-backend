@@ -55,13 +55,17 @@ if __name__ == '__main__':
                                password=generate_password_hash(
                                    name, 'pbkdf2:sha256')))
         domain = chance.domain()
-        vendor = do_commit(Vendor(name=name,
-                                  telephone=chance.telephone(),
-                                  address=chance.address(),
-                                  email='support@' + domain,
-                                  website='http://' + domain,
-                                  brief=chance.lorem(),
-                                  administrator=admin))
+        vendor = do_commit(Vendor(
+            name=name,
+            telephone=chance.telephone(),
+            address=chance.address(),
+            email='support@' + domain,
+            website='http://' + domain,
+            weixin_number=chance.word(),
+            weibo=chance.word(),
+            weibo_link='http://weibo.com/u/' + chance.word(),
+            brief=chance.lorem(),
+            administrator=admin))
 
         for i in range(random.randrange(1, 16)):
             spu = do_commit(SPU(name=chance.word(),
