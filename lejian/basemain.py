@@ -2,7 +2,7 @@
 # import re
 # import logging
 import os
-from flask import (Flask, request, jsonify, g, render_template)
+from flask import (Flask, request, jsonify)
 import tempfile
 from werkzeug import secure_filename
 from sqlalchemy.exc import SQLAlchemyError
@@ -13,7 +13,7 @@ app.config.from_pyfile(os.path.join(os.getcwd(), "config.py"), silent=True)
 
 
 def register_views():
-    for mod in ['auth', 'spu', 'vendor']:
+    for mod in ['auth', 'spu', 'vendor', 'retailer']:
         pkg = __import__('lejian.' + mod, fromlist=[mod])
         app.register_blueprint(getattr(pkg, 'bp'),
                                url_prefix='/' + mod)

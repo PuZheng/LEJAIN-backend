@@ -7,6 +7,7 @@ import tempfile
 import os
 
 from PIL import ImageFont, Image, ImageDraw
+from datetime import datetime, timedelta
 
 provinces = [
     {
@@ -124,3 +125,64 @@ def image(size, text=None, dir_=None, filename=None, bg=None, fg=None):
     im.save(filename)
 
     return filename
+
+
+def time(range_=None):
+    range_ = range_ or [-7 * 24 * 3600, 7 * 24 * 3600 + 1]
+
+    return datetime.now() + timedelta(seconds=random.randrange(*range_))
+
+
+BOUNDS = [
+    # a block of area in HangZhou
+    {
+        'weight': 1,
+        'ne': {
+            'lng': 120.279919,
+            'lat': 30.300651
+        },
+        'sw': {
+            'lng': 120.079762,
+            'lat': 30.196848,
+        }
+    },
+    # a block of area in BeiJing
+    {
+        'weight': 1,
+        'ne': {
+            'lng': 116.496674,
+            'lat': 39.955216,
+        },
+        'sw': {
+            'lng': 116.296517,
+            'lat': 39.863043,
+        }
+    },
+    # a huge area
+    {
+        'weight': 98,
+        'ne': {
+            'lng': 116.015625,
+            'lat': 39.774769
+        },
+        'sw': {
+            'lng': 100.019531,
+            'lat': 23.563987
+        }
+    }
+]
+
+
+def lng_lat():
+    tmp = random.randrange(0, sum(b['weight'] for b in BOUNDS))
+    acc = 0
+    for bound in BOUNDS:
+        if tmp < bound['weight'] + acc:
+            break
+        acc += bound['weight']
+    lng1, lng2 = bound['sw']['lng'], bound['ne']['lng']
+    lat1, lat2 = bound['sw']['lat'], bound['ne']['lat']
+    return {
+        'lng': lng1 + random.random() * (lng2 - lng1),
+        'lat': lat1 + random.random() * (lat2 - lat1),
+    }
