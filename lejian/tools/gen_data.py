@@ -9,7 +9,7 @@ import string
 from lejian.basemain import app
 from lejian.tools.init_db import init_db
 from lejian.tools.gen_roles import gen_roles
-from lejian.models import User, SPU, Role, Vendor, SPUType
+from lejian.models import User, SPU, Role, Vendor, SPUType, Retailer
 from lejian.utils import do_commit, assert_dir
 from lejian import chance
 
@@ -65,7 +65,7 @@ if __name__ == '__main__':
             weibo=chance.word(),
             weibo_link='http://weibo.com/u/' + chance.word(),
             brief=chance.lorem(),
-            administrator=admin))
+            admin=admin))
 
         for i in range(random.randrange(1, 16)):
             spu = do_commit(SPU(name=chance.word(),
@@ -83,3 +83,20 @@ if __name__ == '__main__':
             chance.image(dir_=dir_, size=(480, 480))
             chance.image(dir_=dir_, size=(480, 480))
             chance.image(dir_=dir_, size=(480, 480))
+
+    retailer_role = Role.query.filter(Role.name == '零售商').one()
+    for i in range(random.randrange(1, 80)):
+        name = chance.word()
+        print('create retailer ' + name)
+        admin = do_commit(User(role=retailer_role,
+                               password=generate_password_hash(
+                                   name, 'pbkdf2:sha256')))
+        do_commit(Retailer(name=name,
+                           brief=chance.lorem(),
+                           rating=random.randrange(1, 6),
+                           telephone=chance.telephone(),
+                           address=chance.address(),
+                           create_time=chance.time(),
+                           admin=admin,
+                           enabled=True,
+                           **chance.lng_lat()))

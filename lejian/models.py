@@ -197,11 +197,11 @@ class Vendor(db.Model, JSONSerializable, Unicodable):
     weixin_follow_link = db.Column(db.String(32),
                                    doc=u'微信加关注链接')
     weixin_number = db.Column(db.String(32), doc=u'微信号')
-    administrator_id = db.Column(db.Integer, db.ForeignKey('TB_USER.id'),
-                                 nullable=False)
-    administrator = db.relationship('User',
-                                    backref=db.backref("vendor",
-                                                       uselist=False))
+    admin_id = db.Column(db.Integer, db.ForeignKey('TB_USER.id'),
+                         nullable=False)
+    admin = db.relationship('User',
+                            backref=db.backref("vendor",
+                                               uselist=False))
     enabled = db.Column(db.Boolean, default=False)
 
 
@@ -263,7 +263,7 @@ class Role(db.Model, JSONSerializable, Unicodable):
     name = db.Column(db.String(16), unique=True)
 
 
-class Retailer(db.Model):
+class Retailer(db.Model, JSONSerializable, Unicodable):
 
     __tablename__ = 'TB_RETAILER'
 
@@ -271,21 +271,19 @@ class Retailer(db.Model):
     name = db.Column(db.String(32), unique=True, nullable=False)
     brief = db.Column(db.String(256))
     rating = db.Column(db.Float, nullable=False)
-    longitude = db.Column(db.Float, nullable=False)
-    latitude = db.Column(db.Float, nullable=False)
+    lng = db.Column(db.Float, nullable=False)
+    lat = db.Column(db.Float, nullable=False)
     spu_list = db.relationship('SPU', secondary=retailer_and_spu,
                                backref='retailer_list')
+    telephone = db.Column(db.String(32), nullable=False)
     address = db.Column(db.String(64), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
-    administrator_id = db.Column(db.Integer, db.ForeignKey('TB_USER.id'),
-                                 nullable=False)
-    administrator = db.relationship('User',
-                                    backref=db.backref("retailer",
-                                                       uselist=False))
+    admin_id = db.Column(db.Integer, db.ForeignKey('TB_USER.id'),
+                         nullable=False)
+    admin = db.relationship('User',
+                            backref=db.backref("retailer",
+                                               uselist=False))
     enabled = db.Column(db.Boolean, default=False)
-
-    def __unicode__(self):
-        return self.name
 
     @property
     def icon(self):
