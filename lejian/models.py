@@ -68,7 +68,7 @@ class Tag(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now)
 
 
-class SKU(db.Model):
+class SKU(db.Model, JSONSerializable, Unicodable):
 
     __tablename__ = 'TB_SKU'
 
@@ -83,9 +83,6 @@ class SKU(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now)
     verify_count = db.Column(db.Integer, nullable=False, default=0)
     last_verify_time = db.Column(db.DateTime, default=datetime.now)
-
-    def __unicode__(self):
-        return self.token
 
 
 class SPU(db.Model, JSONSerializable, Unicodable):
