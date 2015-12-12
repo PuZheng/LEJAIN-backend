@@ -5,11 +5,12 @@ from path import path
 import sh
 import random
 import string
+from datetime import timedelta
 
 from lejian.basemain import app
 from lejian.tools.init_db import init_db
 from lejian.tools.gen_roles import gen_roles
-from lejian.models import User, SPU, Role, Vendor, SPUType, Retailer
+from lejian.models import User, SPU, Role, Vendor, SPUType, Retailer, SKU
 from lejian.utils import do_commit, assert_dir
 from lejian import chance
 
@@ -65,16 +66,18 @@ if __name__ == '__main__':
             weibo=chance.word(),
             weibo_link='http://weibo.com/u/' + chance.word(),
             brief=chance.lorem(),
+            create_time=chance.time(),
             admin=admin))
 
-        for i in range(random.randrange(1, 16)):
+        for i in range(random.randrange(1, 32)):
             spu = do_commit(SPU(name=chance.word(),
                                 code=chance.word(string.digits),
                                 vendor=vendor, msrp=random.randrange(1000,
                                                                      10000),
                                 spu_type=random.choice(spu_types),
                                 description=chance.lorem(),
-                                rating=random.randrange(1, 6)))
+                                rating=random.randrange(1, 6),
+                                create_time=chance.time()))
             dir_ = assert_dir(path.joinpath(app.config['ASSETS_DIR'],
                                             'spu_pics',
                                             str(spu.id)))
@@ -83,6 +86,18 @@ if __name__ == '__main__':
             chance.image(dir_=dir_, size=(480, 480))
             chance.image(dir_=dir_, size=(480, 480))
             chance.image(dir_=dir_, size=(480, 480))
+
+            skus = []
+            for j in range(random.randrange(3000, 4000)):
+                manufacture_date = chance.date([-365, -1])
+                expire_date = manufacture_date + timedelta(
+                    days=random.randrange(30, 3 * 365))
+                skus.append(SKU(spu=spu,
+                                manufacture_date=manufacture_date,
+                                expire_date=expire_date,
+                                token=chance.word(),
+                                checksum=chance.word()))
+            do_commit(skus)
 
     retailer_role = Role.query.filter(Role.name == '零售商').one()
     for i in range(random.randrange(1, 80)):

@@ -13,7 +13,7 @@ app.config.from_pyfile(os.path.join(os.getcwd(), "config.py"), silent=True)
 
 
 def register_views():
-    for mod in ['auth', 'spu', 'vendor', 'retailer']:
+    for mod in ['auth', 'spu', 'vendor', 'retailer', 'sku']:
         pkg = __import__('lejian.' + mod, fromlist=[mod])
         app.register_blueprint(getattr(pkg, 'bp'),
                                url_prefix='/' + mod)

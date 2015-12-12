@@ -133,6 +133,12 @@ def time(range_=None):
     return datetime.now() + timedelta(seconds=random.randrange(*range_))
 
 
+def date(range_=None):
+    range_ = range_ or [-365, 366]
+
+    return datetime.today() + timedelta(days=random.randrange(*range_))
+
+
 BOUNDS = [
     # a block of area in HangZhou
     {
