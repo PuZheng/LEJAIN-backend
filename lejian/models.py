@@ -84,6 +84,11 @@ class SKU(db.Model, JSONSerializable, Unicodable):
     verify_count = db.Column(db.Integer, nullable=False, default=0)
     last_verify_time = db.Column(db.DateTime, default=datetime.now)
 
+    def __json__(self, camel_case=True, excluded=set()):
+        ret = super(SKU, self).__json__(camel_case, excluded)
+        ret['spu'] = self.spu
+        return ret
+
 
 class SPU(db.Model, JSONSerializable, Unicodable):
 

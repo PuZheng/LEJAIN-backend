@@ -91,7 +91,7 @@ if __name__ == '__main__':
             for j in range(random.randrange(3000, 4000)):
                 manufacture_date = chance.date([-365, -1])
                 expire_date = manufacture_date + timedelta(
-                    days=random.randrange(365, 3 * 365))
+                    days=random.randrange(30, 3 * 365))
                 skus.append(SKU(spu=spu,
                                 manufacture_date=manufacture_date,
                                 expire_date=expire_date,
