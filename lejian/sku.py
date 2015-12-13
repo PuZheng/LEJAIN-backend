@@ -4,16 +4,24 @@ from datetime import datetime
 from flask import Blueprint, request, jsonify, current_app
 
 from lejian.models import SKU
+from lejian.database import db
 
 bp = Blueprint('sku', __name__, static_folder='static',
                template_folder='templates')
 
 
-@bp.route('/list.json')
+@bp.route('/list.json', methods=['DELETE', 'GET'])
 def list_json():
 
     q = SKU.query
+    if request.method == 'DELETE':
+        ids = request.args.get('ids', '').split(',')
+        for id_ in ids:
+            db.session.delete(q.get(id_))
+        db.session.commit()
+        return jsonify({})
 
+    # GET
     unexpired_only = request.args.get('unexpired_only', type=int)
     if unexpired_only:
         q = q.filter(SKU.expire_date > datetime.today())
