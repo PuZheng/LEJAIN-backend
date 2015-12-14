@@ -93,6 +93,8 @@ if __name__ == '__main__':
                 expire_date = manufacture_date + timedelta(
                     days=random.randrange(30, 3 * 365))
                 skus.append(SKU(spu=spu,
+                                last_verify_time=chance.time([-7 * 24 * 3600,
+                                                              - 24 * 3600]),
                                 manufacture_date=manufacture_date,
                                 expire_date=expire_date,
                                 token=chance.word(),
