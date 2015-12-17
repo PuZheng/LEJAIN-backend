@@ -97,7 +97,7 @@ class SPU(db.Model, JSONSerializable, Unicodable):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(32), nullable=False)
     code = db.Column(db.String(32), unique=True, nullable=False)
-    msrp = db.Column(db.Float, doc=u'建议零售价，单位为元')
+    msrp = db.Column(db.Float, doc=u'建议零售价，单位为元', nullable=False)
     vendor_id = db.Column(db.Integer, db.ForeignKey('TB_VENDOR.id'),
                           nullable=False)
     vendor = db.relationship('Vendor', backref="spu_list")
@@ -117,8 +117,9 @@ class SPU(db.Model, JSONSerializable, Unicodable):
         if dir_.exists():
             for fname in dir_.files():
                 if path.basename(fname) != 'icon.jpg' and \
-                        re.match(r'.+\.(jpeg|jpg)', fname, re.IGNORECASE):
-                    ret.append(fname)
+                        re.match(r'.+\.(jpeg|jpg|png)', fname, re.IGNORECASE):
+                    ret.append(url_for('static',
+                                       filename=path(fname).relpath('static')))
         return ret
 
     @property

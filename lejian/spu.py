@@ -174,23 +174,27 @@ def auto_complete(kw):
 
 
 @bp.route('/spu', methods=["POST"])
+@bp.route('/spu/<int:id>', methods=["GET"])
 @jwt_required
-def spu_json():
-    data = snakeize(request.json)
-    pics = None
-    if 'pics' in data:
-        pics = data['pics']
-        del data['pics']
-    spu = do_commit(SPU(**data))
+def spu_json(id=None):
+    if request.method == 'POST':
+        data = snakeize(request.json)
+        pics = None
+        if 'pics' in data:
+            pics = data['pics']
+            del data['pics']
+        spu = do_commit(SPU(**data))
 
-    if pics:
-        dir_ = path.joinpath(current_app.config['ASSETS_DIR'],
-                             'spu_pics', str(spu.id))
-        assert_dir(dir_)
-        for pic in pics:
-            _, ext = path(pic).splitext()
-            new_pic_path = tempfile.mktemp(suffix=ext, dir=dir_, prefix='')
-            if path(pic).exists():
-                shutil.move(pic, new_pic_path)
+        if pics:
+            dir_ = path.joinpath(current_app.config['ASSETS_DIR'],
+                                 'spu_pics', str(spu.id))
+            assert_dir(dir_)
+            for pic in pics:
+                _, ext = path(pic).splitext()
+                new_pic_path = tempfile.mktemp(suffix=ext, dir=dir_, prefix='')
+                if path(pic).exists():
+                    shutil.move(pic, new_pic_path)
+    else:
+        spu = SPU.query.get_or_404(id)
 
     return jsonify(spu.__json__())
