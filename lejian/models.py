@@ -104,7 +104,7 @@ class SPU(db.Model, JSONSerializable, Unicodable):
     spu_type_id = db.Column(db.Integer, db.ForeignKey('TB_SPU_TYPE.id'),
                             nullable=False)
     spu_type = db.relationship('SPUType', backref="spu_list")
-    rating = db.Column(db.Float, nullable=False)
+    rating = db.Column(db.Float)
     create_time = db.Column(db.DateTime, default=datetime.now)
     enabled = db.Column(db.Boolean, default=False)
     description = db.Column(db.String(256))
@@ -114,10 +114,11 @@ class SPU(db.Model, JSONSerializable, Unicodable):
         ret = []
         dir_ = path.joinpath(current_app.config['ASSETS_DIR'], 'spu_pics',
                              str(self.id))
-        for fname in dir_.files():
-            if path.basename(fname) != 'icon.jpg' and \
-                    re.match(r'.+\.(jpeg|jpg)', fname, re.IGNORECASE):
-                ret.append(fname)
+        if dir_.exists():
+            for fname in dir_.files():
+                if path.basename(fname) != 'icon.jpg' and \
+                        re.match(r'.+\.(jpeg|jpg)', fname, re.IGNORECASE):
+                    ret.append(fname)
         return ret
 
     @property
