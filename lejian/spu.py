@@ -171,3 +171,26 @@ def auto_complete(kw):
             "title": spu.name
         } for spu in SPU.query.filter(SPU.name.like('%%%s%%' % kw))]
     })
+
+
+@bp.route('/spu', methods=["POST"])
+@jwt_required
+def spu_json():
+    data = snakeize(request.json)
+    pics = None
+    if 'pics' in data:
+        pics = data['pics']
+        del data['pics']
+    spu = do_commit(SPU(**data))
+
+    if pics:
+        dir_ = path.joinpath(current_app.config['ASSETS_DIR'],
+                             'spu_pics', str(spu.id))
+        assert_dir(dir_)
+        for pic in pics:
+            _, ext = path(pic).splitext()
+            new_pic_path = tempfile.mktemp(suffix=ext, dir=dir_, prefix='')
+            if path(pic).exists():
+                shutil.move(pic, new_pic_path)
+
+    return jsonify(spu.__json__())
