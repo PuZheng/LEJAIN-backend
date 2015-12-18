@@ -109,7 +109,7 @@ def image(size, text=None, dir_=None, filename=None, bg=None, fg=None):
     else:
         font_size = math.floor(size[0] / len(text) * 0.95)
 
-    font = ImageFont.truetype('FreeMono.ttf', font_size)
+    font = ImageFont.truetype('DejaVuSans', font_size)
 
     im = Image.new('RGB', size, color=bg)
     draw = ImageDraw.Draw(im)
