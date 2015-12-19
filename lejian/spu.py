@@ -1,8 +1,6 @@
 # -*- coding: UTF-8 -*-
-import shutil
 from path import path
 import os
-import tempfile
 
 from flask import Blueprint, jsonify, request, current_app
 from sqlalchemy import or_
@@ -10,7 +8,7 @@ from sqlalchemy import or_
 from lejian.database import db
 from lejian.models import SPUType, SPU
 from lejian.auth import jwt_required
-from lejian.utils import do_commit, snakeize, assert_dir
+from lejian.utils import do_commit, snakeize, assert_dir, formalize_temp_asset
 
 bp = Blueprint('spu', __name__, static_folder='static',
                template_folder='templates')
@@ -51,10 +49,7 @@ def spu_type(id=None):
             dir_ = path.joinpath(current_app.config['ASSETS_DIR'],
                                  'spu_type_pics')
             assert_dir(dir_)
-            _, ext = path(data['pic_path']).splitext()
-            new_pic_path = tempfile.mktemp(suffix=ext, dir=dir_, prefix='')
-            shutil.move(data['pic_path'], new_pic_path)
-            data['pic_path'] = new_pic_path
+            data['pic_path'] = formalize_temp_asset(dir_, data['pic_path'])
 
         return jsonify(do_commit(SPUType(**data)).__json__())
 
@@ -77,9 +72,7 @@ def spu_type(id=None):
             dir_ = path.joinpath(current_app.config['ASSETS_DIR'],
                                  'spu_type_pics')
             assert_dir(dir_)
-            _, ext = path(v).splitext()
-            spu_type.pic_path = tempfile.mktemp(dir=dir_, prefix='', suffix=ext)
-            shutil.move(v, spu_type.pic_path)
+            spu_type.pic_path = formalize_temp_asset(dir_, v)
         else:
             setattr(spu_type, k, v)
 
@@ -174,27 +167,40 @@ def auto_complete(kw):
 
 
 @bp.route('/spu', methods=["POST"])
-@bp.route('/spu/<int:id>', methods=["GET"])
+@bp.route('/spu/<int:id>', methods=["GET", "PUT"])
 @jwt_required
 def spu_json(id=None):
     if request.method == 'POST':
         data = snakeize(request.json)
-        pics = None
-        if 'pics' in data:
-            pics = data['pics']
-            del data['pics']
+        pic_paths = None
+        if 'pic_paths' in data:
+            pic_paths = data['pic_paths']
+            del data['pic_paths']
         spu = do_commit(SPU(**data))
 
-        if pics:
+        if pic_paths:
             dir_ = path.joinpath(current_app.config['ASSETS_DIR'],
                                  'spu_pics', str(spu.id))
             assert_dir(dir_)
-            for pic in pics:
-                _, ext = path(pic).splitext()
-                new_pic_path = tempfile.mktemp(suffix=ext, dir=dir_, prefix='')
-                if path(pic).exists():
-                    shutil.move(pic, new_pic_path)
+            for path_ in pic_paths:
+                formalize_temp_asset(dir_, path_)
+
     else:
         spu = SPU.query.get_or_404(id)
+        if request.method == 'PUT':
+            for k, v in snakeize(request.json).items():
+                if k == 'pic_paths':
+                    dir_ = path.joinpath(current_app.config['ASSETS_DIR'],
+                                         'spu_pics', str(id))
+                    assert_dir(dir_)
+                    orig_pic_paths = spu.pic_paths
+                    for path_ in v:
+                        if path_ not in orig_pic_paths:
+                            formalize_temp_asset(dir_, path_)
+                    for path_ in orig_pic_paths:
+                        if path_ not in v:
+                            os.unlink(path_)
+                else:
+                    setattr(spu, k, v)
 
     return jsonify(spu.__json__())
