@@ -11,7 +11,7 @@ from datetime import datetime
 from .database import db
 import os.path
 from path import path
-from lejian.utils import to_camel_case
+from lejian.utils import to_camel_case, asset_url
 
 retailer_and_spu = db.Table('TB_RETAILER_AND_SPU',
                             db.Column('retailer_id', db.Integer,
@@ -110,7 +110,7 @@ class SPU(db.Model, JSONSerializable, Unicodable):
     description = db.Column(db.String(256))
 
     @property
-    def pics(self):
+    def pic_paths(self):
         ret = []
         dir_ = path.joinpath(current_app.config['ASSETS_DIR'], 'spu_pics',
                              str(self.id))
@@ -118,8 +118,7 @@ class SPU(db.Model, JSONSerializable, Unicodable):
             for fname in dir_.files():
                 if path.basename(fname) != 'icon.jpg' and \
                         re.match(r'.+\.(jpeg|jpg|png)', fname, re.IGNORECASE):
-                    ret.append(url_for('static',
-                                       filename=path(fname).relpath('static')))
+                    ret.append(fname)
         return ret
 
     @property
@@ -177,7 +176,11 @@ class SPU(db.Model, JSONSerializable, Unicodable):
     def __json__(self, camel_case=True, excluded=set()):
         ret = super(SPU, self).__json__(camel_case, excluded)
         ret['spuType' if camel_case else 'spu_type'] = self.spu_type.__json__()
-        ret['pics'] = self.pics
+        ret['picPaths' if camel_case else 'pic_paths'] = self.pic_paths
+        ret['pics'] = [{
+            'path': path_,
+            'url': asset_url(path_),
+        } for path_ in self.pic_paths]
         ret['icon'] = self.icon
         ret['vendor'] = self.vendor
         return ret
@@ -336,6 +339,10 @@ class SPUType(db.Model, JSONSerializable, Unicodable):
 
         ret = super(SPUType, self).__json__(camel_case, excluded)
         ret['spuCnt' if camel_case else 'spu_cnt'] = len(self.spu_list)
+        ret['pic'] = {
+            'path': self.pic_path,
+            'url': asset_url(self.pic_path),
+        }
         return ret
 
 

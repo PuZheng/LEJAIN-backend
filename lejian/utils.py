@@ -1,9 +1,13 @@
 # -*- coding: UTF-8 -*-
 import os
 import types
-# from .apis import ModelWrapper, wraps
 from PIL import Image
 import re
+from flask import current_app
+import urllib
+import tempfile
+import shutil
+from path import path
 
 
 def do_commit(obj, action="add"):
@@ -63,36 +67,36 @@ def resize_and_crop(img_path, modified_path, size, crop_type='top'):
     # Get current and desired ratio for the images
     img_ratio = img.size[0] / float(img.size[1])
     ratio = size[0] / float(size[1])
-    #The image is scaled/cropped vertically or horizontally depending on the ratio
     if ratio > img_ratio:
         img = img.resize((size[0], size[0] * img.size[1] / img.size[0]),
-                Image.ANTIALIAS)
+                         Image.ANTIALIAS)
         # Crop in the top, middle or bottom
         if crop_type == 'top':
             box = (0, 0, img.size[0], size[1])
         elif crop_type == 'middle':
-            box = (0, (img.size[1] - size[1]) / 2, img.size[0], (img.size[1] + size[1]) / 2)
+            box = (0, (img.size[1] - size[1]) / 2, img.size[0],
+                   (img.size[1] + size[1]) / 2)
         elif crop_type == 'bottom':
             box = (0, img.size[1] - size[1], img.size[0], img.size[1])
-        else :
+        else:
             raise ValueError('ERROR: invalid value for crop_type')
         img = img.crop(box)
     elif ratio < img_ratio:
         img = img.resize((size[1] * img.size[0] / img.size[1], size[1]),
-                Image.ANTIALIAS)
+                         Image.ANTIALIAS)
         # Crop in the top, middle or bottom
         if crop_type == 'top':
             box = (0, 0, size[0], img.size[1])
         elif crop_type == 'middle':
-            box = ((img.size[0] - size[0]) / 2, 0, (img.size[0] + size[0]) / 2, img.size[1])
+            box = ((img.size[0] - size[0]) / 2, 0, (img.size[0] + size[0]) / 2,
+                   img.size[1])
         elif crop_type == 'bottom':
             box = (img.size[0] - size[0], 0, img.size[0], img.size[1])
-        else :
+        else:
             raise ValueError('ERROR: invalid value for crop_type')
         img = img.crop(box)
-    else :
-        img = img.resize((size[0], size[1]),
-                Image.ANTIALIAS)
+    else:
+        img = img.resize((size[0], size[1]), Image.ANTIALIAS)
         # If the scale is the same, we do not need to crop
     img.save(modified_path)
 
@@ -110,3 +114,15 @@ def snakeize(arg):
     assert isinstance(arg, str)
     tmp = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', arg)
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', tmp).lower()
+
+
+def asset_url(path_):
+    return urllib.parse.urljoin(current_app.config['SITE'], path_)
+
+
+def formalize_temp_asset(dir_, path_):
+    if path(path_).exists():
+        _, ext = path(path_).splitext()
+        new_path = tempfile.mktemp(suffix=ext, dir=dir_, prefix='')
+        shutil.move(path_, new_path)
+        return new_path

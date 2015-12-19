@@ -19,3 +19,5 @@ UPLOADS_DEFAULT_DEST = 'uploads'
 ASSETS_DIR = 'static/assets'
 
 PER_PAGE = 16
+
+SITE = 'http://127.0.0.1:5000'
